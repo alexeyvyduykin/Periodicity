@@ -21,29 +21,30 @@ namespace Periodicity.Core
         private double _argumentOfLatitude;
         private double _timePastAN;
         private double _timePastPerigee;
-        
-        public OrbitState()       
-        {
-            SemimajorAxis = 6955.14;
-            Eccentricity = 0.0;
-            
-            Orientation = new Orientation(this)
-            {
-                Inclination = 97.65,
-                RAAN = 269.663,
-                ArgumentOfPerigee = 0.0
-            };
 
-            TrueAnomaly = 0.0;
-            
+        // Orientation
+        private double _inclination;
+        private double _raan;
+        private double _lonAscnNode;
+        private double _argumentOfPerigee;
+
+        public OrbitState()
+        {
             //   22/06/2015 00:00:00
             OrbitEpoch = new DateTime(2015, 6, 22, 0, 0, 0);
+
+            SemimajorAxis = 6955.14;
+            Eccentricity = 0.0;
+
+            Inclination = 97.65;
+            RAAN = 269.663;
+            ArgumentOfPerigee = 0.0;
+
+            TrueAnomaly = 0.0;
         }
 
         public DateTime OrbitEpoch { get; set; }
 
-        public Orientation Orientation { get; set; }
-      
         public double SiderealTime()
         {
             //    double JD = OrbitEpoch.Date.ToOADate() + 2415018.5;
@@ -61,7 +62,7 @@ namespace Periodicity.Core
 
                     _semimajorAxis = value;
 
-                    if(_eccentricity == default)
+                    if (_eccentricity == default)
                     {
                         break;
                     }
@@ -72,7 +73,7 @@ namespace Periodicity.Core
                     _perigeeAltitude = _semimajorAxis * (1.0 + _eccentricity) - Globals.Re;
                     _period = 2.0 * Math.PI * Math.Sqrt(Math.Pow(_semimajorAxis, 3) / Globals.GM);
                     _meanMotion = 86400.0 / (2.0 * Math.PI * Math.Sqrt(Math.Pow(_semimajorAxis, 3) / Globals.GM));
-                  
+
                     break;
 
                 case nameof(OrbitState.Eccentricity):
@@ -100,7 +101,7 @@ namespace Periodicity.Core
 
                     _semimajorAxis = (_apogeeRadius + _perigeeRadius) / 2.0;
                     _eccentricity = (_perigeeRadius - _apogeeRadius) / (_perigeeRadius + _apogeeRadius);
-               
+
                     _apogeeAltitude = _semimajorAxis * (1.0 - _eccentricity) - Globals.Re;
                     _perigeeAltitude = _semimajorAxis * (1.0 + _eccentricity) - Globals.Re;
                     _period = 2.0 * Math.PI * Math.Sqrt(Math.Pow(_semimajorAxis, 3) / Globals.GM);
@@ -143,7 +144,7 @@ namespace Periodicity.Core
 
                 case nameof(OrbitState.PerigeeAltitude):
 
-                    _apogeeRadius = _semimajorAxis * (1.0 - _eccentricity);                    
+                    _apogeeRadius = _semimajorAxis * (1.0 - _eccentricity);
                     _perigeeRadius = value + Globals.Re;
 
                     _semimajorAxis = (_apogeeRadius + _perigeeRadius) / 2.0;
@@ -160,13 +161,13 @@ namespace Periodicity.Core
                 case nameof(OrbitState.Period):
 
                     _period = value;
-                                                         
+
                     _semimajorAxis = Math.Pow(Math.Pow(_period / (2.0 * Math.PI), 2) * Globals.GM, 1.0 / 3.0);
 
                     _apogeeRadius = _semimajorAxis * (1.0 - _eccentricity);
                     _perigeeRadius = _semimajorAxis * (1.0 + _eccentricity);
                     _apogeeAltitude = _semimajorAxis * (1.0 - _eccentricity) - Globals.Re;
-                    _perigeeAltitude = _semimajorAxis * (1.0 + _eccentricity) - Globals.Re;            
+                    _perigeeAltitude = _semimajorAxis * (1.0 + _eccentricity) - Globals.Re;
                     _meanMotion = 86400.0 / (2.0 * Math.PI * Math.Sqrt(Math.Pow(_semimajorAxis, 3) / Globals.GM));
 
                     break;
@@ -177,12 +178,12 @@ namespace Periodicity.Core
                     _meanMotion = value;
 
                     _semimajorAxis = Math.Pow(Math.Pow((86400.0 / _meanMotion) / (2.0 * Math.PI), 2) * Globals.GM, 1.0 / 3.0);
-                   
+
                     _apogeeRadius = _semimajorAxis * (1.0 - _eccentricity);
                     _perigeeRadius = _semimajorAxis * (1.0 + _eccentricity);
                     _apogeeAltitude = _semimajorAxis * (1.0 - _eccentricity) - Globals.Re;
                     _perigeeAltitude = _semimajorAxis * (1.0 + _eccentricity) - Globals.Re;
-                    _period = 2.0 * Math.PI * Math.Sqrt(Math.Pow(_semimajorAxis, 3) / Globals.GM);               
+                    _period = 2.0 * Math.PI * Math.Sqrt(Math.Pow(_semimajorAxis, 3) / Globals.GM);
 
                     break;
 
@@ -214,25 +215,25 @@ namespace Periodicity.Core
             get => _perigeeRadius;
             set => SynchronizeShapeProperties(value, nameof(OrbitState.PerigeeRadius));
         }
-       
+
         public double ApogeeAltitude
         {
             get => _apogeeAltitude;
             set => SynchronizeShapeProperties(value, nameof(OrbitState.ApogeeAltitude));
         }
-      
+
         public double PerigeeAltitude
         {
             get => _perigeeAltitude;
             set => SynchronizeShapeProperties(value, nameof(OrbitState.PerigeeAltitude));
         }
-    
+
         public double Period
         {
             get => _period;
             set => SynchronizeShapeProperties(value, nameof(OrbitState.Period));
         }
-       
+
         public double MeanMotion
         {
             get => _meanMotion;
@@ -253,17 +254,17 @@ namespace Periodicity.Core
                         double meanAnomaly = _eccentricAnomaly - (Eccentricity * Math.Sin(_eccentricAnomaly * MyMath.DegreesToRadians) * MyMath.RadiansToDegrees);
                         _meanAnomaly = MyMath.WrapAngle360(meanAnomaly);
 
-                        double argumentOfLatitude = _trueAnomaly + Orientation.ArgumentOfPerigee;
+                        double argumentOfLatitude = _trueAnomaly + ArgumentOfPerigee;
                         _argumentOfLatitude = MyMath.WrapAngle360(argumentOfLatitude);
 
                         double n = Math.Sqrt(Globals.GM) * Math.Pow(SemimajorAxis, -3.0 / 2.0);
-                        double e1 = 2.0 * Math.Atan2(Math.Sqrt((1.0 - Eccentricity) / (1.0 + Eccentricity)) * Math.Sin(0.5 * Orientation.ArgumentOfPerigee * MyMath.DegreesToRadians), Math.Cos(0.5 * Orientation.ArgumentOfPerigee * MyMath.DegreesToRadians));
+                        double e1 = 2.0 * Math.Atan2(Math.Sqrt((1.0 - Eccentricity) / (1.0 + Eccentricity)) * Math.Sin(0.5 * ArgumentOfPerigee * MyMath.DegreesToRadians), Math.Cos(0.5 * ArgumentOfPerigee * MyMath.DegreesToRadians));
                         e1 = MyMath.WrapAngle(e1);
                         double e2 = e1 - Eccentricity * Math.Sin(e1);
 
                         _timePastPerigee = _meanAnomaly / n;
                         _timePastAN = _timePastPerigee + e2 / n;
-                    }         
+                    }
                     break;
 
                 case nameof(OrbitState.MeanAnomaly):
@@ -279,17 +280,17 @@ namespace Periodicity.Core
                             e2 = M + Eccentricity * Math.Sin(e1);
                         }
                         double E = e2;
-                        
+
                         _trueAnomaly = Math.Atan2(Math.Sin(E) * Math.Sqrt(1 - Eccentricity * Eccentricity), Math.Cos(E) - Eccentricity) * MyMath.RadiansToDegrees;
 
                         double eccentricAnomaly = 2.0 * Math.Atan(Math.Sqrt((1.0 - Eccentricity) / (1.0 + Eccentricity)) * Math.Tan(0.5 * _trueAnomaly * MyMath.DegreesToRadians));
                         _eccentricAnomaly = MyMath.WrapAngle360(eccentricAnomaly * MyMath.RadiansToDegrees);
 
-                        double argumentOfLatitude = _trueAnomaly + Orientation.ArgumentOfPerigee;
+                        double argumentOfLatitude = _trueAnomaly + ArgumentOfPerigee;
                         _argumentOfLatitude = MyMath.WrapAngle360(argumentOfLatitude);
 
                         double n = Math.Sqrt(Globals.GM) * Math.Pow(SemimajorAxis, -3.0 / 2.0);
-                        double e11 = 2.0 * Math.Atan2(Math.Sqrt((1.0 - Eccentricity) / (1.0 + Eccentricity)) * Math.Sin(0.5 * Orientation.ArgumentOfPerigee * MyMath.DegreesToRadians), Math.Cos(0.5 * Orientation.ArgumentOfPerigee * MyMath.DegreesToRadians));
+                        double e11 = 2.0 * Math.Atan2(Math.Sqrt((1.0 - Eccentricity) / (1.0 + Eccentricity)) * Math.Sin(0.5 * ArgumentOfPerigee * MyMath.DegreesToRadians), Math.Cos(0.5 * ArgumentOfPerigee * MyMath.DegreesToRadians));
                         e11 = MyMath.WrapAngle(e11);
                         double e22 = e11 - Eccentricity * Math.Sin(e11);
 
@@ -308,11 +309,11 @@ namespace Periodicity.Core
                         double meanAnomaly = _eccentricAnomaly - (Eccentricity * Math.Sin(_eccentricAnomaly * MyMath.DegreesToRadians) * MyMath.RadiansToDegrees);
                         _meanAnomaly = MyMath.WrapAngle360(meanAnomaly);
 
-                        double argumentOfLatitude = _trueAnomaly + Orientation.ArgumentOfPerigee;
+                        double argumentOfLatitude = _trueAnomaly + ArgumentOfPerigee;
                         _argumentOfLatitude = MyMath.WrapAngle360(argumentOfLatitude);
 
                         double n = Math.Sqrt(Globals.GM) * Math.Pow(SemimajorAxis, -3.0 / 2.0);
-                        double e1 = 2.0 * Math.Atan2(Math.Sqrt((1.0 - Eccentricity) / (1.0 + Eccentricity)) * Math.Sin(0.5 * Orientation.ArgumentOfPerigee * MyMath.DegreesToRadians), Math.Cos(0.5 * Orientation.ArgumentOfPerigee * MyMath.DegreesToRadians));
+                        double e1 = 2.0 * Math.Atan2(Math.Sqrt((1.0 - Eccentricity) / (1.0 + Eccentricity)) * Math.Sin(0.5 * ArgumentOfPerigee * MyMath.DegreesToRadians), Math.Cos(0.5 * ArgumentOfPerigee * MyMath.DegreesToRadians));
                         e1 = MyMath.WrapAngle(e1);
                         double e2 = e1 - Eccentricity * Math.Sin(e1);
 
@@ -325,7 +326,7 @@ namespace Periodicity.Core
                     {
                         _argumentOfLatitude = value;
 
-                        var trueAnomaly = value - Orientation.ArgumentOfPerigee;
+                        var trueAnomaly = value - ArgumentOfPerigee;
                         _trueAnomaly = MyMath.WrapAngle360(trueAnomaly);
 
                         double eccentricAnomaly = 2.0 * Math.Atan(Math.Sqrt((1.0 - Eccentricity) / (1.0 + Eccentricity)) * Math.Tan(0.5 * _trueAnomaly * MyMath.DegreesToRadians));
@@ -335,7 +336,7 @@ namespace Periodicity.Core
                         _meanAnomaly = MyMath.WrapAngle360(meanAnomaly);
 
                         double n = Math.Sqrt(Globals.GM) * Math.Pow(SemimajorAxis, -3.0 / 2.0);
-                        double e1 = 2.0 * Math.Atan2(Math.Sqrt((1.0 - Eccentricity) / (1.0 + Eccentricity)) * Math.Sin(0.5 * Orientation.ArgumentOfPerigee * MyMath.DegreesToRadians), Math.Cos(0.5 * Orientation.ArgumentOfPerigee * MyMath.DegreesToRadians));
+                        double e1 = 2.0 * Math.Atan2(Math.Sqrt((1.0 - Eccentricity) / (1.0 + Eccentricity)) * Math.Sin(0.5 * ArgumentOfPerigee * MyMath.DegreesToRadians), Math.Cos(0.5 * ArgumentOfPerigee * MyMath.DegreesToRadians));
                         e1 = MyMath.WrapAngle(e1);
                         double e2 = e1 - Eccentricity * Math.Sin(e1);
 
@@ -349,7 +350,7 @@ namespace Periodicity.Core
                         _timePastAN = value;
 
                         double n = Math.Sqrt(Globals.GM) * Math.Pow(SemimajorAxis, -3.0 / 2.0);
-                        double e1 = 2.0 * Math.Atan2(Math.Sqrt((1.0 - Eccentricity) / (1.0 + Eccentricity)) * Math.Sin(Orientation.ArgumentOfPerigee * MyMath.DegreesToRadians / 2.0), Math.Cos(Orientation.ArgumentOfPerigee * MyMath.DegreesToRadians / 2.0));
+                        double e1 = 2.0 * Math.Atan2(Math.Sqrt((1.0 - Eccentricity) / (1.0 + Eccentricity)) * Math.Sin(ArgumentOfPerigee * MyMath.DegreesToRadians / 2.0), Math.Cos(ArgumentOfPerigee * MyMath.DegreesToRadians / 2.0));
                         e1 = MyMath.WrapAngle(e1);
                         double e2 = e1 - Eccentricity * Math.Sin(e1);
 
@@ -370,10 +371,10 @@ namespace Periodicity.Core
                         double meanAnomaly = _eccentricAnomaly - (Eccentricity * Math.Sin(_eccentricAnomaly * MyMath.DegreesToRadians) * MyMath.RadiansToDegrees);
                         _meanAnomaly = MyMath.WrapAngle360(meanAnomaly);
 
-                        double argumentOfLatitude = _trueAnomaly + Orientation.ArgumentOfPerigee;
+                        double argumentOfLatitude = _trueAnomaly + ArgumentOfPerigee;
                         _argumentOfLatitude = MyMath.WrapAngle360(argumentOfLatitude);
-                
-                        _timePastPerigee = _meanAnomaly / n;                  
+
+                        _timePastPerigee = _meanAnomaly / n;
                     }
 
                     break;
@@ -399,13 +400,13 @@ namespace Periodicity.Core
                         double meanAnomaly = _eccentricAnomaly - (Eccentricity * Math.Sin(_eccentricAnomaly * MyMath.DegreesToRadians) * MyMath.RadiansToDegrees);
                         _meanAnomaly = MyMath.WrapAngle360(meanAnomaly);
 
-                        double argumentOfLatitude = _trueAnomaly + Orientation.ArgumentOfPerigee;
+                        double argumentOfLatitude = _trueAnomaly + ArgumentOfPerigee;
                         _argumentOfLatitude = MyMath.WrapAngle360(argumentOfLatitude);
-                    
-                        double e11 = 2.0 * Math.Atan2(Math.Sqrt((1.0 - Eccentricity) / (1.0 + Eccentricity)) * Math.Sin(0.5 * Orientation.ArgumentOfPerigee * MyMath.DegreesToRadians), Math.Cos(0.5 * Orientation.ArgumentOfPerigee * MyMath.DegreesToRadians));
+
+                        double e11 = 2.0 * Math.Atan2(Math.Sqrt((1.0 - Eccentricity) / (1.0 + Eccentricity)) * Math.Sin(0.5 * ArgumentOfPerigee * MyMath.DegreesToRadians), Math.Cos(0.5 * ArgumentOfPerigee * MyMath.DegreesToRadians));
                         e11 = MyMath.WrapAngle(e11);
                         double e22 = e11 - Eccentricity * Math.Sin(e11);
-                   
+
                         _timePastAN = _timePastPerigee + e22 / n;
                     }
                     break;
@@ -450,53 +451,76 @@ namespace Periodicity.Core
             get => _timePastPerigee;
             set => SynchronizeLocationProperties(value, nameof(OrbitState.TimePastPerigee));
         }
-    }
 
-    public class Orientation
-    {
-        public Orientation(OrbitState orbitState)
+        private void SynchronizeOrientationProperties(double value, string name)
         {
-            this.orbitState = orbitState;
+            switch (name)
+            {
+                case nameof(OrbitState.Inclination):
+
+                    _inclination = value;
+
+                    break;
+
+                case nameof(OrbitState.RAAN):
+                    {
+                        _raan = value;
+
+                        double S = SiderealTime();
+                        double tAN = TimePastAN;
+                        _lonAscnNode = _raan - (tAN * Globals.Omega + S) * MyMath.RadiansToDegrees;
+                    }
+
+                    break;
+
+                case nameof(OrbitState.LonAscnNode):
+                    {
+                        _lonAscnNode = value;
+
+                        double S = SiderealTime();
+                        double tAN = TimePastAN;
+                        _raan = (tAN * Globals.Omega + S) * MyMath.RadiansToDegrees + _lonAscnNode;
+                    }
+
+                    break;
+
+                case nameof(OrbitState.ArgumentOfPerigee):
+
+                    _argumentOfPerigee = value;
+
+                    SynchronizeLocationProperties(TrueAnomaly, nameof(OrbitState.TrueAnomaly));
+
+                    break;
+
+                default:
+                    break;
+            }
         }
 
-        public double Inclination { get; set; }
+        public double Inclination
+        {
+            get => _inclination;
+            set => SynchronizeOrientationProperties(value, nameof(OrbitState.Inclination));
+        }
 
         public double RAAN
         {
-            get
-            {
-                return raan;
-            }
-            set
-            {
-                raan = value;
-            }
+            get => _raan;
+            set => SynchronizeOrientationProperties(value, nameof(OrbitState.RAAN));
         }
 
         public double LonAscnNode
         {
-            get
-            {
-                double S = orbitState.SiderealTime();
-                double tAN = orbitState.TimePastAN;
-                return raan - (tAN * Globals.Omega + S) * MyMath.RadiansToDegrees;
-            }
-            set
-            {
-                double S = orbitState.SiderealTime();
-                double tAN = orbitState.TimePastAN;
-                raan = (tAN * Globals.Omega + S) * MyMath.RadiansToDegrees + value;
-            }
+            get => _lonAscnNode;
+            set => SynchronizeOrientationProperties(value, nameof(OrbitState.LonAscnNode));
         }
 
-        public double ArgumentOfPerigee { get; set; }
-
-        private double raan;
-        private readonly OrbitState orbitState;
+        public double ArgumentOfPerigee
+        {
+            get => _argumentOfPerigee;
+            set => SynchronizeOrientationProperties(value, nameof(OrbitState.ArgumentOfPerigee));
+        }
     }
-
-
-
 }
 
 

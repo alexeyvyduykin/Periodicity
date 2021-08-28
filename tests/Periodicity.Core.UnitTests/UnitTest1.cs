@@ -14,6 +14,10 @@ namespace Periodicity.Core.UnitTests
                 SemimajorAxis = 6955.14,
                 Eccentricity = 0.0,
 
+                Inclination = 97.65,
+                RAAN = 269.663,
+                ArgumentOfPerigee = 0.0,
+
                 TrueAnomaly = 30.0
             };
 
@@ -25,6 +29,12 @@ namespace Periodicity.Core.UnitTests
             Assert.Equal(5772.5778019809095, orbitState.Period);           
             Assert.Equal(14.967316676156551, orbitState.MeanMotion);
 
+            // Orientation
+            Assert.Equal(97.65, orbitState.Inclination);
+            Assert.Equal(269.663, orbitState.RAAN);
+            Assert.Equal(0.0, orbitState.ArgumentOfPerigee);
+            Assert.Equal(-15192.237415179006, orbitState.LonAscnNode);
+
             // Location
             Assert.Equal(30.0, orbitState.TrueAnomaly);
             Assert.Equal(29.999999999999996, orbitState.MeanAnomaly);
@@ -32,28 +42,6 @@ namespace Periodicity.Core.UnitTests
             Assert.Equal(30, orbitState.ArgumentOfLatitude);
             Assert.Equal(27562.0287470343, orbitState.TimePastAN);
             Assert.Equal(27562.0287470343, orbitState.TimePastPerigee);
-        }
-
-        [Fact]
-        public void Test2()
-        {
-            var orbitState = new OrbitState()
-            {
-                SemimajorAxis = 6955.14,
-                Eccentricity = 0.0
-            };
-
-            var orientation = new Orientation(orbitState)
-            {
-                Inclination = 97.65,
-                RAAN = 269.663,
-                ArgumentOfPerigee = 0.0
-            };
-
-            Assert.Equal(97.65, orientation.Inclination);
-            Assert.Equal(269.663, orientation.RAAN);
-            Assert.Equal(0.0, orientation.ArgumentOfPerigee);
-            Assert.Equal(-15192.237415179006, orientation.LonAscnNode);
         }
     }
 }

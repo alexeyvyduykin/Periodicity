@@ -31,10 +31,10 @@ namespace Periodicity.Sample1
             Orbit orbit = new Orbit(
                 orbitState.SemimajorAxis,
                 orbitState.Eccentricity,
-                orbitState.Orientation.Inclination * MyMath.DegreesToRadians,
-                orbitState.Orientation.ArgumentOfPerigee * MyMath.DegreesToRadians,
-                orbitState.Orientation.LonAscnNode * MyMath.DegreesToRadians,
-                orbitState.Orientation.RAAN * MyMath.DegreesToRadians,
+                orbitState.Inclination * MyMath.DegreesToRadians,
+                orbitState.ArgumentOfPerigee * MyMath.DegreesToRadians,
+                orbitState.LonAscnNode * MyMath.DegreesToRadians,
+                orbitState.RAAN * MyMath.DegreesToRadians,
                 Period,
                 orbitState.OrbitEpoch);
 
