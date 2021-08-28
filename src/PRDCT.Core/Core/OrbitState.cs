@@ -4,7 +4,7 @@ namespace Periodicity.Core
 {
     public class OrbitState
     {
-        private DateTime _orbitEpoch;
+        private DateTime _epoch;
         private double _siderealTime;
 
         // SizeShape
@@ -34,7 +34,7 @@ namespace Periodicity.Core
         public OrbitState()
         {
             //   22/06/2015 00:00:00
-            OrbitEpoch = new DateTime(2015, 6, 22, 0, 0, 0);
+            Epoch = new DateTime(2015, 6, 22, 0, 0, 0);
 
             SemimajorAxis = 6955.14;
             Eccentricity = 0.0;
@@ -50,14 +50,14 @@ namespace Periodicity.Core
         {
             switch (name)
             {
-                case nameof(OrbitState.OrbitEpoch):
+                case nameof(OrbitState.Epoch):
 
-                    _orbitEpoch = (DateTime)value;
+                    _epoch = (DateTime)value;
 
                     //    double JD = OrbitEpoch.Date.ToOADate() + 2415018.5;
                     //    double S0 = MyFunction.uds1900(JD);
                     //    double S = S0 + Globals.Omega * OrbitEpoch.TimeOfDay.TotalSeconds;
-                    Julian jd = new Julian(OrbitEpoch);
+                    Julian jd = new Julian(Epoch);
                     _siderealTime = jd.ToGmst();
 
                     SynchronizeOrientationProperties(RAAN, nameof(OrbitState.RAAN));
@@ -68,10 +68,10 @@ namespace Periodicity.Core
             }
         }
 
-        public DateTime OrbitEpoch
+        public DateTime Epoch
         {
-            get => _orbitEpoch;
-            set => SynchronizeProperties(value, nameof(OrbitState.OrbitEpoch));
+            get => _epoch;
+            set => SynchronizeProperties(value, nameof(OrbitState.Epoch));
         }
 
         public double SiderealTime => _siderealTime;

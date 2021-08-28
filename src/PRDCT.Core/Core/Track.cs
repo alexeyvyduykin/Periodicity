@@ -150,7 +150,7 @@ namespace Periodicity.Core
 
             //--------------------------------------------------------------------------------------
             int pmdf;
-            double modnakl = orbit.InclinationNormal;
+            double modnakl = orbit.InclinationNormal();
             if ((modnakl + fi1 < Math.PI / 2.0) && (modnakl + fi2 < Math.PI / 2.0))
             {
                 pmdf = 1;
@@ -331,7 +331,7 @@ namespace Periodicity.Core
 
             if (i <= Math.Abs(lat))
             {
-                polis_mod = Orbit.InclinationNormal + fi * dir;
+                polis_mod = Orbit.InclinationNormal() + fi * dir;
                 return true;
             }
             return false;

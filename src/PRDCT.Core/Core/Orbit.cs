@@ -2,30 +2,19 @@
 
 namespace Periodicity.Core
 {
-
-    public class Orbit
+    // all angles in Degree
+    public class Orbit : OrbitState
     {
-        public Orbit(double a, double ecc, double incl, double argOfPer, double lonAN, double om, double period, DateTime epoch)
+        public Orbit() : base()
         {
-            SemimajorAxis = a;
-            Eccentricity = ecc;
-            Inclination = incl;
-            ArgumentOfPerigee = argOfPer;
-            LonAscnNode = lonAN;
-            RAAN = om;
-            Period = period;
-            Epoch = epoch;
-
-            pTemp = a * (1 - ecc * ecc);
-            nTemp = Math.Sqrt(Globals.GM / a) / a;
-            timeHalfPi = TimeHalfPi();
+            
         }
-
-        public Orbit(Orbit orbit) : this(orbit.SemimajorAxis, orbit.Eccentricity, orbit.Inclination, orbit.ArgumentOfPerigee, orbit.LonAscnNode, orbit.RAAN, orbit.Period, orbit.Epoch) { }
 
         public double Anomalia(double tNorm, double tPastAN = 0.0)
         {
             double M, v, e1, e2;
+            var nTemp = Math.Sqrt(Globals.GM / SemimajorAxis) / SemimajorAxis;
+
             M = nTemp * (tNorm + tPastAN);
 
             e1 = M;
@@ -47,12 +36,15 @@ namespace Periodicity.Core
                 return SemimajorAxis;
             }
 
+            var pTemp = SemimajorAxis * (1 - Eccentricity * Eccentricity);
+
             double u = Anomalia(tnorm) + ArgumentOfPerigee;
             return pTemp / (1 + Eccentricity * Math.Cos(u));
         }
 
         public double Semiaxis(double u)
         {
+            var pTemp = SemimajorAxis * (1 - Eccentricity * Eccentricity);
             return pTemp / (1 + Eccentricity * Math.Cos(u));
         }
 
@@ -66,40 +58,27 @@ namespace Periodicity.Core
             }
 
             double e2 = e1 - Eccentricity * Math.Sin(e1);
+            var nTemp = Math.Sqrt(Globals.GM / SemimajorAxis) / SemimajorAxis;
+
             return e2 / nTemp;
         }
 
-        public double InclinationNormal
+        public double InclinationNormal()
         {
-            get
+            if (Inclination >= 0.0 && Inclination <= 90.0)
             {
-                if (Inclination >= 0.0 && Inclination <= Math.PI / 2.0)
-                {
-                    return Inclination;
-                }
-
-                return Math.PI - Inclination;
+                return Inclination;
             }
+
+            return 180.0 - Inclination;
         }
 
         public double Quart0 { get { return 0.0; } }
-        public double Quart1 { get { return timeHalfPi; } }
+        public double Quart1 { get { return TimeHalfPi(); } }
         public double Quart2 { get { return Period / 2.0; } }
-        public double Quart3 { get { return Period - timeHalfPi; } }
+        public double Quart3 { get { return Period - TimeHalfPi(); } }
         public double Quart4 { get { return Period; } }
 
-        public double[] Quarts { get { return new double[5] { 0.0, timeHalfPi, Period / 2.0, Period - timeHalfPi, Period }; } }
-
-        public double SemimajorAxis { get; }
-        public double Eccentricity { get; }
-        public double Inclination { get; }
-        public double ArgumentOfPerigee { get; }
-        public double LonAscnNode { get; }
-        public double RAAN { get; }
-        public double Period { get; }
-        public DateTime Epoch { get; }
-
-        private readonly double nTemp, pTemp;
-        private readonly double timeHalfPi;
+        public double[] Quarts { get { return new double[5] { 0.0, TimeHalfPi(), Period / 2.0, Period - TimeHalfPi(), Period }; } }
     }
 }

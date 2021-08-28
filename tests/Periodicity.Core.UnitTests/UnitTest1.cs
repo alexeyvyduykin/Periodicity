@@ -9,9 +9,9 @@ namespace Periodicity.Core.UnitTests
         [Fact]
         public void Test1()
         {
-            var orbitState = new OrbitState()
+            var orbit = new Orbit()
             { 
-                OrbitEpoch = new DateTime(2015, 6, 22, 0, 0, 0),
+                Epoch = new DateTime(2015, 6, 22, 0, 0, 0),
             
                 SemimajorAxis = 6955.14,
                 Eccentricity = 0.0,
@@ -24,26 +24,28 @@ namespace Periodicity.Core.UnitTests
             };
 
             // SizeShape
-            Assert.Equal(6955.14, orbitState.ApogeeRadius);
-            Assert.Equal(6955.14, orbitState.PerigeeRadius);
-            Assert.Equal(6955.14 - Globals.Re, orbitState.ApogeeAltitude);
-            Assert.Equal(6955.14 - Globals.Re, orbitState.PerigeeAltitude);
-            Assert.Equal(5772.5778019809095, orbitState.Period);           
-            Assert.Equal(14.967316676156551, orbitState.MeanMotion);
+            Assert.Equal(6955.14, orbit.SemimajorAxis);
+            Assert.Equal(0.0, orbit.Eccentricity);
+            Assert.Equal(6955.14, orbit.ApogeeRadius);
+            Assert.Equal(6955.14, orbit.PerigeeRadius);
+            Assert.Equal(6955.14 - Globals.Re, orbit.ApogeeAltitude);
+            Assert.Equal(6955.14 - Globals.Re, orbit.PerigeeAltitude);
+            Assert.Equal(5772.5778019809095, orbit.Period);           
+            Assert.Equal(14.967316676156551, orbit.MeanMotion);
 
             // Orientation
-            Assert.Equal(97.65, orbitState.Inclination);
-            Assert.Equal(269.663, orbitState.RAAN);
-            Assert.Equal(0.0, orbitState.ArgumentOfPerigee);
-            Assert.Equal(-15192.237415179006, orbitState.LonAscnNode);
+            Assert.Equal(97.65, orbit.Inclination);
+            Assert.Equal(269.663, orbit.RAAN);
+            Assert.Equal(0.0, orbit.ArgumentOfPerigee);
+            Assert.Equal(-15192.237415179006, orbit.LonAscnNode);
 
             // Location
-            Assert.Equal(30.0, orbitState.TrueAnomaly);
-            Assert.Equal(29.999999999999996, orbitState.MeanAnomaly);
-            Assert.Equal(29.999999999999996, orbitState.EccentricAnomaly);
-            Assert.Equal(30, orbitState.ArgumentOfLatitude);
-            Assert.Equal(27562.0287470343, orbitState.TimePastAN);
-            Assert.Equal(27562.0287470343, orbitState.TimePastPerigee);
+            Assert.Equal(30.0, orbit.TrueAnomaly);
+            Assert.Equal(29.999999999999996, orbit.MeanAnomaly);
+            Assert.Equal(29.999999999999996, orbit.EccentricAnomaly);
+            Assert.Equal(30, orbit.ArgumentOfLatitude);
+            Assert.Equal(27562.0287470343, orbit.TimePastAN);
+            Assert.Equal(27562.0287470343, orbit.TimePastPerigee);
         }
     }
 }

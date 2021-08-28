@@ -21,29 +21,17 @@ namespace Periodicity.Sample1
         }
 
         public void Run()
-        {
-            OrbitState orbitState = new OrbitState();
-            double SemimajorAxis = orbitState.SemimajorAxis;
-
-            double Period = 2.0 * Math.PI / (Math.Sqrt(Globals.GM / SemimajorAxis) / SemimajorAxis);
+        {                  
             double days = 1.0;
 
-            Orbit orbit = new Orbit(
-                orbitState.SemimajorAxis,
-                orbitState.Eccentricity,
-                orbitState.Inclination * MyMath.DegreesToRadians,
-                orbitState.ArgumentOfPerigee * MyMath.DegreesToRadians,
-                orbitState.LonAscnNode * MyMath.DegreesToRadians,
-                orbitState.RAAN * MyMath.DegreesToRadians,
-                Period,
-                orbitState.OrbitEpoch);
+            Orbit orbit = new Orbit();
 
             var satellite = new Satellite()
             {
                 Orbit = orbit,
                 StartTime = orbit.Epoch,
                 StopTime = orbit.Epoch.AddDays(days),
-                TrueAnomaly = orbitState.TrueAnomaly * MyMath.DegreesToRadians
+                TrueAnomaly = orbit.TrueAnomaly
             };
 
         }
