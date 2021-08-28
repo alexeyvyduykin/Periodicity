@@ -4,6 +4,9 @@ namespace Periodicity.Core
 {
     public class OrbitState
     {
+        private DateTime _orbitEpoch;
+        private double _siderealTime;
+
         // SizeShape
         private double _semimajorAxis;
         private double _eccentricity;
@@ -43,16 +46,35 @@ namespace Periodicity.Core
             TrueAnomaly = 0.0;
         }
 
-        public DateTime OrbitEpoch { get; set; }
-
-        public double SiderealTime()
+        private void SynchronizeProperties(object value, string name)
         {
-            //    double JD = OrbitEpoch.Date.ToOADate() + 2415018.5;
-            //    double S0 = MyFunction.uds1900(JD);
-            //    double S = S0 + Globals.Omega * OrbitEpoch.TimeOfDay.TotalSeconds;
-            Julian jd = new Julian(OrbitEpoch);
-            return jd.ToGmst();
+            switch (name)
+            {
+                case nameof(OrbitState.OrbitEpoch):
+
+                    _orbitEpoch = (DateTime)value;
+
+                    //    double JD = OrbitEpoch.Date.ToOADate() + 2415018.5;
+                    //    double S0 = MyFunction.uds1900(JD);
+                    //    double S = S0 + Globals.Omega * OrbitEpoch.TimeOfDay.TotalSeconds;
+                    Julian jd = new Julian(OrbitEpoch);
+                    _siderealTime = jd.ToGmst();
+
+                    SynchronizeOrientationProperties(RAAN, nameof(OrbitState.RAAN));
+
+                    break;
+                default:
+                    break;
+            }
         }
+
+        public DateTime OrbitEpoch
+        {
+            get => _orbitEpoch;
+            set => SynchronizeProperties(value, nameof(OrbitState.OrbitEpoch));
+        }
+
+        public double SiderealTime => _siderealTime;
 
         private void SynchronizeShapeProperties(double value, string name)
         {
@@ -454,6 +476,11 @@ namespace Periodicity.Core
 
         private void SynchronizeOrientationProperties(double value, string name)
         {
+            if (value == default)
+            {
+                return;
+            }
+
             switch (name)
             {
                 case nameof(OrbitState.Inclination):
@@ -466,7 +493,7 @@ namespace Periodicity.Core
                     {
                         _raan = value;
 
-                        double S = SiderealTime();
+                        double S = SiderealTime;
                         double tAN = TimePastAN;
                         _lonAscnNode = _raan - (tAN * Globals.Omega + S) * MyMath.RadiansToDegrees;
                     }
@@ -477,7 +504,7 @@ namespace Periodicity.Core
                     {
                         _lonAscnNode = value;
 
-                        double S = SiderealTime();
+                        double S = SiderealTime;
                         double tAN = TimePastAN;
                         _raan = (tAN * Globals.Omega + S) * MyMath.RadiansToDegrees + _lonAscnNode;
                     }

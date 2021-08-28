@@ -10,7 +10,9 @@ namespace Periodicity.Core.UnitTests
         public void Test1()
         {
             var orbitState = new OrbitState()
-            {
+            { 
+                OrbitEpoch = new DateTime(2015, 6, 22, 0, 0, 0),
+            
                 SemimajorAxis = 6955.14,
                 Eccentricity = 0.0,
 
