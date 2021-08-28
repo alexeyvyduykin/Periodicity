@@ -14,12 +14,19 @@ namespace Periodicity.Core
         private double _period;
         private double _meanMotion;
 
+        // Location
+        private double _trueAnomaly;
+        private double _meanAnomaly;
+        private double _eccentricAnomaly;
+        private double _argumentOfLatitude;
+        private double _timePastAN;
+        private double _timePastPerigee;
+        
         public OrbitState()       
         {
             SemimajorAxis = 6955.14;
             Eccentricity = 0.0;
             
-
             Orientation = new Orientation(this)
             {
                 Inclination = 97.65,
@@ -27,10 +34,8 @@ namespace Periodicity.Core
                 ArgumentOfPerigee = 0.0
             };
 
-            Location = new Location(this)
-            {
-                TrueAnomaly = 0.0
-            };
+            TrueAnomaly = 0.0;
+            
             //   22/06/2015 00:00:00
             OrbitEpoch = new DateTime(2015, 6, 22, 0, 0, 0);
         }
@@ -39,8 +44,6 @@ namespace Periodicity.Core
 
         public Orientation Orientation { get; set; }
       
-        public Location Location { get; set; }
-
         public double SiderealTime()
         {
             //    double JD = OrbitEpoch.Date.ToOADate() + 2415018.5;
@@ -235,6 +238,218 @@ namespace Periodicity.Core
             get => _meanMotion;
             set => SynchronizeShapeProperties(value, nameof(OrbitState.MeanMotion));
         }
+
+        private void SynchronizeLocationProperties(double value, string name)
+        {
+            switch (name)
+            {
+                case nameof(OrbitState.TrueAnomaly):
+                    {
+                        _trueAnomaly = value;
+
+                        double eccentricAnomaly = 2.0 * Math.Atan(Math.Sqrt((1.0 - Eccentricity) / (1.0 + Eccentricity)) * Math.Tan(0.5 * _trueAnomaly * MyMath.DegreesToRadians));
+                        _eccentricAnomaly = MyMath.WrapAngle360(eccentricAnomaly * MyMath.RadiansToDegrees);
+
+                        double meanAnomaly = _eccentricAnomaly - (Eccentricity * Math.Sin(_eccentricAnomaly * MyMath.DegreesToRadians) * MyMath.RadiansToDegrees);
+                        _meanAnomaly = MyMath.WrapAngle360(meanAnomaly);
+
+                        double argumentOfLatitude = _trueAnomaly + Orientation.ArgumentOfPerigee;
+                        _argumentOfLatitude = MyMath.WrapAngle360(argumentOfLatitude);
+
+                        double n = Math.Sqrt(Globals.GM) * Math.Pow(SemimajorAxis, -3.0 / 2.0);
+                        double e1 = 2.0 * Math.Atan2(Math.Sqrt((1.0 - Eccentricity) / (1.0 + Eccentricity)) * Math.Sin(0.5 * Orientation.ArgumentOfPerigee * MyMath.DegreesToRadians), Math.Cos(0.5 * Orientation.ArgumentOfPerigee * MyMath.DegreesToRadians));
+                        e1 = MyMath.WrapAngle(e1);
+                        double e2 = e1 - Eccentricity * Math.Sin(e1);
+
+                        _timePastPerigee = _meanAnomaly / n;
+                        _timePastAN = _timePastPerigee + e2 / n;
+                    }         
+                    break;
+
+                case nameof(OrbitState.MeanAnomaly):
+                    {
+                        _meanAnomaly = value;
+
+                        double M = _meanAnomaly * MyMath.DegreesToRadians;
+                        double e1 = M;
+                        double e2 = M + Eccentricity * Math.Sin(e1);
+                        while (Math.Abs(e1 - e2) > 0.000001)
+                        {
+                            e1 = e2;
+                            e2 = M + Eccentricity * Math.Sin(e1);
+                        }
+                        double E = e2;
+                        
+                        _trueAnomaly = Math.Atan2(Math.Sin(E) * Math.Sqrt(1 - Eccentricity * Eccentricity), Math.Cos(E) - Eccentricity) * MyMath.RadiansToDegrees;
+
+                        double eccentricAnomaly = 2.0 * Math.Atan(Math.Sqrt((1.0 - Eccentricity) / (1.0 + Eccentricity)) * Math.Tan(0.5 * _trueAnomaly * MyMath.DegreesToRadians));
+                        _eccentricAnomaly = MyMath.WrapAngle360(eccentricAnomaly * MyMath.RadiansToDegrees);
+
+                        double argumentOfLatitude = _trueAnomaly + Orientation.ArgumentOfPerigee;
+                        _argumentOfLatitude = MyMath.WrapAngle360(argumentOfLatitude);
+
+                        double n = Math.Sqrt(Globals.GM) * Math.Pow(SemimajorAxis, -3.0 / 2.0);
+                        double e11 = 2.0 * Math.Atan2(Math.Sqrt((1.0 - Eccentricity) / (1.0 + Eccentricity)) * Math.Sin(0.5 * Orientation.ArgumentOfPerigee * MyMath.DegreesToRadians), Math.Cos(0.5 * Orientation.ArgumentOfPerigee * MyMath.DegreesToRadians));
+                        e11 = MyMath.WrapAngle(e11);
+                        double e22 = e11 - Eccentricity * Math.Sin(e11);
+
+                        _timePastPerigee = _meanAnomaly / n;
+                        _timePastAN = _timePastPerigee + e22 / n;
+                    }
+                    break;
+
+                case nameof(OrbitState.EccentricAnomaly):
+                    {
+                        _eccentricAnomaly = value;
+
+                        double E = _eccentricAnomaly * MyMath.DegreesToRadians;
+                        _trueAnomaly = Math.Atan2(Math.Sin(E) * Math.Sqrt(1 - Eccentricity * Eccentricity), Math.Cos(E) - Eccentricity) * MyMath.RadiansToDegrees;
+
+                        double meanAnomaly = _eccentricAnomaly - (Eccentricity * Math.Sin(_eccentricAnomaly * MyMath.DegreesToRadians) * MyMath.RadiansToDegrees);
+                        _meanAnomaly = MyMath.WrapAngle360(meanAnomaly);
+
+                        double argumentOfLatitude = _trueAnomaly + Orientation.ArgumentOfPerigee;
+                        _argumentOfLatitude = MyMath.WrapAngle360(argumentOfLatitude);
+
+                        double n = Math.Sqrt(Globals.GM) * Math.Pow(SemimajorAxis, -3.0 / 2.0);
+                        double e1 = 2.0 * Math.Atan2(Math.Sqrt((1.0 - Eccentricity) / (1.0 + Eccentricity)) * Math.Sin(0.5 * Orientation.ArgumentOfPerigee * MyMath.DegreesToRadians), Math.Cos(0.5 * Orientation.ArgumentOfPerigee * MyMath.DegreesToRadians));
+                        e1 = MyMath.WrapAngle(e1);
+                        double e2 = e1 - Eccentricity * Math.Sin(e1);
+
+                        _timePastPerigee = _meanAnomaly / n;
+                        _timePastAN = _timePastPerigee + e2 / n;
+                    }
+                    break;
+
+                case nameof(OrbitState.ArgumentOfLatitude):
+                    {
+                        _argumentOfLatitude = value;
+
+                        var trueAnomaly = value - Orientation.ArgumentOfPerigee;
+                        _trueAnomaly = MyMath.WrapAngle360(trueAnomaly);
+
+                        double eccentricAnomaly = 2.0 * Math.Atan(Math.Sqrt((1.0 - Eccentricity) / (1.0 + Eccentricity)) * Math.Tan(0.5 * _trueAnomaly * MyMath.DegreesToRadians));
+                        _eccentricAnomaly = MyMath.WrapAngle360(eccentricAnomaly * MyMath.RadiansToDegrees);
+
+                        double meanAnomaly = _eccentricAnomaly - (Eccentricity * Math.Sin(_eccentricAnomaly * MyMath.DegreesToRadians) * MyMath.RadiansToDegrees);
+                        _meanAnomaly = MyMath.WrapAngle360(meanAnomaly);
+
+                        double n = Math.Sqrt(Globals.GM) * Math.Pow(SemimajorAxis, -3.0 / 2.0);
+                        double e1 = 2.0 * Math.Atan2(Math.Sqrt((1.0 - Eccentricity) / (1.0 + Eccentricity)) * Math.Sin(0.5 * Orientation.ArgumentOfPerigee * MyMath.DegreesToRadians), Math.Cos(0.5 * Orientation.ArgumentOfPerigee * MyMath.DegreesToRadians));
+                        e1 = MyMath.WrapAngle(e1);
+                        double e2 = e1 - Eccentricity * Math.Sin(e1);
+
+                        _timePastPerigee = _meanAnomaly / n;
+                        _timePastAN = _timePastPerigee + e2 / n;
+                    }
+                    break;
+
+                case nameof(OrbitState.TimePastAN):
+                    {
+                        _timePastAN = value;
+
+                        double n = Math.Sqrt(Globals.GM) * Math.Pow(SemimajorAxis, -3.0 / 2.0);
+                        double e1 = 2.0 * Math.Atan2(Math.Sqrt((1.0 - Eccentricity) / (1.0 + Eccentricity)) * Math.Sin(Orientation.ArgumentOfPerigee * MyMath.DegreesToRadians / 2.0), Math.Cos(Orientation.ArgumentOfPerigee * MyMath.DegreesToRadians / 2.0));
+                        e1 = MyMath.WrapAngle(e1);
+                        double e2 = e1 - Eccentricity * Math.Sin(e1);
+
+                        double M = (_timePastAN - e2 / n) * n;
+                        e1 = M;
+                        e2 = M + Eccentricity * Math.Sin(e1);
+                        while (Math.Abs(e1 - e2) > 0.000001)
+                        {
+                            e1 = e2;
+                            e2 = M + Eccentricity * Math.Sin(e1);
+                        }
+
+                        _trueAnomaly = Math.Atan2(Math.Sin(e2) * Math.Sqrt(1 - Eccentricity * Eccentricity), Math.Cos(e2) - Eccentricity) * MyMath.RadiansToDegrees;
+
+                        double eccentricAnomaly = 2.0 * Math.Atan(Math.Sqrt((1.0 - Eccentricity) / (1.0 + Eccentricity)) * Math.Tan(0.5 * _trueAnomaly * MyMath.DegreesToRadians));
+                        _eccentricAnomaly = MyMath.WrapAngle360(eccentricAnomaly * MyMath.RadiansToDegrees);
+
+                        double meanAnomaly = _eccentricAnomaly - (Eccentricity * Math.Sin(_eccentricAnomaly * MyMath.DegreesToRadians) * MyMath.RadiansToDegrees);
+                        _meanAnomaly = MyMath.WrapAngle360(meanAnomaly);
+
+                        double argumentOfLatitude = _trueAnomaly + Orientation.ArgumentOfPerigee;
+                        _argumentOfLatitude = MyMath.WrapAngle360(argumentOfLatitude);
+                
+                        _timePastPerigee = _meanAnomaly / n;                  
+                    }
+
+                    break;
+
+                case nameof(OrbitState.TimePastPerigee):
+                    {
+                        _timePastPerigee = value;
+
+                        double n = Math.Sqrt(Globals.GM) * Math.Pow(SemimajorAxis, -3.0 / 2.0);
+                        double M = _timePastPerigee * n;
+                        double e1 = M;
+                        double e2 = M + Eccentricity * Math.Sin(e1);
+                        while (Math.Abs(e1 - e2) > 0.000001)
+                        {
+                            e1 = e2;
+                            e2 = M + Eccentricity * Math.Sin(e1);
+                        }
+                        _trueAnomaly = Math.Atan2(Math.Sin(e2) * Math.Sqrt(1 - Eccentricity * Eccentricity), Math.Cos(e2) - Eccentricity) * MyMath.RadiansToDegrees;
+
+                        double eccentricAnomaly = 2.0 * Math.Atan(Math.Sqrt((1.0 - Eccentricity) / (1.0 + Eccentricity)) * Math.Tan(0.5 * _trueAnomaly * MyMath.DegreesToRadians));
+                        _eccentricAnomaly = MyMath.WrapAngle360(eccentricAnomaly * MyMath.RadiansToDegrees);
+
+                        double meanAnomaly = _eccentricAnomaly - (Eccentricity * Math.Sin(_eccentricAnomaly * MyMath.DegreesToRadians) * MyMath.RadiansToDegrees);
+                        _meanAnomaly = MyMath.WrapAngle360(meanAnomaly);
+
+                        double argumentOfLatitude = _trueAnomaly + Orientation.ArgumentOfPerigee;
+                        _argumentOfLatitude = MyMath.WrapAngle360(argumentOfLatitude);
+                    
+                        double e11 = 2.0 * Math.Atan2(Math.Sqrt((1.0 - Eccentricity) / (1.0 + Eccentricity)) * Math.Sin(0.5 * Orientation.ArgumentOfPerigee * MyMath.DegreesToRadians), Math.Cos(0.5 * Orientation.ArgumentOfPerigee * MyMath.DegreesToRadians));
+                        e11 = MyMath.WrapAngle(e11);
+                        double e22 = e11 - Eccentricity * Math.Sin(e11);
+                   
+                        _timePastAN = _timePastPerigee + e22 / n;
+                    }
+                    break;
+
+                default:
+                    break;
+            }
+        }
+
+        public double TrueAnomaly
+        {
+            get => _trueAnomaly;
+            set => SynchronizeLocationProperties(value, nameof(OrbitState.TrueAnomaly));
+        }
+
+        public double MeanAnomaly
+        {
+            get => _meanAnomaly;
+            set => SynchronizeLocationProperties(value, nameof(OrbitState.MeanAnomaly));
+        }
+
+        public double EccentricAnomaly
+        {
+            get => _eccentricAnomaly;
+            set => SynchronizeLocationProperties(value, nameof(OrbitState.EccentricAnomaly));
+        }
+
+        public double ArgumentOfLatitude
+        {
+            get => _argumentOfLatitude;
+            set => SynchronizeLocationProperties(value, nameof(OrbitState.ArgumentOfLatitude));
+        }
+
+        public double TimePastAN
+        {
+            get => _timePastAN;
+            set => SynchronizeLocationProperties(value, nameof(OrbitState.TimePastAN));
+        }
+
+        public double TimePastPerigee
+        {
+            get => _timePastPerigee;
+            set => SynchronizeLocationProperties(value, nameof(OrbitState.TimePastPerigee));
+        }
     }
 
     public class Orientation
@@ -263,13 +478,13 @@ namespace Periodicity.Core
             get
             {
                 double S = orbitState.SiderealTime();
-                double tAN = orbitState.Location.TimePastAN;
+                double tAN = orbitState.TimePastAN;
                 return raan - (tAN * Globals.Omega + S) * MyMath.RadiansToDegrees;
             }
             set
             {
                 double S = orbitState.SiderealTime();
-                double tAN = orbitState.Location.TimePastAN;
+                double tAN = orbitState.TimePastAN;
                 raan = (tAN * Globals.Omega + S) * MyMath.RadiansToDegrees + value;
             }
         }
@@ -280,138 +495,7 @@ namespace Periodicity.Core
         private readonly OrbitState orbitState;
     }
 
-    public class Location
-    {
-        public Location(OrbitState orbitState)
-        {
-            this.orbitState = orbitState;
-        }
 
-        public double TrueAnomaly
-        {
-            get
-            {
-                return trueAnomaly;
-            }
-            set
-            {
-                trueAnomaly = value;
-            }
-        }
-        public double MeanAnomaly
-        {
-            get
-            {
-                double meanAnomaly = EccentricAnomaly - (orbitState.Eccentricity * Math.Sin(EccentricAnomaly * MyMath.DegreesToRadians) * MyMath.RadiansToDegrees);
-                return MyMath.WrapAngle360(meanAnomaly);
-            }
-            set
-            {
-                double ecc = orbitState.Eccentricity;
-                double M = value * MyMath.DegreesToRadians;
-                double e1 = M;
-                double e2 = M + ecc * Math.Sin(e1);
-                while (Math.Abs(e1 - e2) > 0.000001)
-                {
-                    e1 = e2;
-                    e2 = M + ecc * Math.Sin(e1);
-                }
-                double E = e2;
-                trueAnomaly = Math.Atan2(Math.Sin(E) * Math.Sqrt(1 - ecc * ecc), Math.Cos(E) - ecc);
-                trueAnomaly *= MyMath.RadiansToDegrees;
-            }
-        }
-        public double EccentricAnomaly
-        {
-            get
-            {
-                double ecc = orbitState.Eccentricity;
-                double eccentricAnomaly = 2.0 * Math.Atan(Math.Sqrt((1.0 - ecc) / (1.0 + ecc)) * Math.Tan(0.5 * TrueAnomaly * MyMath.DegreesToRadians));
-                eccentricAnomaly *= MyMath.RadiansToDegrees;
-                return MyMath.WrapAngle360(eccentricAnomaly);
-            }
-            set
-            {
-                double ecc = orbitState.Eccentricity;
-                double E = value * MyMath.DegreesToRadians;
-                trueAnomaly = Math.Atan2(Math.Sin(E) * Math.Sqrt(1 - ecc * ecc), Math.Cos(E) - ecc);
-                trueAnomaly *= MyMath.RadiansToDegrees;
-            }
-        }
-        public double ArgumentOfLatitude
-        {
-            get
-            {
-                double argumentOfLatitude = trueAnomaly + orbitState.Orientation.ArgumentOfPerigee;
-                return MyMath.WrapAngle360(argumentOfLatitude);
-            }
-            set
-            {
-                trueAnomaly = value - orbitState.Orientation.ArgumentOfPerigee;
-                trueAnomaly = MyMath.WrapAngle360(trueAnomaly);
-            }
-        }
-        public double TimePastAN
-        {
-            get
-            {
-                double ecc = orbitState.Eccentricity;
-                double n = Math.Sqrt(Globals.GM) * Math.Pow(orbitState.SemimajorAxis, -3.0 / 2.0);
-                double e1 = 2.0 * Math.Atan2(Math.Sqrt((1.0 - ecc) / (1.0 + ecc)) * Math.Sin(0.5 * orbitState.Orientation.ArgumentOfPerigee * MyMath.DegreesToRadians), Math.Cos(0.5 * orbitState.Orientation.ArgumentOfPerigee * MyMath.DegreesToRadians));
-                e1 = MyMath.WrapAngle(e1);
-                double e2 = e1 - ecc * Math.Sin(e1);
-                return TimePastPerigee + e2 / n;
-            }
-            set
-            {
-                double ecc = orbitState.Eccentricity;
-                double n = Math.Sqrt(Globals.GM) * Math.Pow(orbitState.SemimajorAxis, -3.0 / 2.0);
-                double e1 = 2.0 * Math.Atan2(Math.Sqrt((1.0 - ecc) / (1.0 + ecc)) * Math.Sin(orbitState.Orientation.ArgumentOfPerigee * MyMath.DegreesToRadians / 2.0), Math.Cos(orbitState.Orientation.ArgumentOfPerigee * MyMath.DegreesToRadians / 2.0));
-                e1 = MyMath.WrapAngle(e1);
-                double e2 = e1 - ecc * Math.Sin(e1);
-
-                double M = (value - e2 / n) * n;
-                e1 = M;
-                e2 = M + ecc * Math.Sin(e1);
-                while (Math.Abs(e1 - e2) > 0.000001)
-                {
-                    e1 = e2;
-                    e2 = M + ecc * Math.Sin(e1);
-                }
-
-                trueAnomaly = Math.Atan2(Math.Sin(e2) * Math.Sqrt(1 - ecc * ecc), Math.Cos(e2) - ecc);
-                trueAnomaly *= MyMath.RadiansToDegrees;
-                return;
-            }
-        }
-        public double TimePastPerigee
-        {
-            get
-            {
-                double n = Math.Sqrt(Globals.GM) * Math.Pow(orbitState.SemimajorAxis, -3.0 / 2.0);
-                return MeanAnomaly / n;
-            }
-            set
-            {
-                double ecc = orbitState.Eccentricity;
-                double n = Math.Sqrt(Globals.GM) * Math.Pow(orbitState.SemimajorAxis, -3.0 / 2.0);
-                double M = value * n;
-                double e1 = M;
-                double e2 = M + ecc * Math.Sin(e1);
-                while (Math.Abs(e1 - e2) > 0.000001)
-                {
-                    e1 = e2;
-                    e2 = M + ecc * Math.Sin(e1);
-                }
-                TrueAnomaly = Math.Atan2(Math.Sin(e2) * Math.Sqrt(1 - ecc * ecc), Math.Cos(e2) - ecc);
-                TrueAnomaly *= MyMath.RadiansToDegrees;
-            }
-        }
-
-        private double trueAnomaly;
-
-        private readonly OrbitState orbitState;
-    }
 
 }
 

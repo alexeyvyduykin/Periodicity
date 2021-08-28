@@ -43,7 +43,7 @@ namespace Periodicity.Sample1
                 Orbit = orbit,
                 StartTime = orbit.Epoch,
                 StopTime = orbit.Epoch.AddDays(days),
-                TrueAnomaly = orbitState.Location.TrueAnomaly * MyMath.DegreesToRadians
+                TrueAnomaly = orbitState.TrueAnomaly * MyMath.DegreesToRadians
             };
 
         }
