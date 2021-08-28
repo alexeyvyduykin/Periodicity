@@ -3,9 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31025.194
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Periodicity.Core", "src\PRDCT.Core\Periodicity.Core.csproj", "{DCDFC49F-2BA0-450F-B64D-33D10D28BE3E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Periodicity.Core", "src\PRDCT.Core\Periodicity.Core.csproj", "{DCDFC49F-2BA0-450F-B64D-33D10D28BE3E}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{74BFDB51-69A1-44D9-86C2-E9CA789A6EA4}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "samples", "samples", "{8A3D4C4F-C6F8-4AA4-B4DE-3751D4D86F6E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Periodicity.Sample1", "samples\Periodicity.Sample1\Periodicity.Sample1.csproj", "{B5F8A19B-0D79-4D40-A29C-3CFCE516F34F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,12 +21,17 @@ Global
 		{DCDFC49F-2BA0-450F-B64D-33D10D28BE3E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DCDFC49F-2BA0-450F-B64D-33D10D28BE3E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DCDFC49F-2BA0-450F-B64D-33D10D28BE3E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B5F8A19B-0D79-4D40-A29C-3CFCE516F34F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B5F8A19B-0D79-4D40-A29C-3CFCE516F34F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B5F8A19B-0D79-4D40-A29C-3CFCE516F34F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B5F8A19B-0D79-4D40-A29C-3CFCE516F34F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{DCDFC49F-2BA0-450F-B64D-33D10D28BE3E} = {74BFDB51-69A1-44D9-86C2-E9CA789A6EA4}
+		{B5F8A19B-0D79-4D40-A29C-3CFCE516F34F} = {8A3D4C4F-C6F8-4AA4-B4DE-3751D4D86F6E}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {D24908AF-110B-4F53-8230-82125107D132}

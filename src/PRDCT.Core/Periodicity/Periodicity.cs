@@ -23,6 +23,18 @@ namespace Periodicity.Core
 
     public class Periodicity
     {
+        public double PitchLatDEG { get; protected set; }
+
+        public virtual List<Ivals> DataIvals { get; }
+        public List<TimeIvals> DataTimeIvals { get; }
+        public List<RegionCuts> DataRegionCuts { get; }
+
+        public List<PRDCTDataPeriodicitiesRecord> DataPeriodicities { get; }
+
+        public Dictionary<Guid, Satellite> Satellites { get; }
+        public Dictionary<Guid, Region> Regions { get; }
+
+        public Dictionary<Guid, List<Sensor>> Sensors { get; }
 
         public Periodicity() 
         {
@@ -52,6 +64,8 @@ namespace Periodicity.Core
             DataRegionCuts = prdct.DataRegionCuts;
             DataTimeIvals = prdct.DataTimeIvals;
         }
+
+        public IEnumerable<double> UniqueLatitudesDEG => DataRegionCuts.Select(m => m.LatDEG).Distinct();
 
         public void Func1()
         {
@@ -320,32 +334,7 @@ namespace Periodicity.Core
             return;
         }
 
-        public void Clear()
-        {
-            Satellites.Clear();
-            Regions.Clear();
-            Sensors.Clear();
-        }
+              
 
-        public IEnumerable<double> UniqueLatitudesDEG
-        {
-            get
-            {
-                return DataRegionCuts.Select(m => m.LatDEG).Distinct();
-            }
-        }
-
-        public double PitchLatDEG { get; protected set; }
-
-        public virtual List<Ivals> DataIvals { get; }
-        public List<TimeIvals> DataTimeIvals { get; }
-        public List<RegionCuts> DataRegionCuts { get; }
-
-        public List<PRDCTDataPeriodicitiesRecord> DataPeriodicities { get; }
-
-        public Dictionary<Guid, Satellite> Satellites { get; }
-        public Dictionary<Guid, Region> Regions { get; }
-
-        public Dictionary<Guid, List<Sensor>> Sensors { get; }
     }
 }

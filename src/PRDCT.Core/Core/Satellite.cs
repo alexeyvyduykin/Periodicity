@@ -5,40 +5,21 @@ namespace Periodicity.Core
 {
     public class Satellite
     {
-        public static Satellite Default = new Satellite();
-        private Satellite() { }
+        public double TrueAnomaly { get; set; }
 
-        public Satellite(Orbit orbit, DateTime startTime, DateTime stopTime, double trueAnomaly)
+        public DateTime StartTime { get; set; }
+
+        public DateTime StopTime { get; set; }
+
+        public Orbit Orbit { get; set; }
+
+        public IList<Sensor> Sensors { get; }
+
+        public Satellite()
         {
-            Orbit = orbit;
-            StartTime = startTime;
-            StopTime = stopTime;
-            TrueAnomaly = trueAnomaly;
+            Sensors = new List<Sensor>();
         }
-
-        public Satellite(Orbit orbit, DateTime startTime, DateTime stopTime) : this(orbit, startTime, stopTime, 0.0) { }
-
-        public Satellite(Orbit orbit, int days) : this(orbit, orbit.Epoch, orbit.Epoch.AddDays(days), 0.0) { }
-
-        public Satellite(Orbit orbit, int days, double trueAnomaly) : this(orbit, orbit.Epoch, orbit.Epoch.AddDays(days), trueAnomaly) { }
-
-        public static Satellite From(BaseSatellite satellite)
-        {
-            double SemimajorAxis = satellite.OrbitState.SizeShape.SemimajorAxis;
-            double Period = 2.0 * Math.PI / (Math.Sqrt(Globals.GM / SemimajorAxis) / SemimajorAxis);
-            Orbit orbit = new Orbit(
-                satellite.OrbitState.SizeShape.SemimajorAxis,
-                satellite.OrbitState.SizeShape.Eccentricity,
-                satellite.OrbitState.Orientation.Inclination * MyMath.DegreesToRadians,
-                satellite.OrbitState.Orientation.ArgumentOfPerigee * MyMath.DegreesToRadians,
-                satellite.OrbitState.Orientation.LonAscnNode * MyMath.DegreesToRadians,
-                satellite.OrbitState.Orientation.RAAN * MyMath.DegreesToRadians,
-                Period,
-                satellite.OrbitState.OrbitEpoch);
-
-            return new Satellite(orbit, 1, satellite.OrbitState.Location.TrueAnomaly * MyMath.DegreesToRadians);
-        }
-
+ 
         public double TrueTimePastAN
         {
             get
@@ -167,8 +148,6 @@ namespace Periodicity.Core
             return nodes;
         }
 
-        public Orbit Orbit { get; }
-
         public IList<Geo2D> GetGroundTrack(int node)
         {
             List<Geo2D> points = new List<Geo2D>();
@@ -199,12 +178,6 @@ namespace Periodicity.Core
 
             return points;
         }
-
-        public double TrueAnomaly { get; }
-
-        public DateTime StartTime { get; }
-
-        public DateTime StopTime { get; }
     }
 
     public enum SensorMode

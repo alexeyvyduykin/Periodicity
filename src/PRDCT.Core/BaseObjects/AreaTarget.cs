@@ -38,21 +38,6 @@ namespace Periodicity.Core
             });
         }
 
-        public BaseAreaTarget Clone()
-        {
-            var newAreaTarget = new BaseAreaTarget()
-            {
-                Id = base.Id,
-                Name = base.Name,
-                Description = base.Description,
-                Type = base.Type,
-                DataType = DataType
-            };
-            newAreaTarget.Data = new List<dvec2>();
-            newAreaTarget.Data.AddRange(Data);
-            return newAreaTarget;
-        }
-
         public AreaTargetType DataType { get; protected set; }
         public List<dvec2> Data { get; protected set; }
     }

@@ -27,19 +27,6 @@ namespace Periodicity.Core
             Objects = new List<BaseObject>();
         }
 
-        public static BaseScenario Clone(BaseScenario scenario)
-        {
-            var sc = new BaseScenario(Guid.NewGuid(), scenario.Name, scenario.Description)
-            {
-                Objects = scenario.Objects
-
-            };
-
-            sc.Changed += scenario.Changed;
-
-            return sc;
-        }
-
         public void Add(BaseScenario scenario)
         {
             foreach (var item in scenario.Objects)

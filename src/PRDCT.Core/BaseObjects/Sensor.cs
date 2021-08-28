@@ -12,8 +12,7 @@ namespace Periodicity.Core
         }
 
         public BaseSensor(BaseObject parent) : this()
-        {
-            //      base.Parent = parent;
+        {          
             base.ParentId = parent.Id;
         }
 
@@ -21,24 +20,6 @@ namespace Periodicity.Core
         {
             VerticalHalfAngle = verticalHalfAngle;
             RollAngle = rollAngle;
-        }
-
-        public BaseSensor Clone()
-        {
-            var newSensor = new BaseSensor()
-            {
-                Id = base.Id,
-                Name = base.Name,
-                Description = base.Description,
-                Type = base.Type,
-                //         Parent = base.Parent,
-                ParentId = base.ParentId
-            };
-
-            newSensor.VerticalHalfAngle = VerticalHalfAngle;
-            newSensor.RollAngle = RollAngle;
-
-            return newSensor;
         }
 
         public double VerticalHalfAngle { get; set; }
