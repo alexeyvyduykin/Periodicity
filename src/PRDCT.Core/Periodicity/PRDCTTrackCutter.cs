@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace PRDCT.Core.PRDCTPeriodicity
+namespace Periodicity.Core
 {
     public class PRDCTTrackCutter
     {

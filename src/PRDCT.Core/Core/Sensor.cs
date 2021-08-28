@@ -1,4 +1,4 @@
-﻿namespace PRDCT.Core.PRDCTPeriodicity
+﻿namespace Periodicity.Core
 {
     public interface ITrace
     {
@@ -11,9 +11,9 @@
     }
 
 
-    public class PRDCTSensor
+    public class Sensor
     {
-        public PRDCTSensor() { }
+        public Sensor() { }
 
         //public Band CreateBand()
         //{
@@ -38,9 +38,9 @@
         public double RollAngleDEG { get; set; }
 
 
-        public static PRDCTSensor From(BaseSensor sensor)
+        public static Sensor From(BaseSensor sensor)
         {
-            return new PRDCTSensor()
+            return new Sensor()
             {
                 VerticalHalfAngleDEG = sensor.VerticalHalfAngle,
                 RollAngleDEG = sensor.RollAngle,

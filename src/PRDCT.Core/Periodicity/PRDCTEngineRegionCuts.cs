@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
-using Periodicity.Core.Data;
 
-namespace PRDCT.Core.PRDCTPeriodicity
+namespace Periodicity.Core
 {
     public class PRDCTEngineRegionCuts// : PRDCTPeriodicity
     {

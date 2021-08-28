@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace PRDCT.Core
+namespace Periodicity.Core
 {
     public class Julian
     {

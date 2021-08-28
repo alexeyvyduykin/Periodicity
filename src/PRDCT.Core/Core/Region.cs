@@ -4,7 +4,7 @@ using System.Drawing;
 using System.Linq;
 using GlmSharp;
 
-namespace PRDCT.Core.PRDCTPeriodicity
+namespace Periodicity.Core
 {
     public enum RegionType
     {
@@ -14,12 +14,12 @@ namespace PRDCT.Core.PRDCTPeriodicity
         Error = 3
     }
 
-    public class PRDCTRegion
+    public class Region
     {
-        public static PRDCTRegion Default = new PRDCTRegion();
-        private PRDCTRegion() { }
+        public static Region Default = new Region();
+        private Region() { }
 
-        public PRDCTRegion(List<dvec2> verts2D, RegionType type)
+        public Region(List<dvec2> verts2D, RegionType type)
         {
             Type = type;
             Verts = new List<dvec2>();
@@ -93,10 +93,10 @@ namespace PRDCT.Core.PRDCTPeriodicity
             return false;
         }
 
-        public static PRDCTRegion From(BaseAreaTarget areaTarget)
+        public static Region From(BaseAreaTarget areaTarget)
         {
             List<dvec2> verts = new List<dvec2>(areaTarget.Data);
-            return new PRDCTRegion(verts, RegionType.Zone);
+            return new Region(verts, RegionType.Zone);
         }
 
         public List<dvec2> Verts { get; private set; }    // вершина полигона

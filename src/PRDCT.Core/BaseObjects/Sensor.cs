@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Xml;
 
-namespace PRDCT.Core
+namespace Periodicity.Core
 {
     public class BaseSensor : ParentBaseObject
     {

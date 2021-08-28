@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using GlmSharp;
 
-namespace PRDCT.Core.PRDCTPeriodicity
+namespace Periodicity.Core
 {
     public class PRDCTRegionCutter
     {
@@ -23,7 +23,7 @@ namespace PRDCT.Core.PRDCTPeriodicity
             DeleteCurrentAndPrevious = 4
         }
 
-        public PRDCTRegionCutter(PRDCTRegion region)
+        public PRDCTRegionCutter(Region region)
         {
             this.region = region;
         }
@@ -476,6 +476,6 @@ namespace PRDCT.Core.PRDCTPeriodicity
             }
         }
 
-        private readonly PRDCTRegion region;
+        private readonly Region region;
     }
 }

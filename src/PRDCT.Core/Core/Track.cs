@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace PRDCT.Core
+namespace Periodicity.Core
 {
     [Serializable]
     public class FactorShiftTrack

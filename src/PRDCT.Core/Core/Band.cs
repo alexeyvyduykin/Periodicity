@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using PRDCT.Core.PRDCTPeriodicity;
 
-namespace PRDCT.Core
+namespace Periodicity.Core
 {
     public enum BandMode
     {
@@ -120,19 +119,19 @@ namespace PRDCT.Core
 
         public Orbit Orbit { get; }
 
-        public IList<Geo2D> GetNearGroundTrack(PRDCTSatellite satellite, int node)
+        public IList<Geo2D> GetNearGroundTrack(Satellite satellite, int node)
         {
             CustomTrack track1 = new CustomTrack(Orbit, NearLine.Alpha1 * MyMath.RadiansToDegrees, NearLine.Direction);
             return GetGroundTrack(track1, satellite, node);
         }
 
-        public IList<Geo2D> GetFarGroundTrack(PRDCTSatellite satellite, int node)
+        public IList<Geo2D> GetFarGroundTrack(Satellite satellite, int node)
         {
             CustomTrack track2 = new CustomTrack(Orbit, FarLine.Alpha1 * MyMath.RadiansToDegrees, FarLine.Direction);
             return GetGroundTrack(track2, satellite, node);
         }
 
-        private IList<Geo2D> GetGroundTrack(CustomTrack track, PRDCTSatellite satellite, int node)
+        private IList<Geo2D> GetGroundTrack(CustomTrack track, Satellite satellite, int node)
         {
             var points = new List<Geo2D>();
 

@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace PRDCT.Core.PRDCTPeriodicity
+namespace Periodicity.Core
 {
-    public class PRDCTSatellite
+    public class Satellite
     {
-        public static PRDCTSatellite Default = new PRDCTSatellite();
-        private PRDCTSatellite() { }
+        public static Satellite Default = new Satellite();
+        private Satellite() { }
 
-        public PRDCTSatellite(Orbit orbit, DateTime startTime, DateTime stopTime, double trueAnomaly)
+        public Satellite(Orbit orbit, DateTime startTime, DateTime stopTime, double trueAnomaly)
         {
             Orbit = orbit;
             StartTime = startTime;
@@ -16,13 +16,13 @@ namespace PRDCT.Core.PRDCTPeriodicity
             TrueAnomaly = trueAnomaly;
         }
 
-        public PRDCTSatellite(Orbit orbit, DateTime startTime, DateTime stopTime) : this(orbit, startTime, stopTime, 0.0) { }
+        public Satellite(Orbit orbit, DateTime startTime, DateTime stopTime) : this(orbit, startTime, stopTime, 0.0) { }
 
-        public PRDCTSatellite(Orbit orbit, int days) : this(orbit, orbit.Epoch, orbit.Epoch.AddDays(days), 0.0) { }
+        public Satellite(Orbit orbit, int days) : this(orbit, orbit.Epoch, orbit.Epoch.AddDays(days), 0.0) { }
 
-        public PRDCTSatellite(Orbit orbit, int days, double trueAnomaly) : this(orbit, orbit.Epoch, orbit.Epoch.AddDays(days), trueAnomaly) { }
+        public Satellite(Orbit orbit, int days, double trueAnomaly) : this(orbit, orbit.Epoch, orbit.Epoch.AddDays(days), trueAnomaly) { }
 
-        public static PRDCTSatellite From(BaseSatellite satellite)
+        public static Satellite From(BaseSatellite satellite)
         {
             double SemimajorAxis = satellite.OrbitState.SizeShape.SemimajorAxis;
             double Period = 2.0 * Math.PI / (Math.Sqrt(Globals.GM / SemimajorAxis) / SemimajorAxis);
@@ -36,7 +36,7 @@ namespace PRDCT.Core.PRDCTPeriodicity
                 Period,
                 satellite.OrbitState.OrbitEpoch);
 
-            return new PRDCTSatellite(orbit, 1, satellite.OrbitState.Location.TrueAnomaly * MyMath.DegreesToRadians);
+            return new Satellite(orbit, 1, satellite.OrbitState.Location.TrueAnomaly * MyMath.DegreesToRadians);
         }
 
         public double TrueTimePastAN

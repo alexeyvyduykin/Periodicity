@@ -64,9 +64,9 @@
     <Compile Include="Globals\Coords.cs" />
     <Compile Include="Globals\Globals.cs" />
     <Compile Include="Globals\Julian.cs" />
-    <Compile Include="Periodicity\PRDCTRegion.cs" />
-    <Compile Include="Periodicity\PRDCTSatellite.cs" />
-    <Compile Include="Periodicity\PRDCTSensor.cs" />
+    <Compile Include="Core\Region.cs" />
+    <Compile Include="Core\Satellite.cs" />
+    <Compile Include="Core\Sensor.cs" />
     <Compile Include="Periodicity\PRDCTBandCutter.cs" />
     <Compile Include="Periodicity\PRDCTConditionSun.cs" />
     <Compile Include="Periodicity\PRDCTEngineIvals.cs" />

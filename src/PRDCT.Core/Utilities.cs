@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using GlmSharp;
 
-namespace PRDCT.Core
+namespace Periodicity.Core
 {
     public static class MyMath
     {

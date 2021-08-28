@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Xml;
 using GlmSharp;
 
-namespace PRDCT.Core
+namespace Periodicity.Core
 {
     public enum AreaTargetType
     {

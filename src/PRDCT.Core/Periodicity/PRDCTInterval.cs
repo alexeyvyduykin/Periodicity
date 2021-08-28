@@ -1,4 +1,4 @@
-﻿namespace PRDCT.Core.PRDCTPeriodicity
+﻿namespace Periodicity.Core
 {
 
     //class SimpleRange

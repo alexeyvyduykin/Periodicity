@@ -3,7 +3,7 @@ using System.ComponentModel;
 using System.Data.Linq;
 using System.Data.Linq.Mapping;
 
-namespace Periodicity.Core.Data
+namespace Periodicity.Core
 {
     public static class MyData
     {

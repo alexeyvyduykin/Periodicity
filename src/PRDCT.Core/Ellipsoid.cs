@@ -1,7 +1,7 @@
 ﻿using System;
 using GlmSharp;
 
-namespace PRDCT.Core
+namespace Periodicity.Core
 {
     public class Ellipsoid
     {

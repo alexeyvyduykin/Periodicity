@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using PRDCT.Core.TEST.DateTime;
 
-namespace PRDCT.Core.TEST.Main
+namespace Periodicity.Core
 {
     public static class Consts
     {

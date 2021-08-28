@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace PRDCT.Core
+namespace Periodicity.Core
 {
     [Serializable]
     public struct NodeQuarter

@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using GlmSharp;
-using Periodicity.Core.Data;
 
-namespace PRDCT.Core.PRDCTPeriodicity
+namespace Periodicity.Core
 {
     public class PeriodicitySunTerrain : Periodicity
     {
@@ -183,7 +182,7 @@ namespace PRDCT.Core.PRDCTPeriodicity
         public Core() { }
         public Core(Core other) { }
 
-        public List<PRDCTSatellite> Satellite { get; set; }
+        public List<Satellite> Satellite { get; set; }
     }
 
     internal class Prdct : Core

@@ -1,4 +1,4 @@
-﻿namespace PRDCT.Core
+﻿namespace Periodicity.Core
 {
     public static class Globals
     {

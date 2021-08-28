@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace PRDCT.Core.TEST.DateTime
+namespace Periodicity.Core
 {
     public static class Date // { to change date between civil and julian forms }
     {
