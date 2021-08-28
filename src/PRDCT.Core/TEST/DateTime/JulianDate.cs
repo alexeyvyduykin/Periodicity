@@ -4,6 +4,48 @@ using PRDCT.Core.TEST.DateTime;
 
 namespace PRDCT.Core.TEST.Main
 {
+    public static class Consts
+    {
+        public static double JD2000 = 2451545.0;
+        public static double JulianC = 36525.0;
+        public static double DifEpoch = 2400000.5;
+
+        public static double GaussConst = 0.0172020989500000e0;
+        // { in AstrUnit**3/((Ephemer.Day**2)*MassOfSun if in Sqr}
+        public static double CavendishConst = 6.672e-20;   //  { in km**3/(kg* s**2) }
+        public static double AstrUnit = 1.49597870691e8;  //{ in km }
+        public static double VelOfLight = 299792.4580;  // { in km/s }
+
+        public static double GeoFM = 3.98600448e5;// { km**3/s**2 }
+        public static double GeoR0 = 6.37814000e3;// { km }
+        public static double ParmA = 1.0 / 298.257; // oblateness of the Earth
+        public static double VelOfRot = 0.7292115e-4; // radian per second Earth rotation velosity
+
+        public static double PiTwo = Math.PI / 2;
+        public static double HalfPi = PiTwo;
+        public static double Pi22 = 2 * Math.PI;
+        public static double TwoPi = Pi22;
+        public static double GraRad = Math.PI / 180;
+        public static double RadGra = 180 / Math.PI;
+        public static double SecRad = GraRad / 3600;
+        public static double RadSec = 3600 / GraRad;
+
+        public static string[] StrDayWeek = new string[]
+{ "Monday" , "Tuesday" , "Wednesday" , "Thursday" , "Friday" , "Saturday" , "Sunday" };
+
+
+        //public static string[] StrDayWeek = new string[]        // to UnForTim
+        //       { 'понедельник' , 'вторник' , 'среда' ,
+        //         'четверг' , 'пятница' , 'суббота' ,
+        //         'воскресенье' };
+        //public static string[] StrMonth = new string[] {
+        //        "январь"  ,  "февраль" ,  "март" ,
+        //         'апрель'  ,  'май'     ,  'июнь' ,
+        //         'июль'    ,  'август'  ,  'сентябрь' ,
+        //         'октябрь' ,  'ноябрь'  ,  'декабрь' };
+
+    }
+
 
     public static class JulianDateTime
     {

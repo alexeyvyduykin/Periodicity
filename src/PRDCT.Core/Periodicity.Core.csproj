@@ -50,7 +50,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BaseObjects\Scenario.cs" />
-    <Compile Include="Converter.cs" />
     <Compile Include="Core\Band.cs" />
     <Compile Include="Core\Node.cs" />
     <Compile Include="Core\Orbit.cs" />
@@ -68,7 +67,6 @@
     <Compile Include="Periodicity\PRDCTRegion.cs" />
     <Compile Include="Periodicity\PRDCTSatellite.cs" />
     <Compile Include="Periodicity\PRDCTSensor.cs" />
-    <Compile Include="Scenario\ObjectHeader.cs" />
     <Compile Include="Periodicity\PRDCTBandCutter.cs" />
     <Compile Include="Periodicity\PRDCTConditionSun.cs" />
     <Compile Include="Periodicity\PRDCTEngineIvals.cs" />
@@ -79,31 +77,10 @@
     <Compile Include="Periodicity\PRDCTRegionCutter.cs" />
     <Compile Include="Periodicity\PeriodicitySunTerrain.cs" />
     <Compile Include="Periodicity\PRDCTTrackCutter.cs" />
-    <Compile Include="Periodicity\PRDCTCore.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Scenario\Scenario.cs" />
-    <Compile Include="Scenario\ScenarioManager.cs" />
-    <Compile Include="Scenario\ScenarioSerializator.cs" />
-    <Compile Include="SuperSunTest.cs" />
-    <Compile Include="TempOrbit.cs" />
-    <Compile Include="TEST\ASTROPUZ.cs" />
-    <Compile Include="TEST\ASTROPUZ_ANALIZ.cs" />
-    <Compile Include="TEST\ASTROPUZ_ASTRONOMY.cs" />
-    <Compile Include="TEST\Class1.cs" />
-    <Compile Include="TEST\Control\ButtonsIni.cs" />
     <Compile Include="TEST\CoverageDefinition.cs" />
     <Compile Include="TEST\DateTime\Date.cs" />
     <Compile Include="TEST\DateTime\JulianDate.cs" />
-    <Compile Include="TEST\Main\Consts.cs" />
-    <Compile Include="TEST\Main\Global.cs" />
-    <Compile Include="TEST\Main\Types.cs" />
-    <Compile Include="TEST\Objects\Selected.cs" />
-    <Compile Include="TEST\PUnDE200\Kepler.cs" />
-    <Compile Include="TEST\PUnDE200\Nutations.cs" />
-    <Compile Include="TEST\PUnDE200\PUnDE200.cs" />
-    <Compile Include="TEST\PUnDE200\Reductions.cs" />
-    <Compile Include="TEST\PUnDE200\Shadows.cs" />
-    <Compile Include="TEST\SolarSystemPlanet\SSPPosition.cs" />
     <Compile Include="TMyDate.cs" />
     <Compile Include="Utilities.cs" />
   </ItemGroup>
