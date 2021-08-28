@@ -48,12 +48,9 @@ namespace Periodicity.Core
         {
             bool isLeft = true, isRight = true;
             double left, right, tLeft, tRight, temp;
-
-            PRDCTTrackCutter cutterLeft = new PRDCTTrackCutter(band.NearLine);
-            PRDCTTrackCutter cutterRight = new PRDCTTrackCutter(band.FarLine);
-
-            var resultLeft = cutterLeft.Calculation(currectLatCutter, currentNode, currentTBegin, currentTEnd, currentTPastAN, currentQuart);
-            var resultRight = cutterRight.Calculation(currectLatCutter, currentNode, currentTBegin, currentTEnd, currentTPastAN, currentQuart);
+      
+            var resultLeft = PeriodicityUtility.TrackCutter(band.NearLine, currectLatCutter, currentNode, currentTBegin, currentTEnd, currentTPastAN, currentQuart);
+            var resultRight = PeriodicityUtility.TrackCutter(band.FarLine, currectLatCutter, currentNode, currentTBegin, currentTEnd, currentTPastAN, currentQuart);
 
 
             if (resultLeft.Item1 == null)
@@ -411,11 +408,8 @@ namespace Periodicity.Core
             bool isLeft = true, isRight = true;
             double left, right, tLeft, tRight, temp;
 
-            PRDCTTrackCutter cutterLeft = new PRDCTTrackCutter(band.NearLine);
-            PRDCTTrackCutter cutterRight = new PRDCTTrackCutter(band.FarLine);
-
-            var resultLeft = cutterLeft.Calculation(currectLatCutter, currentNode, currentTBegin, currentTEnd, currentTPastAN, currentQuart);
-            var resultRight = cutterRight.Calculation(currectLatCutter, currentNode, currentTBegin, currentTEnd, currentTPastAN, currentQuart);
+            var resultLeft = PeriodicityUtility.TrackCutter(band.NearLine, currectLatCutter, currentNode, currentTBegin, currentTEnd, currentTPastAN, currentQuart);
+            var resultRight = PeriodicityUtility.TrackCutter(band.FarLine, currectLatCutter, currentNode, currentTBegin, currentTEnd, currentTPastAN, currentQuart);
 
 
             if (resultLeft.Item1 == null)

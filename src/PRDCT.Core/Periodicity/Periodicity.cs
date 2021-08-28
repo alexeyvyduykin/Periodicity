@@ -39,7 +39,7 @@ namespace Periodicity.Core
             DataPeriodicities = new List<PRDCTDataPeriodicitiesRecord>();
         }
 
-        public Periodicity(Periodicity prdct) //: base(/*prdct*/)
+        public Periodicity(Periodicity prdct)
         {
             Satellites = prdct.Satellites;
             Regions = prdct.Regions;

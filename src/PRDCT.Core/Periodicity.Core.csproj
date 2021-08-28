@@ -76,19 +76,13 @@
     <Compile Include="Periodicity\Periodicity.cs" />
     <Compile Include="Periodicity\PRDCTRegionCutter.cs" />
     <Compile Include="Periodicity\PeriodicitySunTerrain.cs" />
-    <Compile Include="Periodicity\PRDCTTrackCutter.cs" />
+    <Compile Include="Periodicity\PeriodicityUtility.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TEST\CoverageDefinition.cs" />
     <Compile Include="TEST\DateTime\Date.cs" />
     <Compile Include="TEST\DateTime\JulianDate.cs" />
     <Compile Include="TMyDate.cs" />
     <Compile Include="Utilities.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\PRDCT.Data\PRDCT.Data.csproj">
-      <Project>{3d1f8330-eeaa-4361-8f4c-2b311c84112d}</Project>
-      <Name>PRDCT.Data</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

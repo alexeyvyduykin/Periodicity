@@ -2,16 +2,11 @@
 
 namespace Periodicity.Core
 {
-    public class PRDCTTrackCutter
+    public static class PeriodicityUtility
     {
-        private const double PRDCT_CLASS_EPS_METHOD_DICHOTOMY = 0.0003;
+        private static double PRDCT_CLASS_EPS_METHOD_DICHOTOMY = 0.0003;
 
-        public PRDCTTrackCutter(Track track)
-        {
-            this.track = track;
-        }
-
-        public Tuple<double?, double> Calculation(double latCutter, int node, double tBegin, double tEnd, double tPastAN, int quart)
+        public static Tuple<double?, double> TrackCutter(Track track, double latCutter, int node, double tBegin, double tEnd, double tPastAN, int quart)
         {
             double tTemp, latTemp;
             double tBeginTemp = tBegin,
@@ -71,14 +66,5 @@ namespace Periodicity.Core
 
             return Tuple.Create<double?, double>(null, tTemp);
         }
-
-        private readonly Track track;
-
-        //private double currectLatCutter;
-        //private int currentNode;
-        //private double currentTBegin;
-        //private double currentTEnd;
-        //private int currentQuart;
-        //private double currentTPastAN;
     }
 }

@@ -215,25 +215,4 @@ namespace Periodicity.Core
         Two = 3,
         Error
     }
-
-    public static class Extensions
-    {
-        public static string ToString(this SensorMode mode)
-        {
-            switch (mode)
-            {
-                case SensorMode.One:
-                    return "One";
-                case SensorMode.Left:
-                    return "Left";
-                case SensorMode.Right:
-                    return "Right";
-                case SensorMode.Two:
-                    return "Two";
-                default:
-                    return "Error";
-            }
-        }
-    }
-
 }
