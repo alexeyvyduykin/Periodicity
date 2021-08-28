@@ -46,41 +46,11 @@ namespace Periodicity.Core
 
         public bool SearchIval(ref double leftTemp, ref double rightTemp, ref double tLeftTemp, ref double tRightTemp)
         {
-            bool isLeft = true, isRight = true;
-            double left, right, tLeft, tRight, temp;
-      
-            var resultLeft = PeriodicityUtility.TrackCutter(band.NearLine, currectLatCutter, currentNode, currentTBegin, currentTEnd, currentTPastAN, currentQuart);
-            var resultRight = PeriodicityUtility.TrackCutter(band.FarLine, currectLatCutter, currentNode, currentTBegin, currentTEnd, currentTPastAN, currentQuart);
+          
+            double temp;
 
-
-            if (resultLeft.Item1 == null)
-            {
-                left = 0.0;
-                isLeft = false;
-            }
-            else
-            {
-                left = (double)resultLeft.Item1;
-            }
-
-            if (resultRight.Item1 == null)
-            {
-                right = 0.0;
-                isRight = false;
-            }
-            else
-            {
-                right = (double)resultRight.Item1;
-            }
-
-            //left = (double)resultLeft.Item1;
-            tLeft = resultLeft.Item2;
-
-            //right = (double)resultRight.Item1;
-            tRight = resultRight.Item2;
-
-            //      isLeft = band.NearLine.func2(currectLatCutter, out tLeft, out left);
-            //      isRight = band.FarLine.func2(currectLatCutter, out tRight, out right);
+            var (left, tLeft, isLeft) = PeriodicityUtility.TrackCutter(band.NearLine, currectLatCutter, currentNode, currentTBegin, currentTEnd, currentTPastAN, currentQuart);
+            var (right, tRight, isRight) = PeriodicityUtility.TrackCutter(band.FarLine, currectLatCutter, currentNode, currentTBegin, currentTEnd, currentTPastAN, currentQuart);
 
             // пересечение одной трассы
             if (isLeft == false)
@@ -405,41 +375,11 @@ namespace Periodicity.Core
 
         public bool SearchIval(ref double leftTemp, ref double rightTemp, ref double tLeftTemp, ref double tRightTemp)
         {
-            bool isLeft = true, isRight = true;
-            double left, right, tLeft, tRight, temp;
+         
+            double temp;
 
-            var resultLeft = PeriodicityUtility.TrackCutter(band.NearLine, currectLatCutter, currentNode, currentTBegin, currentTEnd, currentTPastAN, currentQuart);
-            var resultRight = PeriodicityUtility.TrackCutter(band.FarLine, currectLatCutter, currentNode, currentTBegin, currentTEnd, currentTPastAN, currentQuart);
-
-
-            if (resultLeft.Item1 == null)
-            {
-                left = 0.0;
-                isLeft = false;
-            }
-            else
-            {
-                left = (double)resultLeft.Item1;
-            }
-
-            if (resultRight.Item1 == null)
-            {
-                right = 0.0;
-                isRight = false;
-            }
-            else
-            {
-                right = (double)resultRight.Item1;
-            }
-
-            //left = (double)resultLeft.Item1;
-            tLeft = resultLeft.Item2;
-
-            //right = (double)resultRight.Item1;
-            tRight = resultRight.Item2;
-
-            //      isLeft = band.NearLine.func2(currectLatCutter, out tLeft, out left);
-            //      isRight = band.FarLine.func2(currectLatCutter, out tRight, out right);
+            var (left, tLeft, isLeft) = PeriodicityUtility.TrackCutter(band.NearLine, currectLatCutter, currentNode, currentTBegin, currentTEnd, currentTPastAN, currentQuart);
+            var (right, tRight, isRight) = PeriodicityUtility.TrackCutter(band.FarLine, currectLatCutter, currentNode, currentTBegin, currentTEnd, currentTPastAN, currentQuart);
 
             // пересечение одной трассы
             if (isLeft == false)

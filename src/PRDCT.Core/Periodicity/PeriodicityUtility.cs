@@ -6,13 +6,13 @@ namespace Periodicity.Core
     {
         private static double PRDCT_CLASS_EPS_METHOD_DICHOTOMY = 0.0003;
 
-        public static Tuple<double?, double> TrackCutter(Track track, double latCutter, int node, double tBegin, double tEnd, double tPastAN, int quart)
+        public static (double lon, double t, bool isCut) TrackCutter(Track track, double latCutter, int node, double tBegin, double tEnd, double tPastAN, int quart)
         {
             double tTemp, latTemp;
             double tBeginTemp = tBegin,
                    tEndTemp = tEnd;
 
-            double? lonCut;
+            double lonCut;
 
             double latBegin = track.ContinuousTrack(node, tBegin, tPastAN, quart).Lat;
             double latEnd = track.ContinuousTrack(node, tEnd, tPastAN, quart).Lat;
@@ -25,11 +25,11 @@ namespace Periodicity.Core
                     if (MyMath.DoubleEquals(latBegin, 0.0, 1.0E-10) == true)
                     {
                         lonCut = track.ContinuousTrack(node, tBegin, tPastAN, quart).Lon;
-                        return Tuple.Create(lonCut, tBegin);
+                        return (lonCut, tBegin, true);
                     }
                     if (MyMath.DoubleEquals(latEnd, 0.0, 1.0E-10) == true)
                     {
-                        return Tuple.Create<double?, double>(null, tEnd);
+                        return (double.NaN, tEnd, false);
                     }
                 }
                 //------------------------------------------------------------------------------
@@ -50,7 +50,7 @@ namespace Periodicity.Core
                 }
                 while (Math.Abs(latCutter - latTemp) > PRDCT_CLASS_EPS_METHOD_DICHOTOMY);
                 lonCut = track.ContinuousTrack(node, tTemp, tPastAN, quart).Lon;
-                return Tuple.Create(lonCut, tTemp);
+                return (lonCut, tTemp, true);
             }
             else
             {
@@ -64,7 +64,7 @@ namespace Periodicity.Core
                 }
             }
 
-            return Tuple.Create<double?, double>(null, tTemp);
+            return (double.NaN, tTemp, false);
         }
     }
 }
