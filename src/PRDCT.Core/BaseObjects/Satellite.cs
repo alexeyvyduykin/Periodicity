@@ -2,15 +2,23 @@
 
 namespace Periodicity.Core
 {
-    public class OrbitState 
+    public class OrbitState
     {
-        public OrbitState()
+        // SizeShape
+        private double _semimajorAxis;
+        private double _eccentricity;
+        private double _apogeeRadius;
+        private double _perigeeRadius;
+        private double _apogeeAltitude;
+        private double _perigeeAltitude;
+        private double _period;
+        private double _meanMotion;
+
+        public OrbitState()       
         {
-            SizeShape = new SizeShape()
-            {
-                SemimajorAxis = 6955.14,
-                Eccentricity = 0.0
-            };
+            SemimajorAxis = 6955.14;
+            Eccentricity = 0.0;
+            
 
             Orientation = new Orientation(this)
             {
@@ -29,8 +37,8 @@ namespace Periodicity.Core
 
         public DateTime OrbitEpoch { get; set; }
 
-        public SizeShape SizeShape { get; set; }
         public Orientation Orientation { get; set; }
+      
         public Location Location { get; set; }
 
         public double SiderealTime()
@@ -41,115 +49,192 @@ namespace Periodicity.Core
             Julian jd = new Julian(OrbitEpoch);
             return jd.ToGmst();
         }
-    }
 
-    public class SizeShape
-    {
+        private void SynchronizeShapeProperties(double value, string name)
+        {
+            switch (name)
+            {
+                case nameof(OrbitState.SemimajorAxis):
+
+                    _semimajorAxis = value;
+
+                    if(_eccentricity == default)
+                    {
+                        break;
+                    }
+
+                    _apogeeRadius = _semimajorAxis * (1.0 - _eccentricity);
+                    _perigeeRadius = _semimajorAxis * (1.0 + _eccentricity);
+                    _apogeeAltitude = _semimajorAxis * (1.0 - _eccentricity) - Globals.Re;
+                    _perigeeAltitude = _semimajorAxis * (1.0 + _eccentricity) - Globals.Re;
+                    _period = 2.0 * Math.PI * Math.Sqrt(Math.Pow(_semimajorAxis, 3) / Globals.GM);
+                    _meanMotion = 86400.0 / (2.0 * Math.PI * Math.Sqrt(Math.Pow(_semimajorAxis, 3) / Globals.GM));
+                  
+                    break;
+
+                case nameof(OrbitState.Eccentricity):
+
+                    _eccentricity = value;
+
+                    if (_semimajorAxis == default)
+                    {
+                        break;
+                    }
+
+                    _apogeeRadius = _semimajorAxis * (1.0 - _eccentricity);
+                    _perigeeRadius = _semimajorAxis * (1.0 + _eccentricity);
+                    _apogeeAltitude = _semimajorAxis * (1.0 - _eccentricity) - Globals.Re;
+                    _perigeeAltitude = _semimajorAxis * (1.0 + _eccentricity) - Globals.Re;
+                    _period = 2.0 * Math.PI * Math.Sqrt(Math.Pow(_semimajorAxis, 3) / Globals.GM);
+                    _meanMotion = 86400.0 / (2.0 * Math.PI * Math.Sqrt(Math.Pow(_semimajorAxis, 3) / Globals.GM));
+
+                    break;
+
+                case nameof(OrbitState.ApogeeRadius):
+
+                    _apogeeRadius = value;
+                    _perigeeRadius = _semimajorAxis * (1.0 + _eccentricity);
+
+                    _semimajorAxis = (_apogeeRadius + _perigeeRadius) / 2.0;
+                    _eccentricity = (_perigeeRadius - _apogeeRadius) / (_perigeeRadius + _apogeeRadius);
+               
+                    _apogeeAltitude = _semimajorAxis * (1.0 - _eccentricity) - Globals.Re;
+                    _perigeeAltitude = _semimajorAxis * (1.0 + _eccentricity) - Globals.Re;
+                    _period = 2.0 * Math.PI * Math.Sqrt(Math.Pow(_semimajorAxis, 3) / Globals.GM);
+                    _meanMotion = 86400.0 / (2.0 * Math.PI * Math.Sqrt(Math.Pow(_semimajorAxis, 3) / Globals.GM));
+
+                    break;
+
+
+                case nameof(OrbitState.PerigeeRadius):
+
+                    _apogeeRadius = _semimajorAxis * (1.0 - _eccentricity);
+                    _perigeeRadius = value;
+
+                    _semimajorAxis = (_apogeeRadius + _perigeeRadius) / 2.0;
+                    _eccentricity = (_perigeeRadius - _apogeeRadius) / (_perigeeRadius + _apogeeRadius);
+
+                    _apogeeAltitude = _semimajorAxis * (1.0 - _eccentricity) - Globals.Re;
+                    _perigeeAltitude = _semimajorAxis * (1.0 + _eccentricity) - Globals.Re;
+                    _period = 2.0 * Math.PI * Math.Sqrt(Math.Pow(_semimajorAxis, 3) / Globals.GM);
+                    _meanMotion = 86400.0 / (2.0 * Math.PI * Math.Sqrt(Math.Pow(_semimajorAxis, 3) / Globals.GM));
+
+                    break;
+
+
+                case nameof(OrbitState.ApogeeAltitude):
+
+                    _apogeeRadius = value + Globals.Re;
+                    _perigeeRadius = _semimajorAxis * (1.0 + _eccentricity);
+
+                    _semimajorAxis = (_apogeeRadius + _perigeeRadius) / 2.0;
+                    _eccentricity = (_perigeeRadius - _apogeeRadius) / (_perigeeRadius + _apogeeRadius);
+
+                    _apogeeRadius = _semimajorAxis * (1.0 - _eccentricity);
+                    _perigeeRadius = _semimajorAxis * (1.0 + _eccentricity);
+                    _period = 2.0 * Math.PI * Math.Sqrt(Math.Pow(_semimajorAxis, 3) / Globals.GM);
+                    _meanMotion = 86400.0 / (2.0 * Math.PI * Math.Sqrt(Math.Pow(_semimajorAxis, 3) / Globals.GM));
+
+                    break;
+
+
+                case nameof(OrbitState.PerigeeAltitude):
+
+                    _apogeeRadius = _semimajorAxis * (1.0 - _eccentricity);                    
+                    _perigeeRadius = value + Globals.Re;
+
+                    _semimajorAxis = (_apogeeRadius + _perigeeRadius) / 2.0;
+                    _eccentricity = (_perigeeRadius - _apogeeRadius) / (_perigeeRadius + _apogeeRadius);
+
+                    _apogeeRadius = _semimajorAxis * (1.0 - _eccentricity);
+                    _perigeeRadius = _semimajorAxis * (1.0 + _eccentricity);
+                    _period = 2.0 * Math.PI * Math.Sqrt(Math.Pow(_semimajorAxis, 3) / Globals.GM);
+                    _meanMotion = 86400.0 / (2.0 * Math.PI * Math.Sqrt(Math.Pow(_semimajorAxis, 3) / Globals.GM));
+
+                    break;
+
+
+                case nameof(OrbitState.Period):
+
+                    _period = value;
+                                                         
+                    _semimajorAxis = Math.Pow(Math.Pow(_period / (2.0 * Math.PI), 2) * Globals.GM, 1.0 / 3.0);
+
+                    _apogeeRadius = _semimajorAxis * (1.0 - _eccentricity);
+                    _perigeeRadius = _semimajorAxis * (1.0 + _eccentricity);
+                    _apogeeAltitude = _semimajorAxis * (1.0 - _eccentricity) - Globals.Re;
+                    _perigeeAltitude = _semimajorAxis * (1.0 + _eccentricity) - Globals.Re;            
+                    _meanMotion = 86400.0 / (2.0 * Math.PI * Math.Sqrt(Math.Pow(_semimajorAxis, 3) / Globals.GM));
+
+                    break;
+
+
+                case nameof(OrbitState.MeanMotion):
+
+                    _meanMotion = value;
+
+                    _semimajorAxis = Math.Pow(Math.Pow((86400.0 / _meanMotion) / (2.0 * Math.PI), 2) * Globals.GM, 1.0 / 3.0);
+                   
+                    _apogeeRadius = _semimajorAxis * (1.0 - _eccentricity);
+                    _perigeeRadius = _semimajorAxis * (1.0 + _eccentricity);
+                    _apogeeAltitude = _semimajorAxis * (1.0 - _eccentricity) - Globals.Re;
+                    _perigeeAltitude = _semimajorAxis * (1.0 + _eccentricity) - Globals.Re;
+                    _period = 2.0 * Math.PI * Math.Sqrt(Math.Pow(_semimajorAxis, 3) / Globals.GM);               
+
+                    break;
+
+                default:
+                    break;
+            }
+        }
+
         public double SemimajorAxis
         {
-            get
-            {
-                return semimajorAxis;
-            }
-            set
-            {
-                semimajorAxis = value;
-            }
-        }
-        public double Eccentricity
-        {
-            get
-            {
-                return eccentricity;
-            }
-            set
-            {
-                eccentricity = value;
-            }
-        }
-        public double ApogeeRadius
-        {
-            get
-            {
-                return semimajorAxis * (1.0 - eccentricity);
-            }
-            set
-            {
-                double apogeeRadius = value;
-                double perigeeRadius = PerigeeRadius;
-                semimajorAxis = (apogeeRadius + perigeeRadius) / 2.0;
-                eccentricity = (perigeeRadius - apogeeRadius) / (perigeeRadius + apogeeRadius);
-            }
-        }
-        public double PerigeeRadius
-        {
-            get
-            {
-                return semimajorAxis * (1.0 + eccentricity);
-            }
-            set
-            {
-                double apogeeRadius = ApogeeRadius;
-                double perigeeRadius = value;
-                semimajorAxis = (apogeeRadius + perigeeRadius) / 2.0;
-                eccentricity = (perigeeRadius - apogeeRadius) / (perigeeRadius + apogeeRadius);
-            }
-        }
-        public double ApogeeAltitude
-        {
-            get
-            {
-                return semimajorAxis * (1.0 - eccentricity) - Globals.Re;
-            }
-            set
-            {
-                double apogeeRadius = value + Globals.Re;
-                double perigeeRadius = PerigeeRadius;
-                semimajorAxis = (apogeeRadius + perigeeRadius) / 2.0;
-                eccentricity = (perigeeRadius - apogeeRadius) / (perigeeRadius + apogeeRadius);
-            }
-        }
-        public double PerigeeAltitude
-        {
-            get
-            {
-                return semimajorAxis * (1.0 + eccentricity) - Globals.Re;
-            }
-            set
-            {
-                double apogeeRadius = ApogeeRadius;
-                double perigeeRadius = value + Globals.Re;
-                semimajorAxis = (apogeeRadius + perigeeRadius) / 2.0;
-                eccentricity = (perigeeRadius - apogeeRadius) / (perigeeRadius + apogeeRadius);
-            }
-        }
-        public double Period
-        {
-            get
-            {
-                return 2.0 * Math.PI * Math.Sqrt(Math.Pow(semimajorAxis, 3) / Globals.GM);
-            }
-            set
-            {
-                double period = value;
-                semimajorAxis = Math.Pow(Math.Pow(Period / (2.0 * Math.PI), 2) * Globals.GM, 1.0 / 3.0);
-            }
-        }
-        public double MeanMotion
-        {
-            get
-            {
-                return 86400.0 / (2.0 * Math.PI * Math.Sqrt(Math.Pow(semimajorAxis, 3) / Globals.GM));
-            }
-            set
-            {
-                double meanMotion = value;
-                semimajorAxis = Math.Pow(Math.Pow((86400.0 / meanMotion) / (2.0 * Math.PI), 2) * Globals.GM, 1.0 / 3.0);
-            }
+            get => _semimajorAxis;
+            set => SynchronizeShapeProperties(value, nameof(OrbitState.SemimajorAxis));
         }
 
-        private double semimajorAxis;
-        private double eccentricity;
+        public double Eccentricity
+        {
+            get => _eccentricity;
+            set => SynchronizeShapeProperties(value, nameof(OrbitState.Eccentricity));
+        }
+
+        public double ApogeeRadius
+        {
+            get => _apogeeRadius;
+            set => SynchronizeShapeProperties(value, nameof(OrbitState.ApogeeRadius));
+        }
+
+        public double PerigeeRadius
+        {
+            get => _perigeeRadius;
+            set => SynchronizeShapeProperties(value, nameof(OrbitState.PerigeeRadius));
+        }
+       
+        public double ApogeeAltitude
+        {
+            get => _apogeeAltitude;
+            set => SynchronizeShapeProperties(value, nameof(OrbitState.ApogeeAltitude));
+        }
+      
+        public double PerigeeAltitude
+        {
+            get => _perigeeAltitude;
+            set => SynchronizeShapeProperties(value, nameof(OrbitState.PerigeeAltitude));
+        }
+    
+        public double Period
+        {
+            get => _period;
+            set => SynchronizeShapeProperties(value, nameof(OrbitState.Period));
+        }
+       
+        public double MeanMotion
+        {
+            get => _meanMotion;
+            set => SynchronizeShapeProperties(value, nameof(OrbitState.MeanMotion));
+        }
     }
 
     public class Orientation
@@ -217,12 +302,12 @@ namespace Periodicity.Core
         {
             get
             {
-                double meanAnomaly = EccentricAnomaly - (orbitState.SizeShape.Eccentricity * Math.Sin(EccentricAnomaly * MyMath.DegreesToRadians) * MyMath.RadiansToDegrees);
+                double meanAnomaly = EccentricAnomaly - (orbitState.Eccentricity * Math.Sin(EccentricAnomaly * MyMath.DegreesToRadians) * MyMath.RadiansToDegrees);
                 return MyMath.WrapAngle360(meanAnomaly);
             }
             set
             {
-                double ecc = orbitState.SizeShape.Eccentricity;
+                double ecc = orbitState.Eccentricity;
                 double M = value * MyMath.DegreesToRadians;
                 double e1 = M;
                 double e2 = M + ecc * Math.Sin(e1);
@@ -240,14 +325,14 @@ namespace Periodicity.Core
         {
             get
             {
-                double ecc = orbitState.SizeShape.Eccentricity;
+                double ecc = orbitState.Eccentricity;
                 double eccentricAnomaly = 2.0 * Math.Atan(Math.Sqrt((1.0 - ecc) / (1.0 + ecc)) * Math.Tan(0.5 * TrueAnomaly * MyMath.DegreesToRadians));
                 eccentricAnomaly *= MyMath.RadiansToDegrees;
                 return MyMath.WrapAngle360(eccentricAnomaly);
             }
             set
             {
-                double ecc = orbitState.SizeShape.Eccentricity;
+                double ecc = orbitState.Eccentricity;
                 double E = value * MyMath.DegreesToRadians;
                 trueAnomaly = Math.Atan2(Math.Sin(E) * Math.Sqrt(1 - ecc * ecc), Math.Cos(E) - ecc);
                 trueAnomaly *= MyMath.RadiansToDegrees;
@@ -270,8 +355,8 @@ namespace Periodicity.Core
         {
             get
             {
-                double ecc = orbitState.SizeShape.Eccentricity;
-                double n = Math.Sqrt(Globals.GM) * Math.Pow(orbitState.SizeShape.SemimajorAxis, -3.0 / 2.0);
+                double ecc = orbitState.Eccentricity;
+                double n = Math.Sqrt(Globals.GM) * Math.Pow(orbitState.SemimajorAxis, -3.0 / 2.0);
                 double e1 = 2.0 * Math.Atan2(Math.Sqrt((1.0 - ecc) / (1.0 + ecc)) * Math.Sin(0.5 * orbitState.Orientation.ArgumentOfPerigee * MyMath.DegreesToRadians), Math.Cos(0.5 * orbitState.Orientation.ArgumentOfPerigee * MyMath.DegreesToRadians));
                 e1 = MyMath.WrapAngle(e1);
                 double e2 = e1 - ecc * Math.Sin(e1);
@@ -279,8 +364,8 @@ namespace Periodicity.Core
             }
             set
             {
-                double ecc = orbitState.SizeShape.Eccentricity;
-                double n = Math.Sqrt(Globals.GM) * Math.Pow(orbitState.SizeShape.SemimajorAxis, -3.0 / 2.0);
+                double ecc = orbitState.Eccentricity;
+                double n = Math.Sqrt(Globals.GM) * Math.Pow(orbitState.SemimajorAxis, -3.0 / 2.0);
                 double e1 = 2.0 * Math.Atan2(Math.Sqrt((1.0 - ecc) / (1.0 + ecc)) * Math.Sin(orbitState.Orientation.ArgumentOfPerigee * MyMath.DegreesToRadians / 2.0), Math.Cos(orbitState.Orientation.ArgumentOfPerigee * MyMath.DegreesToRadians / 2.0));
                 e1 = MyMath.WrapAngle(e1);
                 double e2 = e1 - ecc * Math.Sin(e1);
@@ -303,13 +388,13 @@ namespace Periodicity.Core
         {
             get
             {
-                double n = Math.Sqrt(Globals.GM) * Math.Pow(orbitState.SizeShape.SemimajorAxis, -3.0 / 2.0);
+                double n = Math.Sqrt(Globals.GM) * Math.Pow(orbitState.SemimajorAxis, -3.0 / 2.0);
                 return MeanAnomaly / n;
             }
             set
             {
-                double ecc = orbitState.SizeShape.Eccentricity;
-                double n = Math.Sqrt(Globals.GM) * Math.Pow(orbitState.SizeShape.SemimajorAxis, -3.0 / 2.0);
+                double ecc = orbitState.Eccentricity;
+                double n = Math.Sqrt(Globals.GM) * Math.Pow(orbitState.SemimajorAxis, -3.0 / 2.0);
                 double M = value * n;
                 double e1 = M;
                 double e2 = M + ecc * Math.Sin(e1);

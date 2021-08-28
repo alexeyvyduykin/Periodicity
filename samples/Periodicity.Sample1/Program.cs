@@ -23,14 +23,14 @@ namespace Periodicity.Sample1
         public void Run()
         {
             OrbitState orbitState = new OrbitState();
-            double SemimajorAxis = orbitState.SizeShape.SemimajorAxis;
+            double SemimajorAxis = orbitState.SemimajorAxis;
 
             double Period = 2.0 * Math.PI / (Math.Sqrt(Globals.GM / SemimajorAxis) / SemimajorAxis);
             double days = 1.0;
 
             Orbit orbit = new Orbit(
-                orbitState.SizeShape.SemimajorAxis,
-                orbitState.SizeShape.Eccentricity,
+                orbitState.SemimajorAxis,
+                orbitState.Eccentricity,
                 orbitState.Orientation.Inclination * MyMath.DegreesToRadians,
                 orbitState.Orientation.ArgumentOfPerigee * MyMath.DegreesToRadians,
                 orbitState.Orientation.LonAscnNode * MyMath.DegreesToRadians,
