@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using GlmSharp;
 using System.Drawing;
+using System.Linq;
+using GlmSharp;
 
 namespace PRDCT.Core.PRDCTPeriodicity
 {
@@ -23,7 +21,7 @@ namespace PRDCT.Core.PRDCTPeriodicity
 
         public PRDCTRegion(List<dvec2> verts2D, RegionType type)
         {
-            this.Type = type;
+            Type = type;
             Verts = new List<dvec2>();
             Lines = new List<dvec2>();
             Normals = new List<dvec2>();
@@ -33,7 +31,9 @@ namespace PRDCT.Core.PRDCTPeriodicity
                 int k = i + 1;
 
                 if (i == verts2D.Count - 1)
+                {
                     k = 0;
+                }
 
                 Verts.Add(verts2D[i]);
                 Lines.Add(verts2D[k] - verts2D[i]);
@@ -44,7 +44,7 @@ namespace PRDCT.Core.PRDCTPeriodicity
             float xMax = (float)verts2D.Max(s => s.x);
             float yMin = (float)verts2D.Min(s => s.y);
             float yMax = (float)verts2D.Max(s => s.y);
-            
+
             BoundingRectangle = new RectangleF(xMin, yMin, xMax - xMin, yMax - yMin);
         }
 
@@ -64,7 +64,11 @@ namespace PRDCT.Core.PRDCTPeriodicity
 
                 alf = Math.Acos((x1 * x2 + y1 * y2) / (Math.Sqrt(x1 * x1 + y1 * y1) * Math.Sqrt(x2 * x2 + y2 * y2)));
                 pz = x1 * y2 - y1 * x2;
-                if (pz > 0) alf = -alf;
+                if (pz > 0)
+                {
+                    alf = -alf;
+                }
+
                 summa_alf = summa_alf + alf;
             }
 
@@ -74,10 +78,18 @@ namespace PRDCT.Core.PRDCTPeriodicity
             y2 = Verts[0].y - point.y;
             alf = Math.Acos((x1 * x2 + y1 * y2) / (Math.Sqrt(x1 * x1 + y1 * y1) * Math.Sqrt(x2 * x2 + y2 * y2)));
             pz = x1 * y2 - y1 * x2;
-            if (pz > 0) alf = -alf;
+            if (pz > 0)
+            {
+                alf = -alf;
+            }
+
             summa_alf = summa_alf + alf;
 
-            if (Math.Abs(2.0 * Math.PI - Math.Abs(summa_alf)) < eps) return true;
+            if (Math.Abs(2.0 * Math.PI - Math.Abs(summa_alf)) < eps)
+            {
+                return true;
+            }
+
             return false;
         }
 

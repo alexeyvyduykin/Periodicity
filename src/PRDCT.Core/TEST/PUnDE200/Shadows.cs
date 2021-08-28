@@ -1,11 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using PRDCT.Core.TEST.Main;
 using GlmSharp;
-using PRDCT.Core.TEST.SolarSystemPlanet;
+using PRDCT.Core.TEST.Main;
 using static PRDCT.Core.TEST.Main.Types;
 
 namespace PRDCT.Core.TEST.PUnDE200
@@ -27,7 +22,10 @@ namespace PRDCT.Core.TEST.PUnDE200
             double S = C[9];
             double AC = Math.Sqrt(Math.Abs(1.0e0 - S * S));
             if (C[6] < 0.0e0)
+            {
                 AC = -AC;
+            }
+
             double O = 1.0e0;
             double O2 = 2.0e0;
             double O3 = 3.0e0;
@@ -173,7 +171,10 @@ namespace PRDCT.Core.TEST.PUnDE200
             double R4 = FM * AB * RE * RDZ * (1.0e0 + 2.0e0 * P2 * F1 + P4 * F2) * R2;
             double A3 = Math.Sqrt(Math.Abs(R3));
             if (AC < 0.0e0)
+            {
                 A3 = -A3;
+            }
+
             double A2 = -FM * AB * RE * (1.0e0 + 2.0e0 * P2 * F1 * RD * R1 + P4 * F2 * RD * R1);
             C[7] = AB;
             C[8] = ElemR.ae;
@@ -329,7 +330,7 @@ namespace PRDCT.Core.TEST.PUnDE200
             double UDG = MyMath.DegreesToRadians * ElemR.ao + C[42] * DifT + (Math.PI / 2.0);
             double UDH = MyMath.DegreesToRadians * ElemR.au + C[43] * DifT - (Math.PI / 2.0);
             double O = 1.0e0;
-            double W = 2.00000e0;     
+            double W = 2.00000e0;
             double FM = C[0];
             double RZ = C[1];
             double CJ2 = C[2];
@@ -513,7 +514,10 @@ namespace PRDCT.Core.TEST.PUnDE200
             C[9] = C[11] + PS * RD * (O - 3.0e0 * PS * C[11] - P2);
             C[10] = Math.Sqrt(Math.Abs(O - C[9] * C[9]));
             if (A3 < 0.0e0)
+            {
                 C[10] = -C[10];
+            }
+
             RF = O / FM;
             double R = -A1 * A1 * A1;
             C[40] = Math.Sqrt(R) * RF;
@@ -601,17 +605,26 @@ namespace PRDCT.Core.TEST.PUnDE200
             double CE = (1.0e0 - BS / AB) / AE;
             double SE = Math.Sqrt(1.0e0 - CE * CE);
             if (VS < 0.0e0)
+            {
                 SE = -SE;
+            }
+
             double EA = SimpleProcedures.DATAN2(SE, CE);
             double CP = (CE - AX) / (1.0e0 - AX * CE);
             double SP = Math.Sqrt(1.0e0 - CP * CP);
             if (VS < 0.0e0)
+            {
                 SP = -SP;
+            }
+
             double EP = SimpleProcedures.DATAN2(SP, CP);
             double SR = (BT - AG) / (ASZ - BT * AT);
             double CR = Math.Sqrt(1.0e0 - SR * SR);
             if (VT < 0.0e0)
+            {
                 CR = -CR;
+            }
+
             double SF = CR;
             double CF = -SR;
             double EF = SimpleProcedures.DATAN2(SF, CF);
@@ -631,14 +644,38 @@ namespace PRDCT.Core.TEST.PUnDE200
             double AU0 = BW - (2.0 * Math.PI) - AMU * PUDL - AC1 * SP - AC2 * SPP - AC3 * (SPP * CP + CPP * SP) - AC4 * SPR - AQ1 * SF + AQ2 * SFF;
             double AUR = AU0 + 2.0 * Math.PI;
             double AM = MyMath.RadiansToDegrees * AMR; // mean anomaly in degree
-            if (AM < 0.0) AM = 360.0 + AM;
-            if (AM > 360.0) AM = AM - 360.0;
+            if (AM < 0.0)
+            {
+                AM = 360.0 + AM;
+            }
+
+            if (AM > 360.0)
+            {
+                AM = AM - 360.0;
+            }
+
             double AO = MyMath.RadiansToDegrees * AOR; // argument of perigei in degree
-            if (AO < 0.0) AO = 360.0 + AO;
-            if (AO > 360.0) AO = AO - 360.0;
+            if (AO < 0.0)
+            {
+                AO = 360.0 + AO;
+            }
+
+            if (AO > 360.0)
+            {
+                AO = AO - 360.0;
+            }
+
             double AU = MyMath.RadiansToDegrees * AUR; // the ascending node in degree
-            if (AU < 0.0) AU = 360.0 + AU;
-            if (AU > 360.0) AU = AU - 360.0;
+            if (AU < 0.0)
+            {
+                AU = 360.0 + AU;
+            }
+
+            if (AU > 360.0)
+            {
+                AU = AU - 360.0;
+            }
+
             double AI = MyMath.RadiansToDegrees * SimpleProcedures.DATAN2(ASZ, AC);
             double ANOB = (AN0 / (1 - ALAM)) * (MyMath.RadiansToDegrees / 360.0e0) * 8.64e4; // mean motion rev. per day
             ElemR.t = t;
@@ -790,7 +827,7 @@ namespace PRDCT.Core.TEST.PUnDE200
     //                return 0; // no shadow
     //        }
 
-        
+
 
     //}
 }

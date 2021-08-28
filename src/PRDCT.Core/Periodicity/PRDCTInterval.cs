@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace PRDCT.Core.PRDCTPeriodicity
+﻿namespace PRDCT.Core.PRDCTPeriodicity
 {
 
     //class SimpleRange
@@ -74,10 +68,10 @@ namespace PRDCT.Core.PRDCTPeriodicity
     {
         public PRDCTInterval(double left, double right, double t1, double t2)
         {
-            this.Left = left;
-            this.Right = right;
-            this.TimeBegin = t1;
-            this.TimeEnd = t2;
+            Left = left;
+            Right = right;
+            TimeBegin = t1;
+            TimeEnd = t2;
         }
 
         public void SwapTest()

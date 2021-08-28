@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using PRDCT.Core.TEST.Main;
 using GlmSharp;
+using PRDCT.Core.TEST.Main;
 
 namespace PRDCT.Core.TEST.PUnDE200
 {
@@ -24,7 +20,9 @@ namespace PRDCT.Core.TEST.PUnDE200
             double U = E - AE * SE;
             AM = MyMath.RadiansToDegrees * U;
             if (AM < 0)
+            {
                 AM = 360 + AM;
+            }
         }
 
         // { Kepler equation   M=E-e* sin(E)
@@ -113,10 +111,14 @@ namespace PRDCT.Core.TEST.PUnDE200
             double cucn = d.x + su * sn * ci; //{ Cos(u)* Cos(Omega) }
             double cusn = d.y - su * cn * ci; //{ Cos(u)* Sin(Omega) }
             if (Math.Abs(cn) > 0.1)
+            {
                 //{ Cos(u) }
                 cu = cucn / cn;
+            }
             else
+            {
                 cu = cusn / sn;
+            }
 
             OrbMatr.Column0 = d;
             OrbMatr.Column2 = c;
@@ -162,20 +164,33 @@ namespace PRDCT.Core.TEST.PUnDE200
             double a = -Consts.GeoFM / h; //{ in km semi-major axis }
             double e = l / Consts.GeoFM; //{ eccentricity }
             double p = c * c / Consts.GeoFM;
-            double ci = c3 / c; double si = Math.Sqrt(Math.Abs(1 - ci * ci));
+            double ci = c3 / c;
+            double si = Math.Sqrt(Math.Abs(1 - ci * ci));
             if (si < 1.0e-11)
             {
-                si = 1.0e-11; rincl = 0; //{ singularity inclination = 0 }
+                si = 1.0e-11;
+                rincl = 0; //{ singularity inclination = 0 }
             }
-            else rincl = SimpleProcedures.DATAN2(si, ci); //{ inclination in radian }
-            double sn = c1 / (c * si); double cn = -c2 / (c * si);
+            else
+            {
+                rincl = SimpleProcedures.DATAN2(si, ci); //{ inclination in radian }
+            }
+
+            double sn = c1 / (c * si);
+            double cn = -c2 / (c * si);
             double node = SimpleProcedures.DATAN2(sn, cn); //{ node in radian }
-            double sp = l3 / (l * si); double cp = (l1 / l) * cn + (l2 / l) * sn;
+            double sp = l3 / (l * si);
+            double cp = (l1 / l) * cn + (l2 / l) * sn;
             double argp = SimpleProcedures.DATAN2(sp, cp); //{ argument of perigei in radian }
-            q = 1 / r; double su = q * Pos[3] / si; double cu = q * Pos[1] * cn + q * Pos[2] * sn;
-            double sv = su * cp - cu * sp; double cv = cu * cp + su * sp; //{ argument of latitude u = v + omega }
+            q = 1 / r;
+            double su = q * Pos[3] / si;
+            double cu = q * Pos[1] * cn + q * Pos[2] * sn;
+            double sv = su * cp - cu * sp;
+            double cv = cu * cp + su * sp; //{ argument of latitude u = v + omega }
             double TrueAnom = SimpleProcedures.DATAN2(sv, cv); //{ true anomaly in radian }
-            q = 1 / (1 + e * cv); double se = Math.Sqrt(1 - e * e) * sv * q; double ce = (cv + e) * q;
+            q = 1 / (1 + e * cv);
+            double se = Math.Sqrt(1 - e * e) * sv * q;
+            double ce = (cv + e) * q;
             double EccAnom = TrueAnom + Math.Atan((se * cv - ce * sv) / (ce * cv + se * sv));
             double MeanAnom = EccAnom - e * se; //{ M = E - e* Sin(E) in radian }
             PosVar.x = a; //{ in km }
@@ -186,8 +201,15 @@ namespace PRDCT.Core.TEST.PUnDE200
             AngVar.z = MyMath.RadiansToDegrees * MeanAnom; //{ in degree }
             for (int i = 0; i < 3; i++)
             {
-                while (AngVar[i] < -180) AngVar[i] = AngVar[i] + 360;
-                while (AngVar[i] > +180) AngVar[i] = AngVar[i] - 360;
+                while (AngVar[i] < -180)
+                {
+                    AngVar[i] = AngVar[i] + 360;
+                }
+
+                while (AngVar[i] > +180)
+                {
+                    AngVar[i] = AngVar[i] - 360;
+                }
             }
         }
 

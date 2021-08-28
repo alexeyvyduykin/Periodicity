@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using PRDCT.Core.TEST.Main;
 
 namespace PRDCT.Core.TEST.PUnDE200
@@ -35,7 +32,7 @@ namespace PRDCT.Core.TEST.PUnDE200
             for (int i = 0; i < 5; i++)
             {
                 double r = FundArg[i];
-               int l = (int)Math.Truncate(r / 360.0e0);
+                int l = (int)Math.Truncate(r / 360.0e0);
                 FundArg[i] = MyMath.DegreesToRadians * (r - 360.0e0 * l);
             }
         }
@@ -166,7 +163,7 @@ namespace PRDCT.Core.TEST.PUnDE200
             #endregion
 
             #region CoefNut
-            
+
             //{ 1980 IAU Theory of Nutation(J.M.Wahr) }
             List<double[]> CoefNut = new List<double[]>//: Array[1..106, 1..4] of Single = { amplitudes }
             {
@@ -279,9 +276,10 @@ namespace PRDCT.Core.TEST.PUnDE200
 
             #endregion
 
-            
-              double dt = (TCur - Consts.JD2000) / Consts.JulianC; // from UnConTyp
-            double dt2 = dt * dt; double dt3 = dt * dt2;
+
+            double dt = (TCur - Consts.JD2000) / Consts.JulianC; // from UnConTyp
+            double dt2 = dt * dt;
+            double dt3 = dt * dt2;
             EpsMean = MyMath.SecondsToRadians * (84381.448 - 46.8150 * dt - 0.00059 * dt2 + 0.001813 * dt3);
             ClcFundArg(TCur, ref FundArg);
             DeltaPsi = 0.0e0;
@@ -289,14 +287,17 @@ namespace PRDCT.Core.TEST.PUnDE200
             for (int k = 0; k < 106; k++)
             {
                 double r = NutArg[k][0] * (FundArg[0] - FundArg[3]);
-                for(int i = 1; i < 5; i++ )
+                for (int i = 1; i < 5; i++)
+                {
                     r = r + NutArg[k][i] * FundArg[i];
-DeltaPsi = DeltaPsi + (CoefNut[k][0] + dt * CoefNut[k][1]) * Math.Sin(r);
+                }
+
+                DeltaPsi = DeltaPsi + (CoefNut[k][0] + dt * CoefNut[k][1]) * Math.Sin(r);
                 DeltaEps = DeltaEps + (CoefNut[k][2] + dt * CoefNut[k][3]) * Math.Cos(r);
             }
             DeltaPsi = MyMath.SecondsToRadians * DeltaPsi; //{ in radian }
             DeltaEps = MyMath.SecondsToRadians * DeltaEps;
         }
-
+
     }
 }

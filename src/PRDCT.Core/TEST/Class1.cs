@@ -1,13 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.IO;
-using System.Xml.Serialization;
-using System.Xml.Linq;
-using System.Xml.Schema;
 using System.Xml;
+using System.Xml.Schema;
+using System.Xml.Serialization;
 
 namespace PRDCT.Core
 {
@@ -39,7 +34,7 @@ namespace PRDCT.Core
 
     //}
 
-        
+
     public abstract class STKObject : IXmlSerializable
     {
         public Guid Id { get; set; }
@@ -54,7 +49,7 @@ namespace PRDCT.Core
         //public Property ObjectCoverage Returns an IAgStkObjectCoverage object.  
         public STKObject Parent;
         //public Property Path Returns the object path.  
- //       public STKObjectRoot Root;
+        //       public STKObjectRoot Root;
 
         public XmlSchema GetSchema() { return null; }
         public abstract void ReadXml(XmlReader reader);
@@ -69,7 +64,7 @@ namespace PRDCT.Core
         public string Description { get; set; }
 
         #region Serializable 
-       
+
         public XmlSchema GetSchema() { return null; }
 
         public void ReadXml(XmlReader reader)
@@ -84,7 +79,7 @@ namespace PRDCT.Core
                 if (reader.MoveToContent() == XmlNodeType.Element && reader.LocalName == "Objects")
                 {
                     reader.Read(); // Skip ahead to next node
-                    while (reader.MoveToContent() == XmlNodeType.Element && Type.GetType(reader.LocalName).IsSubclassOf(typeof(STKObject)))           
+                    while (reader.MoveToContent() == XmlNodeType.Element && Type.GetType(reader.LocalName).IsSubclassOf(typeof(STKObject)))
                     {
                         Type objectType = Type.GetType(reader.LocalName);
                         //STKObject obj = AnimalType.Assembly.CreateInstance(reader.LocalName);

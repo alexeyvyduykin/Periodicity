@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace PRDCT.Core
+﻿namespace PRDCT.Core
 {
     public static class Globals
     {
@@ -13,8 +7,8 @@ namespace PRDCT.Core
         public const double Me = 5.98e24;                // [WGS-84] Mass of earth, kg
         //public const double G = 6.67e-11;                // [WGS-84] Gravitational constant, m3 kg–1 s-2
         public const double GM = 398600.4418;            // [WGS-84] Standard gravitational parameter ( G * Me ), km3 s–2 
-       // public const double Ea = 6378.137;              // [WGS-84] Earth Equatorial radius, km
-       // public const double Eb = 6356.7523;             // [WGS-84] Earth Polar radius, km
+                                                         // public const double Ea = 6378.137;              // [WGS-84] Earth Equatorial radius, km
+                                                         // public const double Eb = 6356.7523;             // [WGS-84] Earth Polar radius, km
         public const double Re = 6371.0088;             // Earth mean radius, km
         public const double Einvf = 1 / 298.257223560;   // [WGS-84] Inverse Flattening Factor of the Earth, f = (a - b) / a
 

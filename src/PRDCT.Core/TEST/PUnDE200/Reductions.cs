@@ -1,10 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using GlmSharp;
-using PRDCT.Core.TEST.Main;
 
 namespace PRDCT.Core.TEST.PUnDE200
 {
@@ -34,7 +28,7 @@ namespace PRDCT.Core.TEST.PUnDE200
 
     //        if (!TPUnDE200.BooExistPos)
     //            return; // boolean from PUnDE200
- 
+
     //        double u = Math.Sqrt(PosFix.x * PosFix.x + PosFix.y * PosFix.y + PosFix.z * PosFix.z);
 
     //        if (u < 1.0e-10)
@@ -62,10 +56,10 @@ namespace PRDCT.Core.TEST.PUnDE200
         //{ procedure to calculate the refraction correction
         //has been presented by doctor Konstantin V.Kuimov}
 
-        static double wlmkm; //{ length of wave}
-        static double temprc; //{ temperature in degree Celsius }
-        static double prepas; //{ pressure in pascal 760 mm = 101325 Pa }
-        static double humrun; //{ humidity in unit interval[0, 1] }
+        private static double wlmkm; //{ length of wave}
+        private static double temprc; //{ temperature in degree Celsius }
+        private static double prepas; //{ pressure in pascal 760 mm = 101325 Pa }
+        private static double humrun; //{ humidity in unit interval[0, 1] }
 
         public static void SimpleDataForRefraction()
         {
@@ -153,8 +147,16 @@ namespace PRDCT.Core.TEST.PUnDE200
         {
             double ref_ = 0;
             double z = 90 - alt;
-            if (z > 90.0) z = 90.0;// { if altitude< 0 degree }
-            if (z < 0.00) z = 0.00;
+            if (z > 90.0)
+            {
+                z = 90.0;// { if altitude< 0 degree }
+            }
+
+            if (z < 0.00)
+            {
+                z = 0.00;
+            }
+
             if ((0.0 <= z) && (z <= 90.0))
 
 
@@ -166,4 +168,4 @@ namespace PRDCT.Core.TEST.PUnDE200
         }
 
     }
-    }
+}

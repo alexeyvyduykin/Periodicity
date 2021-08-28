@@ -1,11 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Xml;
-using System.Xml.Serialization;
 using System.Xml.Schema;
+using System.Xml.Serialization;
 
 namespace PRDCT.Core
 {
@@ -29,9 +25,9 @@ namespace PRDCT.Core
         {
             BaseSatellite newSat = new BaseSatellite(Id)
             {
-                Name = this.Name,
-                Description = this.Description,
-                Type = this.Type              
+                Name = Name,
+                Description = Description,
+                Type = Type
             };
 
             newSat.OrbitState.SizeShape.SemimajorAxis = OrbitState.SizeShape.SemimajorAxis;
@@ -62,7 +58,7 @@ namespace PRDCT.Core
                 if (reader.MoveToContent() == XmlNodeType.Element && reader.LocalName == "OrbitState")
                 {
                     //reader.Read(); // Skip ahead to next node
-                    OrbitState.ReadXml(reader);             
+                    OrbitState.ReadXml(reader);
                 }
                 reader.Read();
             }
@@ -75,7 +71,7 @@ namespace PRDCT.Core
             writer.WriteAttributeString("Name", Name);
             writer.WriteAttributeString("Description", Description);
             writer.WriteStartElement("OrbitState");
-            OrbitState.WriteXml(writer);            
+            OrbitState.WriteXml(writer);
             writer.WriteEndElement();
             writer.WriteEndElement();
         }
@@ -98,7 +94,7 @@ namespace PRDCT.Core
             {
                 Inclination = 97.65,
                 RAAN = 269.663,
-                ArgumentOfPerigee = 0.0                                
+                ArgumentOfPerigee = 0.0
             };
 
             Location = new Location(this)
@@ -107,7 +103,7 @@ namespace PRDCT.Core
             };
             //   22/06/2015 00:00:00
             OrbitEpoch = new DateTime(2015, 6, 22, 0, 0, 0);
-        } 
+        }
 
         public DateTime OrbitEpoch { get; set; }
 
@@ -126,7 +122,7 @@ namespace PRDCT.Core
 
         #region Serializable
 
-        public XmlSchema GetSchema(){ return null; }
+        public XmlSchema GetSchema() { return null; }
 
         public void ReadXml(XmlReader reader)     // читать
         {
@@ -146,7 +142,7 @@ namespace PRDCT.Core
 
         public void WriteXml(XmlWriter writer)   // записывать
         {
-          //  writer.WriteStartElement("OrbitState");
+            //  writer.WriteStartElement("OrbitState");
 
             writer.WriteAttributeString("OrbitEpoch", OrbitEpoch.ToString());
 
@@ -159,7 +155,7 @@ namespace PRDCT.Core
 
             writer.WriteAttributeString("TrueAnomaly", Location.TrueAnomaly.ToString());
 
-          //  writer.WriteEndElement();
+            //  writer.WriteEndElement();
         }
 
         #endregion
@@ -314,7 +310,7 @@ namespace PRDCT.Core
         public double ArgumentOfPerigee { get; set; }
 
         private double raan;
-        private OrbitState orbitState;
+        private readonly OrbitState orbitState;
     }
 
     //public enum OrientationAscNodeType
@@ -394,7 +390,7 @@ namespace PRDCT.Core
 
     //        double MeanAnomaly = EccentricAnomaly - OrbitState.Eccentricity * Math.Sin(EccentricAnomaly);
     //        MeanAnomaly = MyMath.WrapAngle(MeanAnomaly);
-            
+
     //        if (type == LocationType.MeanAnomaly)
     //            return MeanAnomaly * MyMath.RadiansToDegrees;
 
@@ -436,7 +432,7 @@ namespace PRDCT.Core
         }
         public double MeanAnomaly
         {
-           get
+            get
             {
                 double meanAnomaly = EccentricAnomaly - (orbitState.SizeShape.Eccentricity * Math.Sin(EccentricAnomaly * MyMath.DegreesToRadians) * MyMath.RadiansToDegrees);
                 return MyMath.WrapAngle360(meanAnomaly);
@@ -546,7 +542,7 @@ namespace PRDCT.Core
 
         private double trueAnomaly;
 
-        private OrbitState orbitState;
+        private readonly OrbitState orbitState;
     }
 
 }

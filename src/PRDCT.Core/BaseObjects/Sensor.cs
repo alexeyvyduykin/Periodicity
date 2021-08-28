@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Xml;
 
 namespace PRDCT.Core
@@ -17,15 +13,15 @@ namespace PRDCT.Core
         }
 
         public BaseSensor(BaseObject parent) : this()
-        { 
-      //      base.Parent = parent;
+        {
+            //      base.Parent = parent;
             base.ParentId = parent.Id;
         }
 
         public BaseSensor(BaseObject parent, double verticalHalfAngle, double rollAngle) : this(parent)
         {
-            this.VerticalHalfAngle = verticalHalfAngle;
-            this.RollAngle = rollAngle;
+            VerticalHalfAngle = verticalHalfAngle;
+            RollAngle = rollAngle;
         }
 
         public BaseSensor Clone()
@@ -36,8 +32,8 @@ namespace PRDCT.Core
                 Name = base.Name,
                 Description = base.Description,
                 Type = base.Type,
-       //         Parent = base.Parent,
-                ParentId = base.ParentId                
+                //         Parent = base.Parent,
+                ParentId = base.ParentId
             };
 
             newSensor.VerticalHalfAngle = VerticalHalfAngle;

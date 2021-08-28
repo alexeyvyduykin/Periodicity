@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using GlmSharp;
 
 namespace PRDCT.Core.PRDCTPeriodicity
@@ -52,7 +49,9 @@ namespace PRDCT.Core.PRDCTPeriodicity
         private double left(double lat)
         {
             if (region.Type == RegionType.Zone || region.Type == RegionType.Rectangle)
+            {
                 return region.Left;
+            }
             else
             {
                 dvec2 P1 = new dvec2(0.0, lat);
@@ -65,7 +64,9 @@ namespace PRDCT.Core.PRDCTPeriodicity
         private double right(double lat)
         {
             if (region.Type == RegionType.Zone || region.Type == RegionType.Rectangle)
+            {
                 return region.Right;
+            }
             else
             {
                 dvec2 P1 = new dvec2(0.0, lat);
@@ -88,7 +89,8 @@ namespace PRDCT.Core.PRDCTPeriodicity
                 if (denom < 0)                           // луч входит
                 {
                     tHit = numer / denom;
-                    if (tHit > tOut) { return false; }    // досрочный выход
+                    if (tHit > tOut)
+                    { return false; }    // досрочный выход
                     else
                     {
                         if (tHit > tIn)
@@ -98,10 +100,12 @@ namespace PRDCT.Core.PRDCTPeriodicity
                 else if (denom > 0)                   // луч выходит
                 {
                     tHit = numer / denom;
-                    if (tHit < tIn) { return false; }        // досрочный выход
+                    if (tHit < tIn)
+                    { return false; }        // досрочный выход
                     else
                     {
-                        if (tHit < tOut) { tOut = tHit; }
+                        if (tHit < tOut)
+                        { tOut = tHit; }
                     } // ????? ??????? t
                 }
                 else
@@ -118,18 +122,37 @@ namespace PRDCT.Core.PRDCTPeriodicity
                         double tA = 0.0, tB = 1.0;
                         double tC = (P1.x - A.x) / b.x;
                         double tD = (P2.x - A.x) / b.x;
-                        if (((tC < tA) && (tD < tA)) || ((tC > tB) && (tD > tB))) { return false; }
+                        if (((tC < tA) && (tD < tA)) || ((tC > tB) && (tD > tB)))
+                        { return false; }
 
-                        if (tC < tA) tC = tA;
-                        if (tC > tB) tC = tB;
-                        if (tD < tA) tD = tA;
-                        if (tD > tB) tD = tB;
+                        if (tC < tA)
+                        {
+                            tC = tA;
+                        }
+
+                        if (tC > tB)
+                        {
+                            tC = tB;
+                        }
+
+                        if (tD < tA)
+                        {
+                            tD = tA;
+                        }
+
+                        if (tD > tB)
+                        {
+                            tD = tB;
+                        }
+
                         P1 = A + b * tC;
                         P2 = A + b * tD;
                         return true;
                     }
                     if (numer <= 0)
+                    {
                         return false;
+                    }
                 }
             }
 
@@ -156,23 +179,39 @@ namespace PRDCT.Core.PRDCTPeriodicity
 
                 if (Dck == 0)
                 {
-                    if (Wck < 0) return false;
+                    if (Wck < 0)
+                    {
+                        return false;
+                    }
+
                     continue;
                 }
                 double t = -Wck / Dck;
 
                 if (Dck > 0)
                 {
-                    if (t > 1) return false;
+                    if (t > 1)
+                    {
+                        return false;
+                    }
+
                     tIn = Math.Max(t, tIn);
                 }
                 else
                 {
-                    if (t < 0) return false;
+                    if (t < 0)
+                    {
+                        return false;
+                    }
+
                     tOut = Math.Max(t, tOut);
                 }
             }
-            if (tIn > tOut) return false;
+            if (tIn > tOut)
+            {
+                return false;
+            }
+
             P2 = P1 + D * tOut;
             P1 = P1 + D * tIn;
             return true;
@@ -186,7 +225,7 @@ namespace PRDCT.Core.PRDCTPeriodicity
 
             var temp_lons = new List<double>();
             var temp_direct = new List<PolygonDirect>();
- 
+
             dvec2 b = B - A;
             dvec2 b_norm = b.Rotated(Math.PI / 2.0);
             ////////////////////////////////////////////////////////////////////////////////
@@ -209,9 +248,13 @@ namespace PRDCT.Core.PRDCTPeriodicity
                     {
                         temp_lons.Add(2.0 * Math.PI * t_hit);   // lon = TWOPI*t_hit;
                         if (region.Lines[i].y > 0.0)         // upwards
+                        {
                             temp_direct.Add(PolygonDirect.UpWards);
+                        }
                         else //( lines[i].y < 0.0 )         // downwards
+                        {
                             temp_direct.Add(PolygonDirect.DownWards);
+                        }
                     }
                 }
                 else     // denom(знаменатель) равен нулю: луч параллелен
@@ -224,18 +267,39 @@ namespace PRDCT.Core.PRDCTPeriodicity
                         double tA = 0.0, tB = 1.0;
                         double tC = (A.x - C.x) / d.x;
                         double tD = (B.x - C.x) / d.x;
-                        if (((tC < tA) && (tD < tA)) || ((tC > tB) && (tD > tB))) { }
+                        if (((tC < tA) && (tD < tA)) || ((tC > tB) && (tD > tB)))
+                        { }
                         else
                         {
-                            if (tC < tA) tC = tA;
-                            if (tC > tB) tC = tB;
-                            if (tD < tA) tD = tA;
-                            if (tD > tB) tD = tB;
+                            if (tC < tA)
+                            {
+                                tC = tA;
+                            }
+
+                            if (tC > tB)
+                            {
+                                tC = tB;
+                            }
+
+                            if (tD < tA)
+                            {
+                                tD = tA;
+                            }
+
+                            if (tD > tB)
+                            {
+                                tD = tB;
+                            }
 
                             if (region.Lines[i].x > 0.0)       // rightwards
+                            {
                                 temp_direct.Add(PolygonDirect.RightWards);
+                            }
                             else // lines[i].x < 0.0     // leftwards
+                            {
                                 temp_direct.Add(PolygonDirect.LeftWards);
+                            }
+
                             dvec2 p2 = C + d * tD;
                             temp_lons.Add(p2.x);
                         }
@@ -253,11 +317,19 @@ namespace PRDCT.Core.PRDCTPeriodicity
                 index_next = index_cur + 1;
 
                 if (index_prev < 0)
+                {
                     index_prev += cur_length;
+                }
+
                 if (index_next > (cur_length - 1))
+                {
                     index_next -= cur_length;
+                }
+
                 if (index_cur > (cur_length - 1))
-                    index_cur -= cur_length; ;
+                {
+                    index_cur -= cur_length;
+                };
 
 
                 prev = temp_direct[index_prev];
@@ -266,7 +338,10 @@ namespace PRDCT.Core.PRDCTPeriodicity
 
                 PolygonCutState mod = comparison(prev, cur, next, cur_length);
                 if (mod == PolygonCutState.True)
+                {
                     index_cur++;
+                }
+
                 if (mod == PolygonCutState.DeleteCurrent)
                 {
                     temp_lons.RemoveAt(index_cur);// erase(temp_lons[index_cur]);
@@ -283,33 +358,46 @@ namespace PRDCT.Core.PRDCTPeriodicity
                     temp_lons.RemoveAt(index_cur);// erase(temp_lons[index_cur]);
                     temp_direct.RemoveAt(index_cur);//erase(temp_direct[index_cur]);
                     if (index_cur < index_prev)
+                    {
                         index_prev--;
+                    }
+
                     temp_lons.RemoveAt(index_prev);//erase(temp_lons[index_prev]);
                     temp_direct.RemoveAt(index_prev);//erase(temp_direct[index_prev]);
                     index_cur = 0;
                 }
                 if (mod == PolygonCutState.Error)
+                {
                     throw new Exception("PRDCTRegion::PRDCT_CUT() - Неизвестное сочитание prev, cur, next!!!");
+                }
 
                 cur_length = (int)temp_lons.Count;
                 if (index_cur < 0)
+                {
                     index_cur += cur_length;
+                }
+
                 if (index_cur < 0)
+                {
                     break;
+                }
             }
             temp_lons.Sort();
             //sort(temp_lons.begin(), temp_lons.end());
 
             // необходимы только интервалы, случай касания полигона за одну из вершин не учитывается
             if (cur_length == 1)
+            {
                 temp_lons.RemoveAt(temp_lons.Count - 1);// pop_back();
-
+            }
 
             var result = new List<Tuple<double, double>>();
 
-            for(int i = 0; i < temp_lons.Count; i += 2)            
-                result.Add(Tuple.Create(temp_lons[i], temp_lons[i+1]));
-            
+            for (int i = 0; i < temp_lons.Count; i += 2)
+            {
+                result.Add(Tuple.Create(temp_lons[i], temp_lons[i + 1]));
+            }
+
             return result;
         }
 
@@ -320,46 +408,74 @@ namespace PRDCT.Core.PRDCTPeriodicity
             int sum3 = 100 * (int)prev + 10 * (int)cur + (int)next;
 
             if (prev == cur)
+            {
                 return PolygonCutState.DeletePrevious;
+            }
+
             if (cur == next)
+            {
                 return PolygonCutState.DeleteCurrent;
+            }
 
             if (length < 3)
+            {
                 sum = sum2;
+            }
             else if ((cur == PolygonDirect.LeftWards) || (cur == PolygonDirect.RightWards))
+            {
                 sum = sum3;
+            }
             else
+            {
                 sum = sum2;
+            }
 
             switch (sum)
             {
-                case 11: return PolygonCutState.DeletePrevious;            // prev удалить
-                case 13: return PolygonCutState.True;                   // ничего не предпринимать
-                case 31: return PolygonCutState.True;                   // ничего не предпринимать
-                case 33: return PolygonCutState.DeletePrevious;            // prev удалить
+                case 11:
+                    return PolygonCutState.DeletePrevious;            // prev удалить
+                case 13:
+                    return PolygonCutState.True;                   // ничего не предпринимать
+                case 31:
+                    return PolygonCutState.True;                   // ничего не предпринимать
+                case 33:
+                    return PolygonCutState.DeletePrevious;            // prev удалить
 
-                case 34: return PolygonCutState.True;                   // ничего не предпринимать
-                case 43: return PolygonCutState.True;                   // ничего не предпринимать
-                case 12: return PolygonCutState.True;                   // ничего не предпринимать
-                case 21: return PolygonCutState.True;                   // ничего не предпринимать
+                case 34:
+                    return PolygonCutState.True;                   // ничего не предпринимать
+                case 43:
+                    return PolygonCutState.True;                   // ничего не предпринимать
+                case 12:
+                    return PolygonCutState.True;                   // ничего не предпринимать
+                case 21:
+                    return PolygonCutState.True;                   // ничего не предпринимать
 
-                case 23: return PolygonCutState.DeletePrevious;            // prev удалить ?????
+                case 23:
+                    return PolygonCutState.DeletePrevious;            // prev удалить ?????
 
-                case 341: return PolygonCutState.DeleteCurrent;            //  cur удалить
-                case 143: return PolygonCutState.DeletePrevious;           //  prev удалить
-                case 321: return PolygonCutState.DeletePrevious;           //  prev удалить
-                case 123: return PolygonCutState.DeleteCurrent;            //  cur удалить
+                case 341:
+                    return PolygonCutState.DeleteCurrent;            //  cur удалить
+                case 143:
+                    return PolygonCutState.DeletePrevious;           //  prev удалить
+                case 321:
+                    return PolygonCutState.DeletePrevious;           //  prev удалить
+                case 123:
+                    return PolygonCutState.DeleteCurrent;            //  cur удалить
 
-                case 141: return PolygonCutState.DeleteCurrentAndPrevious;   //  cur и prev удалить
-                case 343: return PolygonCutState.True;                  //  ничего не предпринимать
-                case 121: return PolygonCutState.True;                  //  ничего не предпринимать
-                case 323: return PolygonCutState.DeleteCurrentAndPrevious;   //  cur и prev удалить
+                case 141:
+                    return PolygonCutState.DeleteCurrentAndPrevious;   //  cur и prev удалить
+                case 343:
+                    return PolygonCutState.True;                  //  ничего не предпринимать
+                case 121:
+                    return PolygonCutState.True;                  //  ничего не предпринимать
+                case 323:
+                    return PolygonCutState.DeleteCurrentAndPrevious;   //  cur и prev удалить
 
                 default:
                     return PolygonCutState.Error;
             }
         }
 
-        private PRDCTRegion region;
+        private readonly PRDCTRegion region;
     }
 }

@@ -1,17 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using GlmSharp;
-using Microsoft.SqlServer.Types;
-using System.Data;
-using System.Data.SqlClient;
-using System.IO;
-using System.Xml.Serialization;
-using PRDCT.Data;
-
-namespace PRDCT.Core
+﻿namespace PRDCT.Core
 {
     //public static class Converter
     //{
@@ -66,7 +53,7 @@ namespace PRDCT.Core
 
     //    //    return bands;
     //    //}
-        
+
     //    public static BandMode[] ToBandMode(string sesorMode)
     //    {
     //        switch (sesorMode)

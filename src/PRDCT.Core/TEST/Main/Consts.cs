@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using GlmSharp;
 using PRDCT.Core.TEST.PUnDE200;
 
@@ -79,8 +75,11 @@ namespace PRDCT.Core.TEST.Main
 
         public static void ClcPrecMatr(double Epoch, double TCur, out dmat3 PrecMatr)
         {
-            double de = (Epoch - Consts.JD2000) / Consts.JulianC; double de2 = de * de; // constants from UnConTyp
-            double dt = (TCur - Epoch) / Consts.JulianC; double dt2 = dt * dt; double dt3 = dt2 * dt;
+            double de = (Epoch - Consts.JD2000) / Consts.JulianC;
+            double de2 = de * de; // constants from UnConTyp
+            double dt = (TCur - Epoch) / Consts.JulianC;
+            double dt2 = dt * dt;
+            double dt3 = dt2 * dt;
             double r = (2306.2181 + 1.39656 * de - 0.000139 * de2) * dt;
             double Dzita0 = r + (0.30188 - 0.000344 * de) * dt2 + 0.017998 * dt3;
             double Teta = (2004.3109 - 0.85330 * de - 0.000217 * de2) * dt - (0.42665 + 0.000217 * de) * dt2 - 0.041833 * dt3;
@@ -88,11 +87,21 @@ namespace PRDCT.Core.TEST.Main
             double u1 = MyMath.SecondsToRadians * Dzita0;
             double u2 = MyMath.SecondsToRadians * Teta;
             double u3 = MyMath.SecondsToRadians * Zet;
-            double s1 = Math.Sin(u1); double s2 = Math.Sin(u2); double s3 = Math.Sin(u3);
-            double c1 = Math.Cos(u1); double c2 = Math.Cos(u2); double c3 = Math.Cos(u3);
-            PrecMatr.m00 = +c3 * c2 * c1 - s3 * s1; PrecMatr.m01 = -c3 * c2 * s1 - s3 * c1; PrecMatr.m02 = -c3 * s2;
-            PrecMatr.m10 = +s3 * c2 * c1 + c3 * s1; PrecMatr.m11 = -s3 * c2 * s1 + c3 * c1; PrecMatr.m12 = -s3 * s2;
-            PrecMatr.m20 = +s2 * c1; PrecMatr.m21 = -s2 * s1; PrecMatr.m22 = +c2;
+            double s1 = Math.Sin(u1);
+            double s2 = Math.Sin(u2);
+            double s3 = Math.Sin(u3);
+            double c1 = Math.Cos(u1);
+            double c2 = Math.Cos(u2);
+            double c3 = Math.Cos(u3);
+            PrecMatr.m00 = +c3 * c2 * c1 - s3 * s1;
+            PrecMatr.m01 = -c3 * c2 * s1 - s3 * c1;
+            PrecMatr.m02 = -c3 * s2;
+            PrecMatr.m10 = +s3 * c2 * c1 + c3 * s1;
+            PrecMatr.m11 = -s3 * c2 * s1 + c3 * c1;
+            PrecMatr.m12 = -s3 * s2;
+            PrecMatr.m20 = +s2 * c1;
+            PrecMatr.m21 = -s2 * s1;
+            PrecMatr.m22 = +c2;
         }
 
         //  { ClcTrueRotMatr is a procedure
@@ -307,8 +316,12 @@ namespace PRDCT.Core.TEST.Main
             switch (Global.CharForView) // for 'S' 'W' topocentric 'L' orbital
             {
                 case 'S':
-                case 'W': ClcTopMatr(PlaceCoor, RosMatr, out Global.StationPos, out TopMatr); break;
-                case 'L': ClcOrbMatr(TCur, out Global.StationPos, ref TopMatr); break; // for satellite
+                case 'W':
+                    ClcTopMatr(PlaceCoor, RosMatr, out Global.StationPos, out TopMatr);
+                    break;
+                case 'L':
+                    ClcOrbMatr(TCur, out Global.StationPos, ref TopMatr);
+                    break; // for satellite
             }
         }
 
@@ -333,7 +346,10 @@ namespace PRDCT.Core.TEST.Main
             s = xr.z * f;
             SimpleProcedures.ArcTanTwoArg(s, c, out b);
             if (a < 0)
+            {
                 a = a + 2.0 * Math.PI;
+            }
+
             Alfa = a;
             Delta = b;
             Ro = r;
@@ -358,7 +374,10 @@ namespace PRDCT.Core.TEST.Main
             s = Pos.z * f;
             SimpleProcedures.ArcTanTwoArg(s, c, out b);
             if (a < 0)
+            {
                 a = a + 2.0 * Math.PI;
+            }
+
             Alfa = MyMath.RadiansToDegrees * a;
             Delta = MyMath.RadiansToDegrees * b;
             Ro = r;
@@ -393,7 +412,10 @@ namespace PRDCT.Core.TEST.Main
             s = +xr.z * f;
             SimpleProcedures.ArcTanTwoArg(s, c, out b); // UnForFun
             if (a < 0)
+            {
                 a = a + 2.0 * Math.PI; // const UnConTyp
+            }
+
             Azt = MyMath.RadiansToDegrees * a;
             //{ azimut in degree UnConTyp }
             Zan = 90.0 - MyMath.RadiansToDegrees * b;
@@ -429,12 +451,17 @@ namespace PRDCT.Core.TEST.Main
             s = xr.z * f;
             SimpleProcedures.ArcTanTwoArg(s, c, out b);
             if (a < 0)
+            {
                 a = a + 2.0 * Math.PI;
+            }
+
             Azt = MyMath.RadiansToDegrees * a; // azimuth  in degree
             Alt = MyMath.RadiansToDegrees * b; // altitude in degree
             Ro = r;
             if (Global.CharForView == 'L' || !Global.BooRefraction)
+            {
                 return; // without refraction correction
+            }
             //{ to add refraction }
             zr = Refraction.ToGetRefraction(Alt);
             Alt = Alt + zr;
@@ -451,7 +478,9 @@ namespace PRDCT.Core.TEST.Main
             double e = 2.0 * a - a * a;
             double pp = Math.Sqrt(x * x + y * y);
             if (pp < 1.0e4)
+            {
                 r = 1.0e-3 * r;
+            }
             //{ in km }
             double cv = x / pp;
             double sv = y / pp;
@@ -470,7 +499,10 @@ namespace PRDCT.Core.TEST.Main
             SimpleProcedures.ArcTanTwoArg(sv, cv, out vv);
             v = MyMath.RadiansToDegrees * vv;
             if (v < 0.0)
+            {
                 v = 360.0 + v;
+            }
+
             h = hg * gg;
         }
 
@@ -538,12 +570,19 @@ namespace PRDCT.Core.TEST.Main
                 double p = s / c;
                 a = Math.Atan(p);
                 if (c < 0)
+                {
                     a = a + Math.PI;
+                }
             }
             else if (s > 0)
+            {
                 a = 2.0 * Math.PI;
+            }
             else
+            {
                 a = -2.0 * Math.PI;
+            }
+
             return a;
         }
 
@@ -558,14 +597,26 @@ namespace PRDCT.Core.TEST.Main
             {
                 double p = s / c;
                 a = MyMath.RadiansToDegrees * Math.Atan(p);
-                if( c< 0  )
+                if (c < 0)
+                {
                     a = a + 180;
+                }
             }
             else
-       if (s > 0) a = 90;
-            else a = 270;
-            if( a< 0  )
+       if (s > 0)
+            {
+                a = 90;
+            }
+            else
+            {
+                a = 270;
+            }
+
+            if (a < 0)
+            {
                 a = 360 + a;
+            }
+
             return a;
         }
 
@@ -576,14 +627,26 @@ namespace PRDCT.Core.TEST.Main
         public static void ArcTanTwoArg(double SinAngle, double CosAngle, out double Angle)
         {
             double a;
-            double c = CosAngle; double s = SinAngle;
+            double c = CosAngle;
+            double s = SinAngle;
             if (c != 0)
             {
-                double p = s / c; a = Math.Atan(p);
-                if (c < 0) a = a + Math.PI;
+                double p = s / c;
+                a = Math.Atan(p);
+                if (c < 0)
+                {
+                    a = a + Math.PI;
+                }
             }
-            else if (s > 0) a = 2.0 * Math.PI;
-            else a = -2.0 * Math.PI;
+            else if (s > 0)
+            {
+                a = 2.0 * Math.PI;
+            }
+            else
+            {
+                a = -2.0 * Math.PI;
+            }
+
             Angle = a;
         }
 
@@ -599,9 +662,14 @@ namespace PRDCT.Core.TEST.Main
         public static void PrDegrAngle(double Angle, out string AngleSign, out int IntDegree, out int IntMin, out double AngleSec)
         {
             if (Angle < 0)
+            {
                 AngleSign = "-";
+            }
             else
+            {
                 AngleSign = "+";
+            }
+
             double r = MyMath.RadiansToDegrees * Math.Abs(Angle);
             IntDegree = (int)Math.Truncate(r);
             r = 60 * Frac(r);
@@ -626,9 +694,14 @@ namespace PRDCT.Core.TEST.Main
         public static void PrHourAngle(double Angle, out string AngleSign, out int IntHour, out int IntMin, out double AngleSec)
         {
             if (Angle < 0)
+            {
                 AngleSign = "-";
+            }
             else
+            {
                 AngleSign = "+";
+            }
+
             double r = MyMath.RadiansToDegrees * Math.Abs(Angle) / 15;
             IntHour = (int)Math.Truncate(r);
             r = 60 * Frac(r);
@@ -674,7 +747,9 @@ namespace PRDCT.Core.TEST.Main
             {
                 b.Values[i] = 0;
                 for (int j = 0; j < 3; j++)
+                {
                     b[i] = b[i] + p[i, j] * a[j];
+                }
             }
         }
 
@@ -685,7 +760,9 @@ namespace PRDCT.Core.TEST.Main
             {
                 b[i] = 0;
                 for (int j = 0; j < 3; j++)
+                {
                     b[i] = b[i] + p[j, i] * a[j]; // to transform matrix
+                }
             }
         }
 
@@ -693,12 +770,20 @@ namespace PRDCT.Core.TEST.Main
 
         public static void SimpleRotMatr(byte m, double a, ref dmat3 r)
         {
-            for (int i = 0; i < 3; i++ )
-                for (int j = 0; j < 3; j++ )
+            for (int i = 0; i < 3; i++)
+            {
+                for (int j = 0; j < 3; j++)
+                {
                     if (i == j)
+                    {
                         r.Values[i, j] = 1.0;
+                    }
                     else
+                    {
                         r.Values[i, j] = 0.0; // unit matrix
+                    }
+                }
+            }
 
             double b = MyMath.DegreesToRadians * a;
             double s = Math.Sin(b);
@@ -752,19 +837,19 @@ namespace PRDCT.Core.TEST.Main
         {
             dmat3 p = new dmat3(), q = new dmat3();
             double z = 90 + a;
-           // { 90 degree plus right ascension }
+            // { 90 degree plus right ascension }
             SimpleRotMatr(3, z, ref p);
-          //  { around Z axis }
+            //  { around Z axis }
             double x = 90 - d;
-          //  { 90 degree minus declinaton }
+            //  { 90 degree minus declinaton }
             SimpleRotMatr(1, x, ref q);
             // { around X axis }
             dmat3 r = q * p;//  MatrMultMatr(q, p, r);
-          //  { Rx(90 - F) * Rz(90 + L) }
+                            //  { Rx(90 - F) * Rz(90 + L) }
             SimpleRotMatr(3, w, ref p);
             //  { around Z axis by angle w R_z(w) }
             v = p * r; // MatrMultMatr(p, r, ref v);
-           // { R_z(w) * R_x(90 - d) * R_z(90 + a) }
+                       // { R_z(w) * R_x(90 - d) * R_z(90 + a) }
         }
 
         public static double ToGetDet(dmat3 a)
@@ -788,7 +873,7 @@ namespace PRDCT.Core.TEST.Main
         { // to interpolate three points by square polinom
             double x, d, a, b; // a try to find point of maximum
             dmat3 ad = new dmat3(), aa = new dmat3(), ab = new dmat3();  // values a b c are unknown
-                        // y ( 1 0 2 ) = a * x^2 + b * x + c ; x ( 1 0 2 )
+                                                                         // y ( 1 0 2 ) = a * x^2 + b * x + c ; x ( 1 0 2 )
             dvec3 yy = new dvec3
             {
                 x = y1, // y1 = a * (x1-x0)^2 + b * (x1-x0) + c
@@ -807,18 +892,29 @@ namespace PRDCT.Core.TEST.Main
                 x = xb.x * xb.x,
                 y = xb.y * xb.y,
                 z = xb.z * xb.z
-        };
+            };
             ToFillMatrix(xa, xb, xc, ref ad); // to solve three linear equation
             ToFillMatrix(yy, xb, xc, ref aa); // with respect to a b c
             ToFillMatrix(xa, yy, xc, ref ab); // the square polinom   a*(x-x0)^2+b*(x-x0)+c
             d = ToGetDet(ad);   // determinant of the main 3*3 matrix
-            if ( Math.Abs(d) < 1.0e-6  )
+            if (Math.Abs(d) < 1.0e-6)
+            {
                 d = 1.0e16;
+            }
+
             a = ToGetDet(aa) / d; // a value
             b = ToGetDet(ab) / d; // b value
             x = x0 - b / (2 * a); // to solve equation 2*a*(x-x0)+b=0
-            if (x < x1)  x = x1; // out of range
-            if (x > x2)  x = x2; // out of range
+            if (x < x1)
+            {
+                x = x1; // out of range
+            }
+
+            if (x > x2)
+            {
+                x = x2; // out of range
+            }
+
             return x;
         }
 

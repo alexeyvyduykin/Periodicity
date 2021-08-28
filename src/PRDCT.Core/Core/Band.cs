@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using PRDCT.Core.PRDCTPeriodicity;
 
 namespace PRDCT.Core
@@ -18,7 +15,7 @@ namespace PRDCT.Core
     {
         public Band(Orbit orbit, double gam1DEG, double gam2DEG, BandMode mode)
         {
-            this.Orbit = orbit;
+            Orbit = orbit;
 
             TrackPointDirection[] dir = new TrackPointDirection[2];
             switch (mode)
@@ -43,16 +40,22 @@ namespace PRDCT.Core
 
         public Band(Orbit orbit, double verticalHalfAngleDEG, double rollAngleDEG)
         {
-            this.Orbit = orbit;
+            Orbit = orbit;
 
             BandMode mode;
 
             if (rollAngleDEG == 0)
+            {
                 mode = BandMode.Middle;
+            }
             else if (rollAngleDEG > 0.0)
+            {
                 mode = BandMode.Left;
+            }
             else
+            {
                 mode = BandMode.Right;
+            }
 
             TrackPointDirection[] dir = new TrackPointDirection[2];
             switch (mode)
@@ -75,7 +78,7 @@ namespace PRDCT.Core
             FactorShiftTrack factor = new FactorShiftTrack(orbit, gam1DEG, gam2DEG, mode);
 
             NearLine = new FactorTrack(new CustomTrack(orbit, gam1DEG, dir[0]), factor);
-            FarLine = new FactorTrack(new CustomTrack(orbit, gam2DEG, dir[1]), factor);            
+            FarLine = new FactorTrack(new CustomTrack(orbit, gam2DEG, dir[1]), factor);
         }
 
         public bool IsCoverPolis(double latRAD, ref double timeFromANToPolis)
@@ -86,8 +89,15 @@ namespace PRDCT.Core
             {
                 if (MyMath.InRange(Math.PI / 2.0, angleToPolis1, angleToPolis2))
                 {
-                    if (latRAD >= 0.0) timeFromANToPolis = Orbit.Quart1;
-                    else timeFromANToPolis = Orbit.Quart3;
+                    if (latRAD >= 0.0)
+                    {
+                        timeFromANToPolis = Orbit.Quart1;
+                    }
+                    else
+                    {
+                        timeFromANToPolis = Orbit.Quart3;
+                    }
+
                     return true;
                 }
             }
@@ -101,7 +111,9 @@ namespace PRDCT.Core
                 FarLine.polisMod(latRAD, ref angleToPolis2) == true)
             {
                 if (MyMath.InRange(Math.PI / 2.0, angleToPolis1, angleToPolis2))
+                {
                     return true;
+                }
             }
             return false;
         }
@@ -133,9 +145,15 @@ namespace PRDCT.Core
 
                     double lon = point.Lon;
                     while (lon > 2.0 * Math.PI)
+                    {
                         lon -= 2.0 * Math.PI;
+                    }
+
                     while (lon < 0.0)
+                    {
                         lon += 2.0 * Math.PI;
+                    }
+
                     points.Add(new Geo2D(lon, point.Lat));
                 }
             }

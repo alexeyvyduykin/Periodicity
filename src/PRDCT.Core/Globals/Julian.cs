@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PRDCT.Core
 {
@@ -21,7 +19,7 @@ namespace PRDCT.Core
         }
 
         private void Initialize(int year, double day)
-        {                     
+        {
             // Arbitrary years used for error checking
             if (year < 1900 || year > 2100)
             {
@@ -34,8 +32,8 @@ namespace PRDCT.Core
                 throw new ArgumentOutOfRangeException("day");
             }
 
-            this.Year = year;
-            this.Day = day;
+            Year = year;
+            Day = day;
 
             year--;
 
@@ -44,7 +42,7 @@ namespace PRDCT.Core
 
             double NewYears = (int)(365.25 * year) + (int)(30.6001 * 14) + 1720994.5 + B;
 
-            this.Date = NewYears + day;
+            Date = NewYears + day;
         }
 
         // Calculate Greenwich Mean Sidereal Time for the Julian date
@@ -66,7 +64,7 @@ namespace PRDCT.Core
 
         //    return (2.0 * Math.PI * (GMST / Globals.SecPerDay));
         //}
-        
+
         public double ToGmst()
         {
             // greenwich mean sidereal time
@@ -194,7 +192,9 @@ namespace PRDCT.Core
             double gst = (st / 3600.0) % 24;
 
             if (gst < 0.0)
+            {
                 gst = gst + 24;
+            }
 
             return gst;
         }
@@ -714,8 +714,9 @@ new List<double> { -1.0, -1.0,  0.0,  2.0,  1.0,       1.0,    0.00,      0.0,  
                 arg[i] = Math.IEEERemainder(arg[i], rev);
 
                 if (arg[i] < 0.0)
+                {
                     arg[i] = arg[i] + rev;
-
+                }
 
                 arg[i] = arg[i] / seccon;
             }

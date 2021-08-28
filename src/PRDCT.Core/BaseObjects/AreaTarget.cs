@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Xml;
 using GlmSharp;
 
@@ -26,7 +23,7 @@ namespace PRDCT.Core
 
         public BaseAreaTarget(IEnumerable<dvec2> verts) : this()
         {
-            DataType = AreaTargetType.Polygon;            
+            DataType = AreaTargetType.Polygon;
             Data.AddRange(verts);
         }
 
@@ -50,14 +47,14 @@ namespace PRDCT.Core
                 Name = base.Name,
                 Description = base.Description,
                 Type = base.Type,
-                DataType = this.DataType
+                DataType = DataType
             };
             newAreaTarget.Data = new List<dvec2>();
-            newAreaTarget.Data.AddRange(this.Data);
+            newAreaTarget.Data.AddRange(Data);
             return newAreaTarget;
         }
 
-        public AreaTargetType DataType { get; protected set;}
+        public AreaTargetType DataType { get; protected set; }
         public List<dvec2> Data { get; protected set; }
 
         #region Serializable
@@ -111,7 +108,7 @@ namespace PRDCT.Core
 
             writer.WriteEndElement();
         }
-        
+
         #endregion
     }
 }

@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using PRDCT.Data;
+﻿using System.Linq;
+using Periodicity.Core.Data;
 
 namespace PRDCT.Core.PRDCTPeriodicity
 {
@@ -25,7 +21,7 @@ namespace PRDCT.Core.PRDCTPeriodicity
 
         //        band.Value.changeCalculationTime(base.DateTimeBegin.ToString(), base.DateTimeEnd.ToString());
 
-              
+
         //        if (prevId == id)
         //        {
         //            nodes = band.Value.Nodes();   // для инициализации timeCorrection !!!!!!!
@@ -61,8 +57,9 @@ namespace PRDCT.Core.PRDCTPeriodicity
                 //var directory = people.SelectMany(p => p.PhoneNumbers, (parent, child) => new { parent.Name, child.Number });
                 //var rd = nodes.SelectMany(n => n.Quarts, (parent, child) => new { parent.Value, child.Quart, child.TimeBegin, child.TimeEnd });
 
-                core.DataTimeIvals.AddRange( 
-                    nodes.SelectMany(n => n.Quarts.Select(m => new TimeIvals {
+                core.DataTimeIvals.AddRange(
+                    nodes.SelectMany(n => n.Quarts.Select(m => new TimeIvals
+                    {
                         SatelliteID = satellite.Key.ToString(),
                         Node = n.Value,
                         TimeBegin = m.TimeBegin,

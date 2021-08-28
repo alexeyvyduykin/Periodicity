@@ -1,12 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using GlmSharp;
-using System.Xml.Linq;
-using System.IO;
-using System.Xml.Serialization;
 
 namespace PRDCT.Core
 {
@@ -14,8 +8,15 @@ namespace PRDCT.Core
     {
         public static int Sign(double val)
         {
-            if (val > 0.0) return 1;
-            else if (val < 0.0) return -1;
+            if (val > 0.0)
+            {
+                return 1;
+            }
+            else if (val < 0.0)
+            {
+                return -1;
+            }
+
             return 0;
         }
 
@@ -25,10 +26,10 @@ namespace PRDCT.Core
         public static double SecondsToRadians = (Math.PI / 180.0) / 3600.0;
         public static double RadiansToSeconds = 3600.0 / (Math.PI / 180.0);
 
-//        public static double DEG_TO_RAD = 0.01745329251994329576;
-//        public static double RAD_TO_DEG = 57.2957795130823208767;
-//        public static double RAD_SEK_ANGL = 3.14159265358979323846 / (3600.0 * 180.0);
-//        public static double SEC_IN_RAD = 7.2722052166430e-5;
+        //        public static double DEG_TO_RAD = 0.01745329251994329576;
+        //        public static double RAD_TO_DEG = 57.2957795130823208767;
+        //        public static double RAD_SEK_ANGL = 3.14159265358979323846 / (3600.0 * 180.0);
+        //        public static double SEC_IN_RAD = 7.2722052166430e-5;
 
 
         public static double DMSToDegrees(double Degrees, double Minutes, double Seconds, bool bPositive = true)
@@ -36,22 +37,29 @@ namespace PRDCT.Core
             //validate our parameters
             if (!bPositive)
             {
-            //    assert(Degrees >= 0);  //All parameters should be non negative if the "bPositive" parameter is false
-            //    assert(Minutes >= 0);
-            //    assert(Seconds >= 0);
+                //    assert(Degrees >= 0);  //All parameters should be non negative if the "bPositive" parameter is false
+                //    assert(Minutes >= 0);
+                //    assert(Seconds >= 0);
             }
 
             if (bPositive)
+            {
                 return Degrees + Minutes / 60 + Seconds / 3600;
+            }
             else
+            {
                 return -Degrees - Minutes / 60 - Seconds / 3600;
+            }
         }
 
         public static double MapTo0To360Range(double Degrees)
         {
             double fResult = Math.IEEERemainder(Degrees, 360);
             if (fResult < 0)
+            {
                 fResult += 360;
+            }
+
             return fResult;
         }
 
@@ -106,7 +114,10 @@ namespace PRDCT.Core
         {
             if ((value.AboutGreaterOrEqual(left) && value.AboutLessOrEqual(right)) ||
                 (value.AboutLessOrEqual(left) && value.AboutGreaterOrEqual(right)))
+            {
                 return true;
+            }
+
             return false;
         }
 
@@ -162,8 +173,16 @@ namespace PRDCT.Core
 
         private static int Sgn(double val)
         {
-            if (Math.Abs(val) <= 1e-9) return 1;
-            if (val < 0) return -1;
+            if (Math.Abs(val) <= 1e-9)
+            {
+                return 1;
+            }
+
+            if (val < 0)
+            {
+                return -1;
+            }
+
             return 1;
         }
 
@@ -174,17 +193,35 @@ namespace PRDCT.Core
 
         private static double ArcCos_(double val)
         {
-            if (val == 0.0) return Math.PI / 2.0;
-            if (Math.Abs(val) > 1.0) return (Math.PI / 2.0) * (1 - Sgn(val));
+            if (val == 0.0)
+            {
+                return Math.PI / 2.0;
+            }
+
+            if (Math.Abs(val) > 1.0)
+            {
+                return (Math.PI / 2.0) * (1 - Sgn(val));
+            }
+
             double z = Math.Atan(Math.Sqrt(1 - Sqr(val)) / Math.Abs(val));
-            if (val < 0) return Math.PI - z;
-            else return z;
+            if (val < 0)
+            {
+                return Math.PI - z;
+            }
+            else
+            {
+                return z;
+            }
         }
 
         public static double ArcCos2(double Sinx, double Cosx)
         {
             double z = ArcCos_(Cosx);
-            if (Sinx < 0) z = 2.0 * Math.PI - z;
+            if (Sinx < 0)
+            {
+                z = 2.0 * Math.PI - z;
+            }
+
             return z;
         }
 
@@ -196,8 +233,14 @@ namespace PRDCT.Core
         public static double Round(double x)
         {
             double d = x - Math.Floor(x);
-            if (d <= 0.5) return Math.Floor(x);
-            else return Math.Ceiling(x);
+            if (d <= 0.5)
+            {
+                return Math.Floor(x);
+            }
+            else
+            {
+                return Math.Ceiling(x);
+            }
         }
 
         public static void Swap(ref double x, ref double y)
@@ -211,18 +254,30 @@ namespace PRDCT.Core
         public static double WrapAngle(double angle)
         {
             while (angle > 2.0 * Math.PI)
+            {
                 angle -= 2.0 * Math.PI;
+            }
+
             while (angle < 0)
+            {
                 angle += 2.0 * Math.PI;
+            }
+
             return angle;
         }
 
         public static double WrapAngle360(double angle)
         {
             while (angle > 360.0)
+            {
                 angle -= 360.0;
+            }
+
             while (angle < 0.0)
+            {
                 angle += 360.0;
+            }
+
             return angle;
         }
 
@@ -247,8 +302,15 @@ namespace PRDCT.Core
                 Month = Month + 12;
                 Year = Year - 1;
             }
-            if (Var1 <= 15821004) Var2 = -2.0 + Math.Floor((double)(Year + 4716.0) / 4.0) - 1179.0;
-            else Var2 = Math.Floor((double)Year / 400.0) - Math.Floor((double)Year / 100.0) + Math.Floor((double)Year / 4.0);
+            if (Var1 <= 15821004)
+            {
+                Var2 = -2.0 + Math.Floor((double)(Year + 4716.0) / 4.0) - 1179.0;
+            }
+            else
+            {
+                Var2 = Math.Floor((double)Year / 400.0) - Math.Floor((double)Year / 100.0) + Math.Floor((double)Year / 4.0);
+            }
+
             Var3 = 365.0 * Year - 679004.0;
             // MJD - Модифицированная Юлианская дата
             return Var3 + Var2 + Math.Floor(306001.0 * (double)(Month + 1.0) / 10000.0) + Day;
@@ -296,7 +358,8 @@ namespace PRDCT.Core
         public static void sun(double ud, double[] rs)
         {
             double d, t, e, r, v, h;
-            d = ud - 2415020.0; t = d / 36525.0;
+            d = ud - 2415020.0;
+            t = d / 36525.0;
             e = 0.1675104e-1 - (0.418e-4 + 0.126e-6 * t) * t;
             r = 6.25658378411 + 1.72019697677e-2 * d - 2.61799387799e-6 * t * t;
             v = 4.90822940869 + 8.21498553644e-7 * d + 7.90634151156e-6 * t * t;
@@ -305,7 +368,8 @@ namespace PRDCT.Core
               8.77900613756e-9 * t) * t) * t + 4.46513400244e-5 * Math.Cos(4.52360151485 -
               (3.37571462465e+1 - (3.62640633471e-5 + 3.87850944887e-8 * t) * t) * t);
             rs[3] = 149600034.408 * (1.0 - e * e) / (1.0 + e * Math.Cos(r));
-            v = v + r; r = Math.Sin(v);
+            v = v + r;
+            r = Math.Sin(v);
             rs[0] = rs[3] * Math.Cos(v);
             rs[1] = rs[3] * r * Math.Cos(h);
             rs[2] = rs[3] * r * Math.Sin(h);
@@ -315,7 +379,10 @@ namespace PRDCT.Core
         {
             double S = s0 + Globals.Omega * t;
             double LA = S + lonSatRAD;
-            while (LA > Math.PI / 2.0) LA -= Math.PI / 2.0;
+            while (LA > Math.PI / 2.0)
+            {
+                LA -= Math.PI / 2.0;
+            }
 
             double xSat = a * Math.Cos(latSatRAD) * Math.Cos(LA);
             double ySat = a * Math.Cos(latSatRAD) * Math.Sin(LA);
@@ -332,7 +399,10 @@ namespace PRDCT.Core
 
             double dltob = Math.Acos((xSat * xSun + ySat * ySun + zSat * zSun) / (Math.Sqrt(xSat * xSat + ySat * ySat + zSat * zSat) * Math.Sqrt(xSun * xSun + ySun * ySun + zSun * zSun)));
 
-            if (dltob >= 0.0 && dltob <= (Math.PI / 2.0 - hSunMin)) return true;
+            if (dltob >= 0.0 && dltob <= (Math.PI / 2.0 - hSunMin))
+            {
+                return true;
+            }
 
             return false;
         }
@@ -349,7 +419,10 @@ namespace PRDCT.Core
 
             double S = s0 + Globals.Omega * tcur;
             double LA = S + lon;
-            while (LA > 2.0 * Math.PI) LA -= 2.0 * Math.PI;
+            while (LA > 2.0 * Math.PI)
+            {
+                LA -= 2.0 * Math.PI;
+            }
 
             double xSat = r * Math.Cos(lat) * Math.Cos(LA);
             double ySat = r * Math.Cos(lat) * Math.Sin(LA);
@@ -365,17 +438,22 @@ namespace PRDCT.Core
             r_S = Math.Abs(r_S);
 
             if (angle > Math.PI / 2.0)
+            {
                 r_S = -r_S;
+            }
 
             double G = r_S + Math.Sqrt(rSat * rSat - Globals.Re * Globals.Re);
 
             if (G < 0.0)
+            {
                 return false;
+            }
+
             return true;
         }
 
 
-      //   31 Dec 1899 12:00:00.000 UTCG
+        //   31 Dec 1899 12:00:00.000 UTCG
 
         //public static double uds1900(double jd)
         //{
@@ -415,7 +493,7 @@ namespace PRDCT.Core
 
         #region Constant Values
 
-        private static double[][] koef_id = new double[][]   /// [30][5]
+        private static readonly double[][] koef_id = new double[][]   /// [30][5]
         {
             new double[]{ 0.0, 0.0, 0.0, 0.0, 1.0 },  //1   
             new double[]{ 0.0, 0.0, 0.0, 0.0, 2.0},  //2
@@ -449,7 +527,7 @@ namespace PRDCT.Core
             new double[]{ 0.0, 1.0, 2.0,-2.0, 0.0}
         }; //30
 
-        private static double[][] koef_abd = new double[][]         // [30][4]
+        private static readonly double[][] koef_abd = new double[][]         // [30][4]
         {
             new double[]{-171996.0,-174.2, 92025.0, 8.9 }, //1
             new double[]{2062.0,   0.2,  -895.0, 0.5 },
@@ -483,7 +561,7 @@ namespace PRDCT.Core
             new double[]{-1.0,   0.0,     0.0, 0.0 }
         };
 
-        private static double[][] koef_ik = new double[][]      // [76][5]            
+        private static readonly double[][] koef_ik = new double[][]      // [76][5]            
         {
             new double[]{0.0, 0.0, 2.0, 0.0, 2.0}, //31
             new double[]{1.0, 0.0, 0.0, 0.0, 0.0},
@@ -741,14 +819,20 @@ namespace PRDCT.Core
             if (denom < 0)                           // луч входит
             {
                 tHit = numer / denom;
-                if (tHit > tOut) return false;    // досрочный выход
+                if (tHit > tOut)
+                {
+                    return false;    // досрочный выход
+                }
                 else
                 { if (tHit > tIn) { tIn = tHit; } }  // берём больше t
             }
             else if (denom > 0)                   // луч выходит
             {
                 tHit = numer / denom;
-                if (tHit < tIn) return false;        // досрочный выход
+                if (tHit < tIn)
+                {
+                    return false;        // досрочный выход
+                }
                 else
                 { if (tHit < tOut) { tOut = tHit; } } // берём меньшее t
             }
@@ -769,9 +853,20 @@ namespace PRDCT.Core
             // 1 - отрезок CD ли его часть лежит на AB
 
             if ((B < C) || (D < A))
+            {
                 return false;
-            if (C < A) C = A;
-            if (B < D) D = B;
+            }
+
+            if (C < A)
+            {
+                C = A;
+            }
+
+            if (B < D)
+            {
+                D = B;
+            }
+
             return true;
         }
 
@@ -789,15 +884,31 @@ namespace PRDCT.Core
             // прямые касаются вершиной
             if ((B == C) || (D == A))       // случай №2: A------BC------D
             {
-                if (B == C) C = A;
-                if (D == A) D = B;
+                if (B == C)
+                {
+                    C = A;
+                }
+
+                if (D == A)
+                {
+                    D = B;
+                }
+
                 return true;
             }
             // прямые пересекаются или совпадают
             if ((B > C) || (D > A))         // случай №3: A-----C==B------D,  AC=====BD
             {
-                if ((B > C) && (C > A)) C = A;
-                if ((D > A) && (D < B)) D = B;
+                if ((B > C) && (C > A))
+                {
+                    C = A;
+                }
+
+                if ((D > A) && (D < B))
+                {
+                    D = B;
+                }
+
                 return true;
             }
             return false;
@@ -813,11 +924,20 @@ namespace PRDCT.Core
             double numer = dvec2.Dot(norm, tmp);// norm.Dot(tmp);
             double denom = dvec2.Dot(norm, c);// norm.Dot(c);
             if (!MyFunction.chopCI(ref tIn, ref tOut, numer, denom))
+            {
                 return false; // досрочный выход
+            }
+
             if (tOut < 1.0)
+            {
                 P = A1 + c * tOut;
+            }
+
             if (tIn > 0.0)
+            {
                 P = A1 + c * tIn;
+            }
+
             return true;
         }
 
@@ -827,9 +947,9 @@ namespace PRDCT.Core
     {
         public static dvec3 SphericalToCartesian(double r, double lon, double lat)
         {
-            return new dvec3( 
-                r * Math.Cos(lat) * Math.Cos(lon),            
-                r * Math.Cos(lat) * Math.Sin(lon),            
+            return new dvec3(
+                r * Math.Cos(lat) * Math.Cos(lon),
+                r * Math.Cos(lat) * Math.Sin(lon),
                 r * Math.Sin(lat));
         }
 
@@ -837,7 +957,7 @@ namespace PRDCT.Core
         {
             double r = position.Length;// Math.Sqrt(x * x + y * y + z * z);
             double lon = Math.Atan2(position.y, position.x);
-            double lat = Math.Asin(position.z / r);            
+            double lat = Math.Asin(position.z / r);
             return new Geo2D(lon, lat);
         }
     }

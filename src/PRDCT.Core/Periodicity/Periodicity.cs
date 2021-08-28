@@ -1,14 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Data.Linq;
-using System.Data.Linq.Mapping;
-using PRDCT.Data;
-using Microsoft.SqlServer.Types;
-using GlmSharp;
-using System.Data.SqlClient;
+using Periodicity.Core.Data;
 
 namespace PRDCT.Core.PRDCTPeriodicity
 {
@@ -74,22 +67,22 @@ namespace PRDCT.Core.PRDCTPeriodicity
 
         public Periodicity(Periodicity prdct) //: base(/*prdct*/)
         {
-            this.Satellites = prdct.Satellites;
-            this.Regions = prdct.Regions;
-            this.Sensors = prdct.Sensors;
+            Satellites = prdct.Satellites;
+            Regions = prdct.Regions;
+            Sensors = prdct.Sensors;
 
-            this.PitchLatDEG = prdct.PitchLatDEG;
+            PitchLatDEG = prdct.PitchLatDEG;
 
-            this.DataIvals = prdct.DataIvals;
-            this.DataPeriodicities = prdct.DataPeriodicities;
-            this.DataRegionCuts = prdct.DataRegionCuts;
-            this.DataTimeIvals = prdct.DataTimeIvals;
+            DataIvals = prdct.DataIvals;
+            DataPeriodicities = prdct.DataPeriodicities;
+            DataRegionCuts = prdct.DataRegionCuts;
+            DataTimeIvals = prdct.DataTimeIvals;
         }
 
         public void Func1()
         {
-         //   var engineTimeIvals = new PRDCTEngineTimeIvals(this);
-        //    engineTimeIvals.Initialize();
+            //   var engineTimeIvals = new PRDCTEngineTimeIvals(this);
+            //    engineTimeIvals.Initialize();
 
             PRDCTEngineTimeIvals.Initialize(this);
             PRDCTEngineRegionCuts.Initialize(this);
@@ -104,24 +97,24 @@ namespace PRDCT.Core.PRDCTPeriodicity
             CreateData();
         }
 
-//        public void CalculationTimeModeling(DateTime dateTimeBegin, DateTime dateTimeEnd)
-//        {
-//     //       TMyDate timeBeginDate = new TMyDate(dateTimeBegin);
-//     //       TMyDate timeEndDate = new TMyDate(dateTimeEnd);
+        //        public void CalculationTimeModeling(DateTime dateTimeBegin, DateTime dateTimeEnd)
+        //        {
+        //     //       TMyDate timeBeginDate = new TMyDate(dateTimeBegin);
+        //     //       TMyDate timeEndDate = new TMyDate(dateTimeEnd);
 
-//     //       base.DateTimeBegin = dateTimeBegin;
-//     //       base.DateTimeEnd = dateTimeEnd;
+        //     //       base.DateTimeBegin = dateTimeBegin;
+        //     //       base.DateTimeEnd = dateTimeEnd;
 
-//    //        base.jd0h = timeBeginDate.JulianDate0h();
-//    //        base.s0 = timeBeginDate.S0Mean_RAD();
-//    //        base.timeBegin = timeBeginDate.SecondOf0h();
-//    //        base.timeEnd = (timeEndDate.Julian() - timeBeginDate.Julian()) * 86400.0 + timeBegin;
+        //    //        base.jd0h = timeBeginDate.JulianDate0h();
+        //    //        base.s0 = timeBeginDate.S0Mean_RAD();
+        //    //        base.timeBegin = timeBeginDate.SecondOf0h();
+        //    //        base.timeEnd = (timeEndDate.Julian() - timeBeginDate.Julian()) * 86400.0 + timeBegin;
 
 
-////            engineTimeIvals = new PRDCTEngineTimeIvals(this);
-////            engineRegionCuts = new PRDCTEngineRegionCuts(this);
-// //           engineIvals = new PRDCTEngineIvals(this);
-//        }
+        ////            engineTimeIvals = new PRDCTEngineTimeIvals(this);
+        ////            engineRegionCuts = new PRDCTEngineRegionCuts(this);
+        // //           engineIvals = new PRDCTEngineIvals(this);
+        //        }
 
         public void CreateIvals()
         {
@@ -144,127 +137,127 @@ namespace PRDCT.Core.PRDCTPeriodicity
         }
 
         #region Save/Load Scenario
-        
-        private void SaveSatellites(string PrdctID, SqlCommand cmd)
-        {
-            //using (SqlConnection connection = new SqlConnection(MyData.ConnectionString))
-            //{
-            //    connection.Open();
-            cmd.CommandText = "INSERT INTO TimeIvals(PeriodicityID, SatelliteID, Node, TimeBegin, TimeEnd, Quart) VALUES(@param1,@param2,@param3,@param4,@param5,@param6)";
-            //SqlCommand cmd = new SqlCommand(sql, connection);
-            cmd.Parameters.Clear();
-            cmd.Parameters.AddWithValue("@param1", "");
-            cmd.Parameters.AddWithValue("@param2", "");
-            cmd.Parameters.AddWithValue("@param3", "");
-            cmd.Parameters.AddWithValue("@param4", "");
-            cmd.Parameters.AddWithValue("@param5", "");
-            cmd.Parameters.AddWithValue("@param6", "");
 
-            foreach (var item in DataTimeIvals)
-            {
-                cmd.Parameters["@param1"].Value = PrdctID;
-                cmd.Parameters["@param2"].Value = item.SatelliteID;
-                cmd.Parameters["@param3"].Value = item.Node;
-                cmd.Parameters["@param4"].Value = item.TimeBegin;
-                cmd.Parameters["@param5"].Value = item.TimeEnd;
-                cmd.Parameters["@param6"].Value = /*PRDCTDataTimeIvalsRecord.FromQuart(*/item.Quart/*)*/;// item.QuartConversion();
-                cmd.ExecuteNonQuery();
-            }
+        //private void SaveSatellites(string PrdctID, SqlCommand cmd)
+        //{
+        //    //using (SqlConnection connection = new SqlConnection(MyData.ConnectionString))
+        //    //{
+        //    //    connection.Open();
+        //    cmd.CommandText = "INSERT INTO TimeIvals(PeriodicityID, SatelliteID, Node, TimeBegin, TimeEnd, Quart) VALUES(@param1,@param2,@param3,@param4,@param5,@param6)";
+        //    //SqlCommand cmd = new SqlCommand(sql, connection);
+        //    cmd.Parameters.Clear();
+        //    cmd.Parameters.AddWithValue("@param1", "");
+        //    cmd.Parameters.AddWithValue("@param2", "");
+        //    cmd.Parameters.AddWithValue("@param3", "");
+        //    cmd.Parameters.AddWithValue("@param4", "");
+        //    cmd.Parameters.AddWithValue("@param5", "");
+        //    cmd.Parameters.AddWithValue("@param6", "");
 
-            cmd.CommandText = "INSERT INTO Ivals(PeriodicityID, SatelliteID, LatDEG, LatRAD, LonLeft, LonRight, Node, TimeLeft, TimeRight, RegionID) VALUES(@param1,@param2,@param3,@param4,@param5,@param6,@param7,@param8,@param9,@param10)";
-            cmd.Parameters.Clear();
-            cmd.Parameters.AddWithValue("@param1", "");
-            cmd.Parameters.AddWithValue("@param2", "");
-            cmd.Parameters.AddWithValue("@param3", "");
-            cmd.Parameters.AddWithValue("@param4", "");
-            cmd.Parameters.AddWithValue("@param5", "");
-            cmd.Parameters.AddWithValue("@param6", "");
-            cmd.Parameters.AddWithValue("@param7", "");
-            cmd.Parameters.AddWithValue("@param8", "");
-            cmd.Parameters.AddWithValue("@param9", "");
-            cmd.Parameters.AddWithValue("@param10", "");
+        //    foreach (var item in DataTimeIvals)
+        //    {
+        //        cmd.Parameters["@param1"].Value = PrdctID;
+        //        cmd.Parameters["@param2"].Value = item.SatelliteID;
+        //        cmd.Parameters["@param3"].Value = item.Node;
+        //        cmd.Parameters["@param4"].Value = item.TimeBegin;
+        //        cmd.Parameters["@param5"].Value = item.TimeEnd;
+        //        cmd.Parameters["@param6"].Value = /*PRDCTDataTimeIvalsRecord.FromQuart(*/item.Quart/*)*/;// item.QuartConversion();
+        //        cmd.ExecuteNonQuery();
+        //    }
 
-            foreach (var item in DataIvals)
-            {
-                cmd.Parameters["@param1"].Value = PrdctID;
-                cmd.Parameters["@param2"].Value = item.SatelliteID;
-                cmd.Parameters["@param3"].Value = item.LatDEG;
-                cmd.Parameters["@param4"].Value = item.LatRAD;
-                cmd.Parameters["@param5"].Value = item.LonLeft;
-                cmd.Parameters["@param6"].Value = item.LonRight;
-                cmd.Parameters["@param7"].Value = item.Node;
-                cmd.Parameters["@param8"].Value = item.TimeLeft;
-                cmd.Parameters["@param9"].Value = item.TimeRight;
-                cmd.Parameters["@param10"].Value = item.RegionID;
-                cmd.ExecuteNonQuery();
-            }
-            // }
-        }
+        //    cmd.CommandText = "INSERT INTO Ivals(PeriodicityID, SatelliteID, LatDEG, LatRAD, LonLeft, LonRight, Node, TimeLeft, TimeRight, RegionID) VALUES(@param1,@param2,@param3,@param4,@param5,@param6,@param7,@param8,@param9,@param10)";
+        //    cmd.Parameters.Clear();
+        //    cmd.Parameters.AddWithValue("@param1", "");
+        //    cmd.Parameters.AddWithValue("@param2", "");
+        //    cmd.Parameters.AddWithValue("@param3", "");
+        //    cmd.Parameters.AddWithValue("@param4", "");
+        //    cmd.Parameters.AddWithValue("@param5", "");
+        //    cmd.Parameters.AddWithValue("@param6", "");
+        //    cmd.Parameters.AddWithValue("@param7", "");
+        //    cmd.Parameters.AddWithValue("@param8", "");
+        //    cmd.Parameters.AddWithValue("@param9", "");
+        //    cmd.Parameters.AddWithValue("@param10", "");
 
-        private void SaveRegions(string PrdctID, SqlCommand cmd)
-        {
-            //using (SqlConnection connection = new SqlConnection(MyData.ConnectionString))
-            //{
-            //    connection.Open();
-            cmd.CommandText = "INSERT INTO RegionCuts(PeriodicityID, RegionID, LatDEG, LatRAD, LonLeft, LonRight) VALUES(@param1,@param2,@param3,@param4,@param5,@param6)";
-            //    SqlCommand cmd = new SqlCommand(sql, connection);
-            cmd.Parameters.Clear();
-            cmd.Parameters.AddWithValue("@param1", "");
-            cmd.Parameters.AddWithValue("@param2", "");
-            cmd.Parameters.AddWithValue("@param3", "");
-            cmd.Parameters.AddWithValue("@param4", "");
-            cmd.Parameters.AddWithValue("@param5", "");
-            cmd.Parameters.AddWithValue("@param6", "");
+        //    foreach (var item in DataIvals)
+        //    {
+        //        cmd.Parameters["@param1"].Value = PrdctID;
+        //        cmd.Parameters["@param2"].Value = item.SatelliteID;
+        //        cmd.Parameters["@param3"].Value = item.LatDEG;
+        //        cmd.Parameters["@param4"].Value = item.LatRAD;
+        //        cmd.Parameters["@param5"].Value = item.LonLeft;
+        //        cmd.Parameters["@param6"].Value = item.LonRight;
+        //        cmd.Parameters["@param7"].Value = item.Node;
+        //        cmd.Parameters["@param8"].Value = item.TimeLeft;
+        //        cmd.Parameters["@param9"].Value = item.TimeRight;
+        //        cmd.Parameters["@param10"].Value = item.RegionID;
+        //        cmd.ExecuteNonQuery();
+        //    }
+        //    // }
+        //}
 
-            foreach (var item in DataRegionCuts)
-            {
-                cmd.Parameters["@param1"].Value = PrdctID;
-                cmd.Parameters["@param2"].Value = item.RegionID;
-                cmd.Parameters["@param3"].Value = item.LatDEG;
-                cmd.Parameters["@param4"].Value = item.LatRAD;
-                cmd.Parameters["@param5"].Value = item.LonLeft;
-                cmd.Parameters["@param6"].Value = item.LonRight;
-                cmd.ExecuteNonQuery();
-            }
+        //private void SaveRegions(string PrdctID, SqlCommand cmd)
+        //{
+        //    //using (SqlConnection connection = new SqlConnection(MyData.ConnectionString))
+        //    //{
+        //    //    connection.Open();
+        //    cmd.CommandText = "INSERT INTO RegionCuts(PeriodicityID, RegionID, LatDEG, LatRAD, LonLeft, LonRight) VALUES(@param1,@param2,@param3,@param4,@param5,@param6)";
+        //    //    SqlCommand cmd = new SqlCommand(sql, connection);
+        //    cmd.Parameters.Clear();
+        //    cmd.Parameters.AddWithValue("@param1", "");
+        //    cmd.Parameters.AddWithValue("@param2", "");
+        //    cmd.Parameters.AddWithValue("@param3", "");
+        //    cmd.Parameters.AddWithValue("@param4", "");
+        //    cmd.Parameters.AddWithValue("@param5", "");
+        //    cmd.Parameters.AddWithValue("@param6", "");
 
-            // }
-        }
+        //    foreach (var item in DataRegionCuts)
+        //    {
+        //        cmd.Parameters["@param1"].Value = PrdctID;
+        //        cmd.Parameters["@param2"].Value = item.RegionID;
+        //        cmd.Parameters["@param3"].Value = item.LatDEG;
+        //        cmd.Parameters["@param4"].Value = item.LatRAD;
+        //        cmd.Parameters["@param5"].Value = item.LonLeft;
+        //        cmd.Parameters["@param6"].Value = item.LonRight;
+        //        cmd.ExecuteNonQuery();
+        //    }
 
-        private void SaveScenario(string PrdctID)
-        {
-            dbPRDCTDataContext db = new dbPRDCTDataContext(MyData.ConnectionString);
-            db.Periodicities.InsertOnSubmit(new Periodicities()
-            {
-                PeriodicityID = PrdctID,
-                PeriodicityName = "Prdct_" + (db.Periodicities.Count() + 1).ToString(),
-                Epoch = DateTime.Now.ToString(),// TimeBegin.ToString(),
-                TimeStart = 0.0,// timeBegin,
-                TimeDuration = 0.0,// timeEnd - timeBegin,
-                LatitudeStep = PitchLatDEG
-            });
-            db.SubmitChanges();
-        }
+        //    // }
+        //}
 
-        public void Save()
-        {
-            dbPRDCTDataContext db = new dbPRDCTDataContext(MyData.ConnectionString);
-            db.ExecuteCommand("DELETE FROM Ivals");
-            db.ExecuteCommand("DELETE FROM RegionCuts");
-            db.ExecuteCommand("DELETE FROM TimeIvals");
-            db.ExecuteCommand("DELETE FROM Periodicities");
+        //private void SaveScenario(string PrdctID)
+        //{
+        //    dbPRDCTDataContext db = new dbPRDCTDataContext(MyData.ConnectionString);
+        //    db.Periodicities.InsertOnSubmit(new Periodicities()
+        //    {
+        //        PeriodicityID = PrdctID,
+        //        PeriodicityName = "Prdct_" + (db.Periodicities.Count() + 1).ToString(),
+        //        Epoch = DateTime.Now.ToString(),// TimeBegin.ToString(),
+        //        TimeStart = 0.0,// timeBegin,
+        //        TimeDuration = 0.0,// timeEnd - timeBegin,
+        //        LatitudeStep = PitchLatDEG
+        //    });
+        //    db.SubmitChanges();
+        //}
 
-            using (SqlConnection connection = new SqlConnection(MyData.ConnectionString))
-            {
-                connection.Open();
-                SqlCommand cmd = new SqlCommand() { Connection = connection };
+        //public void Save()
+        //{
+        //    dbPRDCTDataContext db = new dbPRDCTDataContext(MyData.ConnectionString);
+        //    db.ExecuteCommand("DELETE FROM Ivals");
+        //    db.ExecuteCommand("DELETE FROM RegionCuts");
+        //    db.ExecuteCommand("DELETE FROM TimeIvals");
+        //    db.ExecuteCommand("DELETE FROM Periodicities");
 
-                string PrdctID = Guid.NewGuid().ToString();
-                SaveScenario(PrdctID);
-                SaveRegions(PrdctID, cmd);
-                SaveSatellites(PrdctID, cmd);
-            }
-        }
-        
+        //    using (SqlConnection connection = new SqlConnection(MyData.ConnectionString))
+        //    {
+        //        connection.Open();
+        //        SqlCommand cmd = new SqlCommand() { Connection = connection };
+
+        //        string PrdctID = Guid.NewGuid().ToString();
+        //        SaveScenario(PrdctID);
+        //        SaveRegions(PrdctID, cmd);
+        //        SaveSatellites(PrdctID, cmd);
+        //    }
+        //}
+
         //public static Periodicity Load(string periodicityID)
         //{
         //    dbPRDCTDataContext db = new dbPRDCTDataContext(MyData.ConnectionString);
@@ -332,9 +325,9 @@ namespace PRDCT.Core.PRDCTPeriodicity
 
         //    return newPeriodicity;
         //}
-        
+
         #endregion
-        
+
         //     private PRDCTEngineTimeIvals engineTimeIvals;
         //     private PRDCTEngineRegionCuts engineRegionCuts;
         //     private PRDCTEngineIvals engineIvals;
@@ -427,27 +420,27 @@ namespace PRDCT.Core.PRDCTPeriodicity
 
         private IEnumerable<dynamic> ExecSQL(double latDEG)
         {
-//            string sql =
-// @"SELECT left, '1' \
-//FROM DB_PRDCT_REGION_CUTS \
-//WHERE latDEG = :p1 \
-//UNION ALL \
-//SELECT left, '2' \
-//FROM DB_PRDCT_IVALS \
-//WHERE latDEG = :p1 \
-//UNION ALL \
-//SELECT right, '3'\
-//FROM DB_PRDCT_IVALS \
-//WHERE latDEG = :p1 \
-//UNION ALL \
-//SELECT right, '4' \
-//FROM DB_PRDCT_REGION_CUTS \
-//WHERE latDEG = :p1 \
-//ORDER BY 1, 2;";
+            //            string sql =
+            // @"SELECT left, '1' \
+            //FROM DB_PRDCT_REGION_CUTS \
+            //WHERE latDEG = :p1 \
+            //UNION ALL \
+            //SELECT left, '2' \
+            //FROM DB_PRDCT_IVALS \
+            //WHERE latDEG = :p1 \
+            //UNION ALL \
+            //SELECT right, '3'\
+            //FROM DB_PRDCT_IVALS \
+            //WHERE latDEG = :p1 \
+            //UNION ALL \
+            //SELECT right, '4' \
+            //FROM DB_PRDCT_REGION_CUTS \
+            //WHERE latDEG = :p1 \
+            //ORDER BY 1, 2;";
 
             return (from m in DataRegionCuts
-                      where m.LatDEG == latDEG
-                      select new { Longitude = m.LonLeft, Type = 1 }).Concat(         
+                    where m.LatDEG == latDEG
+                    select new { Longitude = m.LonLeft, Type = 1 }).Concat(
                       from m in DataIvals
                       where m.LatDEG == latDEG
                       select new { Longitude = m.LonLeft, Type = 2 }).Concat(
@@ -457,7 +450,7 @@ namespace PRDCT.Core.PRDCTPeriodicity
                       from m in DataRegionCuts
                       where m.LatDEG == latDEG
                       select new { Longitude = m.LonRight, Type = 4 }).OrderBy(c => c.Longitude).ThenBy(n => n.Type);
-        } 
+        }
 
         public void CreateData()
         {
@@ -468,7 +461,7 @@ namespace PRDCT.Core.PRDCTPeriodicity
                 double width = regionCut.LonRight - regionCut.LonLeft;
 
                 double lonPrev = regionCut.LonLeft;  // самое левое значение lon, которое должно быть PRDCT_LON_TYPE_LEFT
-                        
+
                 int prdct = 0;
 
                 List<double> widthIvals = new List<double>();
@@ -477,17 +470,25 @@ namespace PRDCT.Core.PRDCTPeriodicity
                 foreach (var vertex in queryVerts)
                 {
                     if (prdct >= (int)widthIvals.Count)
+                    {
                         widthIvals.Add(0.0);
+                    }
 
                     if (vertex.Type == 1)
+                    {
                         lonPrev = vertex.Longitude;
+                    }
 
                     widthIvals[prdct] += vertex.Longitude - lonPrev;            // ширина отрезка этого шага
 
                     if (vertex.Type == 2)
+                    {
                         prdct++;
+                    }
                     else if (vertex.Type == 3)   // end
+                    {
                         prdct--;
+                    }
 
                     lonPrev = vertex.Longitude;
                 }
@@ -528,7 +529,7 @@ namespace PRDCT.Core.PRDCTPeriodicity
                                 percent = widthIvals[i],
                                 widthRAD = widthIvals[i] / radToProc,
                                 widthKM = lonKM
-                            });                                                                                  
+                            });
                     }
                 }
 

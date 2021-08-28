@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using PRDCT.Data;
+﻿using System.Collections.Generic;
+using Periodicity.Core.Data;
 
 namespace PRDCT.Core.PRDCTPeriodicity
 {
@@ -20,7 +16,7 @@ namespace PRDCT.Core.PRDCTPeriodicity
             for (double latDEGCutter = -90.0; latDEGCutter <= 90.0; latDEGCutter += core.PitchLatDEG)
             {
                 double latRADCutter = latDEGCutter * MyMath.DegreesToRadians;
-      
+
                 foreach (var region in core.Regions)
                 {
                     var cutter = new PRDCTRegionCutter(region.Value);

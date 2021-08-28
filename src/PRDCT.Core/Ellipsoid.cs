@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using GlmSharp;
 
 namespace PRDCT.Core
@@ -17,18 +13,18 @@ namespace PRDCT.Core
             _radii = new dvec3(x, y, z);
 
             _radiiSquared = new dvec3(
-                _radii.x * _radii.x, 
-                _radii.y * _radii.y, 
+                _radii.x * _radii.x,
+                _radii.y * _radii.y,
                 _radii.z * _radii.z);
 
             _radiiToTheFourth = new dvec3(
-                _radiiSquared.x * _radiiSquared.x, 
-                _radiiSquared.y * _radiiSquared.y, 
+                _radiiSquared.x * _radiiSquared.x,
+                _radiiSquared.y * _radiiSquared.y,
                 _radiiSquared.z * _radiiSquared.z);
 
             _oneOverRadiiSquared = new dvec3(
-                1.0 / (_radii.x * _radii.x), 
-                1.0 / (_radii.y * _radii.y), 
+                1.0 / (_radii.x * _radii.x),
+                1.0 / (_radii.y * _radii.y),
                 1.0 / (_radii.z * _radii.z));
         }
 

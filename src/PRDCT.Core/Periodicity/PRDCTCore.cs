@@ -1,12 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using PRDCT.Data;
-using System.Globalization;
-
-namespace PRDCT.Core
+﻿namespace PRDCT.Core
 {
     //public abstract class Scenario
     //{

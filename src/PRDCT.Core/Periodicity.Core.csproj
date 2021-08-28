@@ -7,8 +7,8 @@
     <ProjectGuid>{DCDFC49F-2BA0-450F-B64D-33D10D28BE3E}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>PRDCT.Core</RootNamespace>
-    <AssemblyName>PRDCT.Core</AssemblyName>
+    <RootNamespace>Periodicity.Core</RootNamespace>
+    <AssemblyName>Periodicity.Core</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -56,6 +56,7 @@
     <Compile Include="Core\Orbit.cs" />
     <Compile Include="Core\Sun.cs" />
     <Compile Include="Core\Track.cs" />
+    <Compile Include="Data\Data.cs" />
     <Compile Include="Ellipsoid.cs" />
     <Compile Include="BaseObjects\BaseObject.cs" />
     <Compile Include="BaseObjects\AreaTarget.cs" />

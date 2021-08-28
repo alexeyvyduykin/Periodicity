@@ -1,10 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using PRDCT.Core.TEST.DateTime;
-using PRDCT.Core.TEST.Main;
 
 namespace PRDCT.Core.TEST.Main
 {
@@ -15,7 +11,7 @@ namespace PRDCT.Core.TEST.Main
 
         #region Consts
 
-        static List<double[]> TablOne = new List<double[]>
+        private static readonly List<double[]> TablOne = new List<double[]>
         {
             new double[] { 35473.00, 31.34 },             //{ 1956  1  1 }
             new double[] { 35747.00, 31.56 },             //{ 1956 10  1 }
@@ -25,8 +21,7 @@ namespace PRDCT.Core.TEST.Main
             new double[] { 37208.00, 33.45 },             //{ 1960 10  1 }
             new double[] { 37665.00, 33.99 }             //{ 1962  1  1 }
         };
-
-        static List<double[]> Tabl = new List<double[]>
+        private static readonly List<double[]> Tabl = new List<double[]>
         {
             new double[] { 37665.0, 34.0298580, 0.0011232, 37665.0 },   //{  1962 01 01  }
             new double[] { 38334.0, 34.1298580, 0.0011232, 37665.0 },   //{  1963 11 01  }
@@ -73,7 +68,9 @@ namespace PRDCT.Core.TEST.Main
             DeltaTA = 0.0;
 
             if (JulTT < 2435473.5)
+            {
                 return;
+            }
 
             if (JulUTC < (Tabl[0][0] + Consts.DifEpoch))
             {
@@ -85,12 +82,14 @@ namespace PRDCT.Core.TEST.Main
                 else
                 {
                     for (int i = 0; i < 6; i++)
+                    {
                         if ((TablOne[i][0] <= (JulUTC - Consts.DifEpoch)) && ((JulUTC - Consts.DifEpoch) < TablOne[i + 1][0]))
                         {
                             double r = (JulUTC - Consts.DifEpoch - TablOne[i][0]) / (TablOne[i + 1][0] - TablOne[i][0]);
                             DeltaTA = TablOne[i][1] + r * (TablOne[i + 1][1] - TablOne[i][1]);
                             DeltaTA = DeltaTA / 86400;
                         }
+                    }
                 }
                 JulTT = JulUTC + DeltaTA;
                 return;
@@ -99,11 +98,15 @@ namespace PRDCT.Core.TEST.Main
             for (int i = 0; i < Tabl.Count - 1; i++)
             {
                 if ((Tabl[i][0] <= (JulUTC - Consts.DifEpoch)) && ((JulUTC - Consts.DifEpoch) < Tabl[i + 1][0]))
+                {
                     DeltaTA = (Tabl[i][1] + Tabl[i][2] * (JulUTC - Consts.DifEpoch - Tabl[i][3])) / 86400.0e0;
+                }
             }
 
             if ((JulUTC - Consts.DifEpoch) > Tabl[Tabl.Count - 1][0])
+            {
                 DeltaTA = Tabl[Tabl.Count - 1][1] / 86400;
+            }
 
             JulTT = JulUTC + DeltaTA;
         }
@@ -149,7 +152,7 @@ namespace PRDCT.Core.TEST.Main
             double s = t - aj;
             double ajj = aj - 2451545.0;
             double ajs = ajj / 36525.0;
-            double s0 = 1.753368559233266e0 + (628.3319706888409e0             
+            double s0 = 1.753368559233266e0 + (628.3319706888409e0
                 + (6.770713944903336e-06 - 4.508767234318685e-10 * ajs) * ajs) * ajs;
             double freq = 1.002737909350795e0
                 + (5.900575455674703e-11 - 5.893984333409384e-15 * ajs) * ajs;
@@ -157,8 +160,11 @@ namespace PRDCT.Core.TEST.Main
             double r = s0 / (2 * Math.PI);
             int IntPart = (int)Math.Truncate(r);
             double SidTime = s0 - 2 * Math.PI * IntPart;
-            if(  SidTime < 0  )
+            if (SidTime < 0)
+            {
                 SidTime = SidTime + 2 * Math.PI;
+            }
+
             return SidTime;
         }
 
@@ -167,11 +173,17 @@ namespace PRDCT.Core.TEST.Main
             // { null point is monday 30 december 1974 year or 2442411.5 in MJD }
             double d = t - 2442411.5 + 1.0e-8;
             if (d < 0.0)
+            {
                 d = d - 1;
+            }
+
             int l = (int)Math.Truncate(d);
             int k = l % 7;
             if (k < 0)
+            {
                 k = k + 7;
+            }
+
             int n = k + 1; // { from 1 to 7 or from monday to sunday }
             return Consts.StrDayWeek[n]; // const StrDayWeek from UnConTyp
         }
@@ -200,12 +212,18 @@ namespace PRDCT.Core.TEST.Main
                 n = l % 7;
                 double Octob = t - n; //{ october date for jumping }
                 if ((March < Day) && (Day < Octob)) // { one hour jump for summer time }            
+                {
                     return true;
+                }
                 else
+                {
                     return false;
+                }
             }
             else
+            {
                 return false;
+            }
         }
 
 

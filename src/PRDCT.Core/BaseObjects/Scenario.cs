@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml.Schema;
 using System.Xml;
+using System.Xml.Schema;
 using System.Xml.Serialization;
 
 namespace PRDCT.Core
@@ -16,16 +14,18 @@ namespace PRDCT.Core
         protected virtual void OnChanged(EventArgs e)
         {
             if (Changed != null)
+            {
                 Changed(this, e);
+            }
         }
 
         public BaseScenario() : this(Guid.NewGuid(), "DefaultScenario", "Created Default Constructor") { }
 
         public BaseScenario(Guid id, string name, string description)
         {
-            this.Id = id;
-            this.Name = name;
-            this.Description = description;
+            Id = id;
+            Name = name;
+            Description = description;
 
             Objects = new List<BaseObject>();
         }
@@ -48,7 +48,9 @@ namespace PRDCT.Core
             foreach (var item in scenario.Objects)
             {
                 if (Objects.TrueForAll(obj => obj.Id != item.Id))
+                {
                     Objects.Add(item);
+                }
             }
             OnChanged(EventArgs.Empty);
         }
@@ -72,7 +74,9 @@ namespace PRDCT.Core
                 if (obj is ParentBaseObject)
                 {
                     foreach (var item in Objects.Where(b => (b as ParentBaseObject).ParentId == obj.Id).Reverse())  // delete all child objects                
+                    {
                         Objects.Remove(item);
+                    }
                 }
 
                 Objects.Remove(obj);
@@ -118,17 +122,17 @@ namespace PRDCT.Core
 
         public void WriteXml(XmlWriter writer)   // записывать
         {
-          //  writer.WriteStartElement("BaseScenario");
+            //  writer.WriteStartElement("BaseScenario");
             writer.WriteAttributeString("Id", Id.ToString());
             writer.WriteAttributeString("Name", Name);
-            writer.WriteAttributeString("Description", Description);                        
+            writer.WriteAttributeString("Description", Description);
             writer.WriteStartElement("Objects");
             foreach (BaseObject obj in Objects)
             {
                 obj.WriteXml(writer);
             }
-            writer.WriteEndElement();           
-          //  writer.WriteEndElement();
+            writer.WriteEndElement();
+            //  writer.WriteEndElement();
         }
 
         #endregion

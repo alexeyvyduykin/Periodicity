@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using GlmSharp;
 
 
@@ -13,9 +10,9 @@ namespace PRDCT.Core
     {
         public CoverageRegion(dvec2 p0, double w, double h, int numPoints)
         {
-            this.P0 = p0;
-            this.Width = w;
-            this.Height = h;
+            P0 = p0;
+            Width = w;
+            Height = h;
             double dw = w / numPoints;
             double dh = h / numPoints;
             double w0 = p0.x + dw / 2.0;
@@ -24,10 +21,12 @@ namespace PRDCT.Core
             Points = new List<dvec2>();
 
             for (int j = 0; j < numPoints; j++)
-                for(int i = 0; i < numPoints; i++)
+            {
+                for (int i = 0; i < numPoints; i++)
                 {
-                    Points.Add(new dvec2(w0 + i * dw, h0 + j * dh));                
+                    Points.Add(new dvec2(w0 + i * dw, h0 + j * dh));
                 }
+            }
         }
 
         public dvec2 P0 { get; protected set; }
@@ -41,10 +40,10 @@ namespace PRDCT.Core
     {
         public CoverageDefinition(double minLat, double maxLat, double resolution)
         {
-            this.MinLatitude = minLat;
-            this.MaxLatitude = maxLat;
-            this.ResolutionLonLat = resolution;
-            this.Regions = new List<CoverageRegion>();
+            MinLatitude = minLat;
+            MaxLatitude = maxLat;
+            ResolutionLonLat = resolution;
+            Regions = new List<CoverageRegion>();
             Update();
         }
 
@@ -91,7 +90,7 @@ namespace PRDCT.Core
 
             if (ResolutionLonLat <= 10.0 / 27.0) // 0.373737       // 81 x 81
             {
-                if(27 * ResolutionLonLat * 2.0 <= heightBounds)
+                if (27 * ResolutionLonLat * 2.0 <= heightBounds)
                 {
                     CreateRegions(81);
                 }
@@ -99,7 +98,7 @@ namespace PRDCT.Core
                 {
                     CreateRegions(27);
                 }
-                else if(9 * ResolutionLonLat * 2.0 > heightBounds)
+                else if (9 * ResolutionLonLat * 2.0 > heightBounds)
                 {
                     CreateRegions(9);
                 }

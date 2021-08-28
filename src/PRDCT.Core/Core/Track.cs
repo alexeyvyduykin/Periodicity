@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PRDCT.Core
 {
@@ -50,64 +46,124 @@ namespace PRDCT.Core
             double iTr1 = orbit.Inclination - Math.Atan2(Math.Tan(fi1), Math.Sin(Math.PI / 2.0)) * pls1;
             double lat1 = Math.Asin(Math.Sin(uTr1) * Math.Sin(iTr1));
             double asinlon1 = Math.Tan(lat1) / Math.Tan(iTr1);
-            if (Math.Abs(asinlon1) > 1.0) asinlon1 = MyMath.Sign(asinlon1);
+            if (Math.Abs(asinlon1) > 1.0)
+            {
+                asinlon1 = MyMath.Sign(asinlon1);
+            }
+
             double lon1 = Math.Asin(asinlon1) - Globals.Omega * orbit.Quart1;// Period / 4.0;
 
             double uTr2 = Math.Acos(Math.Cos(fi2) * Math.Cos(Math.PI / 2.0));
             double iTr2 = orbit.Inclination - Math.Atan2(Math.Tan(fi2), Math.Sin(Math.PI / 2.0)) * pls2;
             double lat2 = Math.Asin(Math.Sin(uTr2) * Math.Sin(iTr2));
             double asinlon2 = Math.Tan(lat2) / Math.Tan(iTr2);
-            if (Math.Abs(asinlon2) > 1.0) asinlon2 = MyMath.Sign(asinlon2);
+            if (Math.Abs(asinlon2) > 1.0)
+            {
+                asinlon2 = MyMath.Sign(asinlon2);
+            }
+
             double lon2 = Math.Asin(asinlon2) - Globals.Omega * orbit.Quart1;// Period / 4.0;
             ////////////////////////////////////////////////////////////////////
             ch23 = 0;
-            if (lon1 < 0.0 && lon2 < 0.0) ch23++;
+            if (lon1 < 0.0 && lon2 < 0.0)
+            {
+                ch23++;
+            }
+
             if (lon1 > 0.0 && lon2 < 0.0)
-                if (di1_90 < di2_90) ch23++;
+            {
+                if (di1_90 < di2_90)
+                {
+                    ch23++;
+                }
+            }
+
             if (lon1 < 0.0 && lon2 > 0.0)
-                if (di1_90 > di2_90) ch23++;
+            {
+                if (di1_90 > di2_90)
+                {
+                    ch23++;
+                }
+            }
             /////////////////////////////////////////////////////////////////////
 
             uTr1 = Math.Acos(Math.Cos(fi1) * Math.Cos(3.0 * Math.PI / 2.0));
             iTr1 = orbit.Inclination - Math.Atan2(Math.Tan(fi1), Math.Sin(3.0 * Math.PI / 2.0)) * pls1;
             lat1 = Math.Asin(Math.Sin(uTr1) * Math.Sin(iTr1));
             asinlon1 = Math.Tan(lat1) / Math.Tan(iTr1);
-            if (Math.Abs(asinlon1) > 1.0) asinlon1 = MyMath.Sign(asinlon1);
+            if (Math.Abs(asinlon1) > 1.0)
+            {
+                asinlon1 = MyMath.Sign(asinlon1);
+            }
+
             lon1 = 2.0 * Math.PI + Math.Asin(asinlon1) - Globals.Omega * orbit.Quart3;// 3.0 * Period / 4.0;
 
             uTr2 = Math.Acos(Math.Cos(fi2) * Math.Cos(3.0 * Math.PI / 2.0));
             iTr2 = orbit.Inclination - Math.Atan2(Math.Tan(fi2), Math.Sin(3.0 * Math.PI / 2.0)) * pls2;
             lat2 = Math.Asin(Math.Sin(uTr2) * Math.Sin(iTr2));
             asinlon2 = Math.Tan(lat2) / Math.Tan(iTr2);
-            if (Math.Abs(asinlon2) > 1.0) asinlon2 = MyMath.Sign(asinlon2);
+            if (Math.Abs(asinlon2) > 1.0)
+            {
+                asinlon2 = MyMath.Sign(asinlon2);
+            }
+
             lon2 = 2.0 * Math.PI + Math.Asin(asinlon2) - Globals.Omega * orbit.Quart3;// 3.0 * Period / 4.0;
             ///////////////////////////////////////////////////////////////////////////////
             ch4 = ch23;
 
             if (lon1 > 2.0 * Math.PI && lon2 > 2.0 * Math.PI)
+            {
                 ch4++;
+            }
+
             if (lon1 > 2.0 * Math.PI && lon2 < 2.0 * Math.PI)
+            {
                 if (di1_270 > di2_270)
+                {
                     ch4++;
+                }
+            }
+
             if (lon1 < 2.0 * Math.PI && lon2 > 2.0 * Math.PI)
+            {
                 if (di1_270 < di2_270)
+                {
                     ch4++;
+                }
+            }
             ///////////////////////////////////////////////////////////////////////////////////
 
-            if (ch4 == 2) mdf = -1;
-            if (ch4 == 1) mdf = 0;
-            if (ch4 == 0) mdf = 1;
+            if (ch4 == 2)
+            {
+                mdf = -1;
+            }
+
+            if (ch4 == 1)
+            {
+                mdf = 0;
+            }
+
+            if (ch4 == 0)
+            {
+                mdf = 1;
+            }
 
             //--------------------------------------------------------------------------------------
             int pmdf;
             double modnakl = orbit.InclinationNormal;
-            if ((modnakl + fi1 < Math.PI / 2.0) && (modnakl + fi2 < Math.PI / 2.0)) pmdf = 1;
-            else pmdf = 0;
+            if ((modnakl + fi1 < Math.PI / 2.0) && (modnakl + fi2 < Math.PI / 2.0))
+            {
+                pmdf = 1;
+            }
+            else
+            {
+                pmdf = 0;
+            }
             //---------------------------------
             Offset = mdf;
             Quart23 = ch23;
             Quart4 = ch4;
-            Polis = pmdf;            
+            Polis = pmdf;
         }
 
         public int Offset { get; }  // смещение
@@ -128,7 +184,7 @@ namespace PRDCT.Core
     {
         public Track(Orbit orbit)
         {
-            this.Orbit = orbit;
+            Orbit = orbit;
         }
 
         public Geo2D Position(double tnorm)
@@ -136,17 +192,38 @@ namespace PRDCT.Core
             double u = MyMath.WrapAngle(Orbit.Anomalia(tnorm) + Orbit.ArgumentOfPerigee);
             double lat = Math.Asin(Math.Sin(u) * Math.Sin(Orbit.Inclination));
             double asinlon = Math.Tan(lat) / Math.Tan(Orbit.Inclination);
-            if (Math.Abs(asinlon) > 1.0) asinlon = MyMath.Sign(asinlon);
+            if (Math.Abs(asinlon) > 1.0)
+            {
+                asinlon = MyMath.Sign(asinlon);
+            }
+
             double lon = Math.Asin(asinlon);
             if ((u <= Math.PI / 2.0) && (u >= 0))
+            {
                 lon = Math.Asin(asinlon);
+            }
+
             if ((u > Math.PI / 2.0) && (u <= 3 * Math.PI / 2))
+            {
                 lon = Math.PI - lon;
+            }
+
             if (u > 3 * Math.PI / 2 && u <= 2.0 * Math.PI)
+            {
                 lon = 2.0 * Math.PI + lon;
+            }
+
             lon = Orbit.LonAscnNode + lon - Globals.Omega * (tnorm);
-            while (lon > 2.0 * Math.PI) lon -= 2.0 * Math.PI;
-            while (lon < 0.0) lon += 2.0 * Math.PI;
+            while (lon > 2.0 * Math.PI)
+            {
+                lon -= 2.0 * Math.PI;
+            }
+
+            while (lon < 0.0)
+            {
+                lon += 2.0 * Math.PI;
+            }
+
             return new Geo2D(lon, lat, GeoCoordTypes.Radians);
         }
 
@@ -158,15 +235,22 @@ namespace PRDCT.Core
             double lat = Math.Asin(Math.Sin(u) * Math.Sin(Orbit.Inclination));
             double asinlon = Math.Tan(lat) / Math.Tan(Orbit.Inclination);
 
-            if (Math.Abs(asinlon) > 1.0) asinlon = MyMath.Sign(asinlon);
+            if (Math.Abs(asinlon) > 1.0)
+            {
+                asinlon = MyMath.Sign(asinlon);
+            }
 
             double lon = Math.Asin(asinlon);
 
             //if( quart == 1 )lon = lon;
             if (quart == 2 || quart == 3)
+            {
                 lon = (Math.PI - lon);// - factor.ch23 * 2.0 * Math.PI;
+            }
             else if (quart == 4)
+            {
                 lon = 2.0 * Math.PI + lon;// - factor.ch4 * 2.0 * Math.PI;
+            }
 
             lon = Orbit.LonAscnNode + lon - Globals.Omega * (t + tPastAN) + node * 2.0 * Math.PI;// * factor.mdf;
             return new Geo2D(lon, lat);
@@ -176,14 +260,25 @@ namespace PRDCT.Core
         {
             double lat = Math.Asin(Math.Sin(u) * Math.Sin(Orbit.Inclination));
             double asinlon = Math.Tan(lat) / Math.Tan(Orbit.Inclination);
-            if (Math.Abs(asinlon) > 1.0) asinlon = Math.Sign(asinlon);
+            if (Math.Abs(asinlon) > 1.0)
+            {
+                asinlon = Math.Sign(asinlon);
+            }
+
             double lon = 0.0;
             if (u >= 0.0 && u < Math.PI / 2.0)
+            {
                 lon = Math.Asin(asinlon);
+            }
             else if (u >= Math.PI / 2.0 && u < 3.0 * Math.PI / 2.0)
+            {
                 lon = Math.PI - Math.Asin(asinlon);
+            }
             else if (u >= 3.0 * Math.PI / 2.0 && u < 2.0 * Math.PI)
+            {
                 lon = 2.0 * Math.PI + Math.Asin(asinlon);
+            }
+
             return new Geo2D(lon, lat);
         }
 
@@ -197,7 +292,7 @@ namespace PRDCT.Core
         public CustomTrack(Orbit orbit, double alpha1DEG, TrackPointDirection direction) : base(orbit)
         {
             Alpha1 = alpha1DEG * MyMath.DegreesToRadians;
-            this.Direction = direction;
+            Direction = direction;
             switch (direction)
             {
                 case TrackPointDirection.None:
@@ -218,12 +313,22 @@ namespace PRDCT.Core
         public bool polisMod(double lat, ref double polis_mod)
         {
             double t_polis;
-            if (lat >= 0.0) t_polis = Orbit.TimeHalfPi();
-            else t_polis = 3.0 * Orbit.TimeHalfPi();
+            if (lat >= 0.0)
+            {
+                t_polis = Orbit.TimeHalfPi();
+            }
+            else
+            {
+                t_polis = 3.0 * Orbit.TimeHalfPi();
+            }
 
             double fi = centralAngle(t_polis + Orbit.ArgumentOfPerigee * Orbit.Period / (2.0 * Math.PI));
             double i = Orbit.Inclination - fi * dir;
-            if (i > Math.PI / 2.0) i = Math.PI - i;
+            if (i > Math.PI / 2.0)
+            {
+                i = Math.PI - i;
+            }
+
             if (i <= Math.Abs(lat))
             {
                 polis_mod = Orbit.InclinationNormal + fi * dir;
@@ -251,15 +356,22 @@ namespace PRDCT.Core
             double lat = Math.Asin(Math.Sin(uTr) * Math.Sin(iTr));
             double asinlon = Math.Tan(lat) / Math.Tan(iTr);
 
-            if (Math.Abs(asinlon) > 1.0) asinlon = MyMath.Sign(asinlon);
+            if (Math.Abs(asinlon) > 1.0)
+            {
+                asinlon = MyMath.Sign(asinlon);
+            }
 
             double lon = Math.Asin(asinlon);
 
             //if( quart == 1 )lon = lon;
             if (quart == 2 || quart == 3)
+            {
                 lon = (Math.PI - lon);// - factor.ch23 * 2.0 * Math.PI;
+            }
             else if (quart == 4)
+            {
                 lon = 2.0 * Math.PI + lon;// - factor.ch4 * 2.0 * Math.PI;
+            }
 
             lon = Orbit.LonAscnNode + lon - Globals.Omega * (t + tPastAN) + node * 2.0 * Math.PI;// * factor.mdf;
             return new Geo2D(lon, lat, GeoCoordTypes.Radians);
@@ -282,15 +394,25 @@ namespace PRDCT.Core
             }
             double lat = Math.Asin(Math.Sin(uTr) * Math.Sin(iTr));
             double asinlon = Math.Tan(lat) / Math.Tan(iTr);
-            if (Math.Abs(asinlon) > 1.0) asinlon = Math.Sign(asinlon);
+            if (Math.Abs(asinlon) > 1.0)
+            {
+                asinlon = Math.Sign(asinlon);
+            }
+
             double lon = 0.0;
             if (u >= 0.0 && u < Math.PI / 2.0)
+            {
                 lon = Math.Asin(asinlon);
+            }
             else if (u >= Math.PI / 2.0 && u < 3.0 * Math.PI / 2.0)
+            {
                 lon = Math.PI - Math.Asin(asinlon);
+            }
             else if (u >= 3.0 * Math.PI / 2.0 && u < 2.0 * Math.PI)
-
+            {
                 lon = 2.0 * Math.PI + Math.Asin(asinlon);
+            }
+
             return new Geo2D(lon, lat);
         }
 
@@ -334,20 +456,27 @@ namespace PRDCT.Core
             double lat = Math.Asin(Math.Sin(uTr) * Math.Sin(iTr));
             double asinlon = Math.Tan(lat) / Math.Tan(iTr);
 
-            if (Math.Abs(asinlon) > 1.0) asinlon = MyMath.Sign(asinlon);
+            if (Math.Abs(asinlon) > 1.0)
+            {
+                asinlon = MyMath.Sign(asinlon);
+            }
 
             double lon = Math.Asin(asinlon);
 
             //if( quart == 1 )lon = lon;
             if (quart == 2 || quart == 3)
+            {
                 lon = (Math.PI - lon) - factor.Quart23 * 2.0 * Math.PI;
+            }
             else if (quart == 4)
+            {
                 lon = 2.0 * Math.PI + lon - factor.Quart4 * 2.0 * Math.PI;
+            }
 
             lon = Orbit.LonAscnNode + lon - Globals.Omega * (t + tPastAN) + node * 2.0 * Math.PI * factor.Offset;
             return new Geo2D(lon, lat, GeoCoordTypes.Radians);
         }
 
-        private FactorShiftTrack factor;
+        private readonly FactorShiftTrack factor;
     }
 }

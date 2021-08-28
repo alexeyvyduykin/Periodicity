@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PRDCT.Core
 {
@@ -11,14 +7,14 @@ namespace PRDCT.Core
     {
         public Orbit(double a, double ecc, double incl, double argOfPer, double lonAN, double om, double period, DateTime epoch)
         {
-            this.SemimajorAxis = a;
-            this.Eccentricity = ecc;
-            this.Inclination = incl;
-            this.ArgumentOfPerigee = argOfPer;
-            this.LonAscnNode = lonAN;
-            this.RAAN = om;
-            this.Period = period;
-            this.Epoch = epoch;
+            SemimajorAxis = a;
+            Eccentricity = ecc;
+            Inclination = incl;
+            ArgumentOfPerigee = argOfPer;
+            LonAscnNode = lonAN;
+            RAAN = om;
+            Period = period;
+            Epoch = epoch;
 
             pTemp = a * (1 - ecc * ecc);
             nTemp = Math.Sqrt(Globals.GM / a) / a;
@@ -47,7 +43,10 @@ namespace PRDCT.Core
         public double Radius(double tnorm)
         {
             if (Eccentricity == 0)
+            {
                 return SemimajorAxis;
+            }
+
             double u = Anomalia(tnorm) + ArgumentOfPerigee;
             return pTemp / (1 + Eccentricity * Math.Cos(u));
         }
@@ -61,7 +60,11 @@ namespace PRDCT.Core
         {
             double r = Math.PI / 4.0;
             double e1 = 2.0 * Math.Atan2(Math.Sqrt((1.0 - Eccentricity) / (1.0 + Eccentricity)) * Math.Sin(r), Math.Cos(r));
-            if (e1 < 0) e1 += 2.0 * Math.PI;
+            if (e1 < 0)
+            {
+                e1 += 2.0 * Math.PI;
+            }
+
             double e2 = e1 - Eccentricity * Math.Sin(e1);
             return e2 / nTemp;
         }
@@ -71,7 +74,10 @@ namespace PRDCT.Core
             get
             {
                 if (Inclination >= 0.0 && Inclination <= Math.PI / 2.0)
+                {
                     return Inclination;
+                }
+
                 return Math.PI - Inclination;
             }
         }
@@ -93,7 +99,7 @@ namespace PRDCT.Core
         public double Period { get; }
         public DateTime Epoch { get; }
 
-        private double nTemp, pTemp;
-        private double timeHalfPi;
+        private readonly double nTemp, pTemp;
+        private readonly double timeHalfPi;
     }
 }

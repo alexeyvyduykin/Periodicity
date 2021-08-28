@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using PRDCT.Data;
+using Periodicity.Core.Data;
 
 namespace PRDCT.Core.PRDCTPeriodicity
 {
@@ -21,8 +19,10 @@ namespace PRDCT.Core.PRDCTPeriodicity
 
             for (int i = 0; i < DataRegionCuts.Count; i++)
             {
-                if(DataRegionCuts[i].LatDEG == prevLatDEG)               
+                if (DataRegionCuts[i].LatDEG == prevLatDEG)
+                {
                     continue;
+                }
 
                 prevLatDEG = curLatDEG = DataRegionCuts[i].LatDEG;
                 curLat = DataRegionCuts[i].LatRAD;
@@ -75,7 +75,7 @@ namespace PRDCT.Core.PRDCTPeriodicity
                     //var sensors = Sensors[Guid.Parse(curIdSatellite)];
 
                     //foreach (var band in satellite.Bands)
-                    foreach(var sensor in Sensors[Guid.Parse(curIdSatellite)])
+                    foreach (var sensor in Sensors[Guid.Parse(curIdSatellite)])
                     {
                         //PRDCTBandCutter cutter = new PRDCTBandCutter(band);
 
@@ -89,7 +89,7 @@ namespace PRDCT.Core.PRDCTPeriodicity
                         //    pls = -1;
 
                         //double verivalHalfAngle = (gam2Deg - gam1Deg) / 2.0;
-                       // double rollAngle = pls * (gam1Deg + verivalHalfAngle);
+                        // double rollAngle = pls * (gam1Deg + verivalHalfAngle);
 
                         //Sensor sensor = new SensorSAR(verivalHalfAngle, rollAngle);
 
@@ -174,8 +174,8 @@ namespace PRDCT.Core.PRDCTPeriodicity
         //    public double left, right, tLeft, tRight;
         //}
 
-        private List<PRDCTInterval> vectBandIvals = new List<PRDCTInterval>();
-        private List<RegionCutter> vectRegionCutters = new List<RegionCutter>();
+        private readonly List<PRDCTInterval> vectBandIvals = new List<PRDCTInterval>();
+        private readonly List<RegionCutter> vectRegionCutters = new List<RegionCutter>();
 
         private double curTimeBegin;
         private double curTimeEnd;

@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PRDCT.Core
 {
@@ -39,7 +35,7 @@ namespace PRDCT.Core
 
         public TMyDate(DateTime dateTime)
         {
-            Set(dateTime.Year, dateTime.Month, dateTime.Day, dateTime.Hour, dateTime.Minute, dateTime.Millisecond);            
+            Set(dateTime.Year, dateTime.Month, dateTime.Day, dateTime.Hour, dateTime.Minute, dateTime.Millisecond);
         }
 
         public enum DateTimeFlag
@@ -82,7 +78,7 @@ namespace PRDCT.Core
         {
             double JD = dblJulian + 0.5;
             double tempZ;
-           
+
             double F = MyMath.Modf(JD, out tempZ);
             int Z = (int)tempZ;
 
@@ -97,11 +93,23 @@ namespace PRDCT.Core
             double dblDay = B - D - INT(30.6001 * E) + F;
             Day = (int)dblDay;
 
-            if (E < 14) Month = E - 1;
-            else Month = E - 13;
+            if (E < 14)
+            {
+                Month = E - 1;
+            }
+            else
+            {
+                Month = E - 13;
+            }
 
-            if (Month > 2) Year = C - 4716;
-            else Year = C - 4715;
+            if (Month > 2)
+            {
+                Year = C - 4716;
+            }
+            else
+            {
+                Year = C - 4715;
+            }
 
             F = MyMath.Modf(dblDay, out tempZ);
             Hour = INT(F * 24);
@@ -148,8 +156,14 @@ namespace PRDCT.Core
             int Year, Month, Day, Hour, Minute;
             double Second;
             Get(out Year, out Month, out Day, out Hour, out Minute, out Second);
-            if (IsLeap(Year)) return 366;
-            else return 365;
+            if (IsLeap(Year))
+            {
+                return 366;
+            }
+            else
+            {
+                return 365;
+            }
         }
         public double DayOfYear()
         {
@@ -164,8 +178,15 @@ namespace PRDCT.Core
             double Second;
             Get(out Year, out Month, out Day, out Hour, out Minute, out Second);
             long DaysInYear;
-            if (IsLeap(Year)) DaysInYear = 366;
-            else DaysInYear = 365;
+            if (IsLeap(Year))
+            {
+                DaysInYear = 366;
+            }
+            else
+            {
+                DaysInYear = 365;
+            }
+
             return Year + ((dblJulian - DateToJD(Year, 1, 1)) / DaysInYear);
         }
         public bool Leap()
@@ -321,7 +342,11 @@ namespace PRDCT.Core
         {
             int K = bLeap ? 1 : 2;
             Month = INT(9 * (K + DayOfYear) / 275.0 + 0.98);
-            if (DayOfYear < 32) Month = 1;
+            if (DayOfYear < 32)
+            {
+                Month = 1;
+            }
+
             DayOfMonth = DayOfYear - INT((275 * Month) / 9.0) + (K * INT((Month + 9) / 12.0)) + 30;
 
         }
@@ -335,21 +360,35 @@ namespace PRDCT.Core
         {
             int[] MonthLength = new int[] { 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
 
-            if (bLeap) MonthLength[1]++;
+            if (bLeap)
+            {
+                MonthLength[1]++;
+            }
+
             return MonthLength[Month - 1];
 
         }
         private static int INT(double value)
         {
             if (value >= 0)
+            {
                 return (int)(value);
+            }
             else
+            {
                 return (int)(value - 1);
+            }
         }
         private static bool IsLeap(long Year)
         {
-            if ((Year % 100) == 0) return ((Year % 400) == 0) ? true : false;
-            else return ((Year % 4) == 0) ? true : false;
+            if ((Year % 100) == 0)
+            {
+                return ((Year % 400) == 0) ? true : false;
+            }
+            else
+            {
+                return ((Year % 4) == 0) ? true : false;
+            }
         }
 
         protected double dblJulian;

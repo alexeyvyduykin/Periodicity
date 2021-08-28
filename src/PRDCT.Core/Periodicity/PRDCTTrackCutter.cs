@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PRDCT.Core.PRDCTPeriodicity
 {
@@ -48,7 +44,9 @@ namespace PRDCT.Core.PRDCTPeriodicity
                     latTemp = track.ContinuousTrack(node, tTemp, tPastAN, quart).Lat;
 
                     if (MyMath.InRange(latCutter, latTemp, latBegin))
+                    {
                         tEndTemp = tTemp;
+                    }
                     else
                     {
                         tBeginTemp = tTemp;
@@ -62,15 +60,19 @@ namespace PRDCT.Core.PRDCTPeriodicity
             else
             {
                 if (Math.Abs(latCutter - latBegin) > Math.Abs(latCutter - latEnd))
+                {
                     tTemp = tEnd;
+                }
                 else
+                {
                     tTemp = tBegin;
+                }
             }
 
             return Tuple.Create<double?, double>(null, tTemp);
         }
 
-        private Track track;
+        private readonly Track track;
 
         //private double currectLatCutter;
         //private int currentNode;

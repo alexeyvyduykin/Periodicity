@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using GlmSharp;
 
 namespace PRDCT.Core.TEST.Main
@@ -13,11 +10,11 @@ namespace PRDCT.Core.TEST.Main
         //{ for the different coordinates system }
         public struct TAllSystemRec
         {
-            double ro;
-            double ah, hh; //{ horizontal}
-            double aa, da; //{ equator }
-            double le, be; //{ ecliptic }
-            double lg, bg;
+            private readonly double ro;
+            private readonly double ah, hh; //{ horizontal}
+            private readonly double aa, da; //{ equator }
+            private readonly double le, be; //{ ecliptic }
+            private readonly double lg, bg;
         }
 
         public static dmat3 MatrUnit = new dmat3(
@@ -45,15 +42,14 @@ namespace PRDCT.Core.TEST.Main
 
         public struct TEclipseRec
         {
-            vec3 centreshad;
-            double fullshadow;
-            double semishadow;
+            private vec3 centreshad;
+            private readonly double fullshadow;
+            private readonly double semishadow;
         }
 
-
-        static int NumberOfStars;
-        static int NumStarsInRect;
-        static int SmallStarSize;
+        private static readonly int NumberOfStars;
+        private static readonly int NumStarsInRect;
+        private static readonly int SmallStarSize;
 
 
         public static bool BooAddInform;
@@ -135,13 +131,13 @@ namespace PRDCT.Core.TEST.Main
         public static string stPathResult; // for path to folder for result
         public static string stPathDefault; // for path to folder with program
         public static string stPathSite; // for path to folder with site position
-  
-          static int MaxNameValue = 97; // to select step , area size and others
+
+        private static readonly int MaxNameValue = 97; // to select step , area size and others
 
         public struct TNameValue
         {
-            string strname;
-            double valname;
+            private readonly string strname;
+            private readonly double valname;
         }
 
         public static int NumNameValue; // current maximum number

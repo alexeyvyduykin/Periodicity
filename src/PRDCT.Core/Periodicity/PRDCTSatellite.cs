@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PRDCT.Core.PRDCTPeriodicity
 {
@@ -13,10 +10,10 @@ namespace PRDCT.Core.PRDCTPeriodicity
 
         public PRDCTSatellite(Orbit orbit, DateTime startTime, DateTime stopTime, double trueAnomaly)
         {
-            this.Orbit = orbit;
-            this.StartTime = startTime;
-            this.StopTime = stopTime;
-            this.TrueAnomaly = trueAnomaly;
+            Orbit = orbit;
+            StartTime = startTime;
+            StopTime = stopTime;
+            TrueAnomaly = trueAnomaly;
         }
 
         public PRDCTSatellite(Orbit orbit, DateTime startTime, DateTime stopTime) : this(orbit, startTime, stopTime, 0.0) { }
@@ -39,7 +36,7 @@ namespace PRDCT.Core.PRDCTPeriodicity
                 Period,
                 satellite.OrbitState.OrbitEpoch);
 
-            return new PRDCTSatellite(orbit, 1, satellite.OrbitState.Location.TrueAnomaly * MyMath.DegreesToRadians);    
+            return new PRDCTSatellite(orbit, 1, satellite.OrbitState.Location.TrueAnomaly * MyMath.DegreesToRadians);
         }
 
         public double TrueTimePastAN
@@ -49,7 +46,11 @@ namespace PRDCT.Core.PRDCTPeriodicity
                 double u = TrueAnomaly;
                 double n = Math.Sqrt(Globals.GM) * Math.Pow(Orbit.SemimajorAxis, -3.0 / 2.0);
                 double e1 = 2.0 * Math.Atan2(Math.Sqrt((1.0 - Orbit.Eccentricity) / (1.0 + Orbit.Eccentricity)) * Math.Sin(u / 2.0), Math.Cos(u / 2.0));
-                if (e1 < 0) e1 += 2.0 * Math.PI;
+                if (e1 < 0)
+                {
+                    e1 += 2.0 * Math.PI;
+                }
+
                 double e2 = e1 - Orbit.Eccentricity * Math.Sin(e1);
                 return e2 / n;
             }
@@ -183,9 +184,15 @@ namespace PRDCT.Core.PRDCTPeriodicity
 
                     double lon = point.Lon;
                     while (lon > 2.0 * Math.PI)
+                    {
                         lon -= 2.0 * Math.PI;
+                    }
+
                     while (lon < 0.0)
+                    {
                         lon += 2.0 * Math.PI;
+                    }
+
                     points.Add(new Geo2D(lon, point.Lat));
                 }
             }

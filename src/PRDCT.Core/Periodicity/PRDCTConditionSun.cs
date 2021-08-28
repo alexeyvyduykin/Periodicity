@@ -1,9 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using GlmSharp;
 
 namespace PRDCT.Core.PRDCTPeriodicity
 {
@@ -16,7 +11,7 @@ namespace PRDCT.Core.PRDCTPeriodicity
             End = end;
             HasEnd = hasEnd;
         }
-    
+
         public static Interval<T> Create(Interval<T> obj)
         {
             return new Interval<T>(obj.Start, obj.HasStart, obj.End, obj.HasEnd);
@@ -24,7 +19,7 @@ namespace PRDCT.Core.PRDCTPeriodicity
 
         public void SwapTest()
         {
-            if(Start.CompareTo(End) < 0)
+            if (Start.CompareTo(End) < 0)
             {
                 T temp = End;
                 End = Start;

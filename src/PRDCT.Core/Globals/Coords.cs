@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PRDCT.Core
 {
@@ -88,9 +84,9 @@ namespace PRDCT.Core
 
         public Geo2D(double lon, double lat, GeoCoordTypes type = GeoCoordTypes.Radians)
         {
-            this.Lon = lon;
-            this.Lat = lat;
-            this.Type = type;
+            Lon = lon;
+            Lat = lat;
+            Type = type;
         }
 
         //public Geo2D LongitudeNormalize()
@@ -150,7 +146,7 @@ namespace PRDCT.Core
             {
                 Lon *= MyMath.DegreesToRadians;
                 Lat *= MyMath.DegreesToRadians;
-                this.Type = GeoCoordTypes.Radians;
+                Type = GeoCoordTypes.Radians;
             }
         }
 
@@ -160,7 +156,7 @@ namespace PRDCT.Core
             {
                 Lon *= MyMath.RadiansToDegrees;
                 Lat *= MyMath.RadiansToDegrees;
-                this.Type = GeoCoordTypes.Degrees;
+                Type = GeoCoordTypes.Degrees;
             }
         }
 
@@ -184,10 +180,10 @@ namespace PRDCT.Core
 
         public Geo3D(double lon, double lat, double height, GeoCoordTypes type = GeoCoordTypes.Radians)
         {
-            this.Lon = lon;
-            this.Lat = lat;
-            this.W = height;
-            this.Type = type;
+            Lon = lon;
+            Lat = lat;
+            W = height;
+            Type = type;
         }
 
         //public void Normalize()
@@ -239,7 +235,7 @@ namespace PRDCT.Core
             {
                 Lon *= MyMath.DegreesToRadians;
                 Lat *= MyMath.DegreesToRadians;
-                this.Type = GeoCoordTypes.Radians;
+                Type = GeoCoordTypes.Radians;
             }
         }
 
@@ -249,7 +245,7 @@ namespace PRDCT.Core
             {
                 Lon *= MyMath.RadiansToDegrees;
                 Lat *= MyMath.RadiansToDegrees;
-                this.Type = GeoCoordTypes.Degrees;
+                Type = GeoCoordTypes.Degrees;
             }
         }
 
