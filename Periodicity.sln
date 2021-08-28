@@ -1,0 +1,30 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31025.194
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PRDCT.Core", "src\PRDCT.Core\PRDCT.Core.csproj", "{DCDFC49F-2BA0-450F-B64D-33D10D28BE3E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{74BFDB51-69A1-44D9-86C2-E9CA789A6EA4}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{DCDFC49F-2BA0-450F-B64D-33D10D28BE3E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DCDFC49F-2BA0-450F-B64D-33D10D28BE3E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DCDFC49F-2BA0-450F-B64D-33D10D28BE3E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DCDFC49F-2BA0-450F-B64D-33D10D28BE3E}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{DCDFC49F-2BA0-450F-B64D-33D10D28BE3E} = {74BFDB51-69A1-44D9-86C2-E9CA789A6EA4}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {D24908AF-110B-4F53-8230-82125107D132}
+	EndGlobalSection
+EndGlobal
