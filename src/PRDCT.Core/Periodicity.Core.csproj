@@ -1,85 +1,22 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+<Project Sdk="Microsoft.NET.Sdk">
+
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{DCDFC49F-2BA0-450F-B64D-33D10D28BE3E}</ProjectGuid>
+    <TargetFramework>net5.0</TargetFramework>
     <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Periodicity.Core</RootNamespace>
-    <AssemblyName>Periodicity.Core</AssemblyName>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
+    <IsPackable>False</IsPackable>
+    <Nullable>enable</Nullable>
+    <SignAssembly>false</SignAssembly>
+    <Version>0.1.0</Version>
+    <Description>Periodicity.Core</Description>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
+
   <ItemGroup>
-    <Reference Include="GlmSharp">
-      <HintPath>..\..\..\Globe3D 1.0\packages\GlmSharp.0.9.8\lib\Net45\GlmSharp.dll</HintPath>
-    </Reference>
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Drawing" />
+    <PackageReference Include="GlmSharp" Version="1.0.0" />
   </ItemGroup>
-  <ItemGroup>
-    <Compile Include="BaseObjects\Scenario.cs" />
-    <Compile Include="Core\Band.cs" />
-    <Compile Include="Core\Node.cs" />
-    <Compile Include="Core\Orbit.cs" />
-    <Compile Include="Core\Sun.cs" />
-    <Compile Include="Core\Track.cs" />
-    <Compile Include="Data\Data.cs" />
-    <Compile Include="Ellipsoid.cs" />
-    <Compile Include="BaseObjects\BaseObject.cs" />
-    <Compile Include="BaseObjects\AreaTarget.cs" />
-    <Compile Include="BaseObjects\Satellite.cs" />
-    <Compile Include="BaseObjects\Sensor.cs" />
-    <Compile Include="Globals\Coords.cs" />
-    <Compile Include="Globals\Globals.cs" />
-    <Compile Include="Globals\Julian.cs" />
-    <Compile Include="Core\Region.cs" />
-    <Compile Include="Core\Satellite.cs" />
-    <Compile Include="Core\Sensor.cs" />
-    <Compile Include="Periodicity\PRDCTBandCutter.cs" />
-    <Compile Include="Periodicity\PRDCTConditionSun.cs" />
-    <Compile Include="Periodicity\PRDCTEngineIvals.cs" />
-    <Compile Include="Periodicity\PRDCTEngineRegionCuts.cs" />
-    <Compile Include="Periodicity\PRDCTEngineTimeIvals.cs" />
-    <Compile Include="Periodicity\PRDCTInterval.cs" />
-    <Compile Include="Periodicity\Periodicity.cs" />
-    <Compile Include="Periodicity\PRDCTRegionCutter.cs" />
-    <Compile Include="Periodicity\PeriodicitySunTerrain.cs" />
-    <Compile Include="Periodicity\PeriodicityUtility.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TEST\CoverageDefinition.cs" />
-    <Compile Include="TEST\DateTime\Date.cs" />
-    <Compile Include="TEST\DateTime\JulianDate.cs" />
-    <Compile Include="TMyDate.cs" />
-    <Compile Include="Utilities.cs" />
-  </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
+
+
 </Project>
