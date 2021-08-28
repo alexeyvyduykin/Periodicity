@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Xml;
-using System.Xml.Schema;
-using System.Xml.Serialization;
 
 namespace Periodicity.Core
 {
@@ -21,7 +18,7 @@ namespace Periodicity.Core
         Sensor = 3
     }
 
-    public abstract class BaseObject : IXmlSerializable, IHeaderBaseObject
+    public abstract class BaseObject : IHeaderBaseObject
     {
         public Guid Id { get; protected set; }
         public string Name { get; set; }
@@ -40,10 +37,6 @@ namespace Periodicity.Core
 
         //public Property Path Returns the object path.  
         //       public STKObjectRoot Root;
-
-        public XmlSchema GetSchema() { return null; }
-        public abstract void ReadXml(XmlReader reader);
-        public abstract void WriteXml(XmlWriter writer);
     }
 
     public abstract class ParentBaseObject : BaseObject

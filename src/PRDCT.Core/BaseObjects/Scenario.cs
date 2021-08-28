@@ -1,13 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Xml;
-using System.Xml.Schema;
-using System.Xml.Serialization;
 
 namespace Periodicity.Core
 {
-    public class BaseScenario : IXmlSerializable
+    public class BaseScenario
     {
         public event EventHandler Changed;
 
@@ -88,55 +85,6 @@ namespace Periodicity.Core
         {
             return Objects.Where(obj => obj is T).Select(obj => (T)obj);
         }
-
-
-        #region Serializable 
-
-        public XmlSchema GetSchema() { return null; }
-
-        public void ReadXml(XmlReader reader)     // читать
-        {
-            if (reader.MoveToContent() == XmlNodeType.Element && reader.LocalName == "BaseScenario")
-            {
-                Id = Guid.Parse(reader["Id"]);
-                Name = reader["Name"];
-                Description = reader["Description"];
-
-                reader.Read();   // BaseScenario -> Objects
-
-                if (reader.MoveToContent() == XmlNodeType.Element && reader.LocalName == "Objects")
-                {
-                    reader.Read(); // Objects -> List<BaseObjects>
-                    while (reader.MoveToContent() == XmlNodeType.Element && Type.GetType(reader.LocalName).IsSubclassOf(typeof(BaseObject)))
-                    {
-                        Type objectType = Type.GetType(reader.LocalName);
-                        BaseObject obj = (BaseObject)Activator.CreateInstance(objectType);
-
-                        obj.ReadXml(reader);
-                        Objects.Add(obj);
-                    }
-                }
-                reader.Read(); // BaseScenario <- Objects
-            }
-        }
-
-        public void WriteXml(XmlWriter writer)   // записывать
-        {
-            //  writer.WriteStartElement("BaseScenario");
-            writer.WriteAttributeString("Id", Id.ToString());
-            writer.WriteAttributeString("Name", Name);
-            writer.WriteAttributeString("Description", Description);
-            writer.WriteStartElement("Objects");
-            foreach (BaseObject obj in Objects)
-            {
-                obj.WriteXml(writer);
-            }
-            writer.WriteEndElement();
-            //  writer.WriteEndElement();
-        }
-
-        #endregion
-
 
         public Guid Id { get; protected set; }
         public string Name { get; set; }

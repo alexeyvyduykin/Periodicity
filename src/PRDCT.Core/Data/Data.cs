@@ -1,7 +1,5 @@
 ﻿using System;
 using System.ComponentModel;
-using System.Data.Linq;
-using System.Data.Linq.Mapping;
 
 namespace Periodicity.Core
 {
@@ -89,9 +87,6 @@ namespace Periodicity.Core
     public partial class dbPRDCTDataContext
     {
 
-        private static readonly System.Data.Linq.Mapping.MappingSource mappingSource = new AttributeMappingSource();
-
-
         public Regions Regions { get; }
 
         public RegionCuts RegionCuts { get; }
@@ -122,7 +117,6 @@ namespace Periodicity.Core
 
         #region Определения метода расширяемости
         partial void OnLoaded();
-        partial void OnValidate(System.Data.Linq.ChangeAction action);
         partial void OnCreated();
         partial void OnRegionIDChanging(string value);
         partial void OnRegionIDChanged();
@@ -141,7 +135,6 @@ namespace Periodicity.Core
             OnCreated();
         }
 
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_RegionID", DbType = "NVarChar(50) NOT NULL", CanBeNull = false, IsPrimaryKey = true)]
         public string RegionID
         {
             get
@@ -161,7 +154,6 @@ namespace Periodicity.Core
             }
         }
 
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_RegionName", DbType = "NVarChar(50)")]
         public string RegionName
         {
             get
@@ -181,7 +173,6 @@ namespace Periodicity.Core
             }
         }
 
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_RegionType", DbType = "NVarChar(10) NOT NULL", CanBeNull = false)]
         public string RegionType
         {
             get
@@ -201,7 +192,6 @@ namespace Periodicity.Core
             }
         }
 
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_RegionData", DbType = "NVarChar(MAX) NOT NULL", CanBeNull = false)]
         public string RegionData
         {
             get
@@ -221,7 +211,6 @@ namespace Periodicity.Core
             }
         }
 
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_RegionDescription", DbType = "NVarChar(MAX)")]
         public string RegionDescription
         {
             get
@@ -282,7 +271,7 @@ namespace Periodicity.Core
         {
         }
 
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_PeriodicityID", DbType = "NVarChar(50) NOT NULL", CanBeNull = false)]
+
         public string PeriodicityID
         {
             get
@@ -298,7 +287,7 @@ namespace Periodicity.Core
             }
         }
 
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_RegionID", DbType = "NVarChar(50) NOT NULL", CanBeNull = false)]
+    
         public string RegionID
         {
             get
@@ -314,7 +303,7 @@ namespace Periodicity.Core
             }
         }
 
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_LatDEG", DbType = "Float NOT NULL")]
+       
         public double LatDEG
         {
             get
@@ -330,7 +319,7 @@ namespace Periodicity.Core
             }
         }
 
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_LatRAD", DbType = "Float NOT NULL")]
+     
         public double LatRAD
         {
             get
@@ -346,7 +335,7 @@ namespace Periodicity.Core
             }
         }
 
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_LonLeft", DbType = "Float NOT NULL")]
+       
         public double LonLeft
         {
             get
@@ -362,7 +351,7 @@ namespace Periodicity.Core
             }
         }
 
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_LonRight", DbType = "Float NOT NULL")]
+   
         public double LonRight
         {
             get
@@ -407,7 +396,7 @@ namespace Periodicity.Core
         {
         }
 
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_PeriodicityID", DbType = "NVarChar(50) NOT NULL", CanBeNull = false)]
+       
         public string PeriodicityID
         {
             get
@@ -423,7 +412,7 @@ namespace Periodicity.Core
             }
         }
 
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_SatelliteID", DbType = "NVarChar(50) NOT NULL", CanBeNull = false)]
+  
         public string SatelliteID
         {
             get
@@ -439,7 +428,7 @@ namespace Periodicity.Core
             }
         }
 
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_LatDEG", DbType = "Float NOT NULL")]
+        
         public double LatDEG
         {
             get
@@ -455,7 +444,7 @@ namespace Periodicity.Core
             }
         }
 
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_LatRAD", DbType = "Float NOT NULL")]
+      
         public double LatRAD
         {
             get
@@ -471,7 +460,7 @@ namespace Periodicity.Core
             }
         }
 
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_LonLeft", DbType = "Float NOT NULL")]
+   
         public double LonLeft
         {
             get
@@ -487,7 +476,7 @@ namespace Periodicity.Core
             }
         }
 
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_LonRight", DbType = "Float NOT NULL")]
+     
         public double LonRight
         {
             get
@@ -503,7 +492,7 @@ namespace Periodicity.Core
             }
         }
 
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_Node", DbType = "Int NOT NULL")]
+    
         public int Node
         {
             get
@@ -519,7 +508,7 @@ namespace Periodicity.Core
             }
         }
 
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_TimeLeft", DbType = "Float NOT NULL")]
+      
         public double TimeLeft
         {
             get
@@ -535,7 +524,7 @@ namespace Periodicity.Core
             }
         }
 
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_TimeRight", DbType = "Float NOT NULL")]
+      
         public double TimeRight
         {
             get
@@ -551,7 +540,7 @@ namespace Periodicity.Core
             }
         }
 
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_RegionID", DbType = "NVarChar(50) NOT NULL", CanBeNull = false)]
+      
         public string RegionID
         {
             get
@@ -588,7 +577,7 @@ namespace Periodicity.Core
         {
         }
 
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_PeriodicityID", DbType = "NVarChar(50) NOT NULL", CanBeNull = false)]
+       
         public string PeriodicityID
         {
             get
@@ -604,7 +593,7 @@ namespace Periodicity.Core
             }
         }
 
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_SatelliteID", DbType = "NVarChar(50) NOT NULL", CanBeNull = false)]
+    
         public string SatelliteID
         {
             get
@@ -620,7 +609,7 @@ namespace Periodicity.Core
             }
         }
 
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_Node", DbType = "Int NOT NULL")]
+        
         public int Node
         {
             get
@@ -636,7 +625,7 @@ namespace Periodicity.Core
             }
         }
 
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_TimeBegin", DbType = "Float NOT NULL")]
+      
         public double TimeBegin
         {
             get
@@ -652,7 +641,7 @@ namespace Periodicity.Core
             }
         }
 
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_TimeEnd", DbType = "Float NOT NULL")]
+    
         public double TimeEnd
         {
             get
@@ -668,7 +657,7 @@ namespace Periodicity.Core
             }
         }
 
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_Quart", DbType = "NVarChar(50) NOT NULL", CanBeNull = false)]
+    
         public string Quart
         {
             get
@@ -705,7 +694,6 @@ namespace Periodicity.Core
 
         #region Определения метода расширяемости
         partial void OnLoaded();
-        partial void OnValidate(System.Data.Linq.ChangeAction action);
         partial void OnCreated();
         partial void OnPeriodicityIDChanging(string value);
         partial void OnPeriodicityIDChanged();
@@ -726,7 +714,7 @@ namespace Periodicity.Core
             OnCreated();
         }
 
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_PeriodicityID", DbType = "NVarChar(50) NOT NULL", CanBeNull = false, IsPrimaryKey = true)]
+     
         public string PeriodicityID
         {
             get
@@ -746,7 +734,7 @@ namespace Periodicity.Core
             }
         }
 
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_PeriodicityName", DbType = "NVarChar(50) NOT NULL", CanBeNull = false)]
+        
         public string PeriodicityName
         {
             get
@@ -766,7 +754,7 @@ namespace Periodicity.Core
             }
         }
 
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_Epoch", DbType = "NVarChar(50) NOT NULL", CanBeNull = false)]
+  
         public string Epoch
         {
             get
@@ -786,7 +774,7 @@ namespace Periodicity.Core
             }
         }
 
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_TimeStart", DbType = "Float NOT NULL")]
+      
         public double TimeStart
         {
             get
@@ -806,7 +794,7 @@ namespace Periodicity.Core
             }
         }
 
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_TimeDuration", DbType = "Float NOT NULL")]
+       
         public double TimeDuration
         {
             get
@@ -826,7 +814,7 @@ namespace Periodicity.Core
             }
         }
 
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_LatitudeStep", DbType = "Float NOT NULL")]
+      
         public double LatitudeStep
         {
             get
@@ -879,13 +867,12 @@ namespace Periodicity.Core
 
         private string _Description;
 
-        private System.Xml.Linq.XElement _XMLObjects;
 
-        private EntityRef<ScenarioUserTable> _ScenarioUserTable;
+        private ScenarioUserTable _ScenarioUserTable;
 
         #region Определения метода расширяемости
         partial void OnLoaded();
-        partial void OnValidate(System.Data.Linq.ChangeAction action);
+ 
         partial void OnCreated();
         partial void OnIdChanging(string value);
         partial void OnIdChanged();
@@ -893,17 +880,16 @@ namespace Periodicity.Core
         partial void OnNameChanged();
         partial void OnDescriptionChanging(string value);
         partial void OnDescriptionChanged();
-        partial void OnXMLObjectsChanging(System.Xml.Linq.XElement value);
-        partial void OnXMLObjectsChanged();
+
         #endregion
 
         public ScenarioTable()
         {
-            _ScenarioUserTable = default(EntityRef<ScenarioUserTable>);
+   
             OnCreated();
         }
 
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_Id", DbType = "NVarChar(50) NOT NULL", CanBeNull = false, IsPrimaryKey = true)]
+       
         public string Id
         {
             get
@@ -923,7 +909,7 @@ namespace Periodicity.Core
             }
         }
 
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_Name", DbType = "NVarChar(50) NOT NULL", CanBeNull = false)]
+      
         public string Name
         {
             get
@@ -943,7 +929,7 @@ namespace Periodicity.Core
             }
         }
 
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_Description", DbType = "NVarChar(50) NOT NULL", CanBeNull = false)]
+
         public string Description
         {
             get
@@ -962,56 +948,7 @@ namespace Periodicity.Core
                 }
             }
         }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_XMLObjects", DbType = "Xml NOT NULL", CanBeNull = false, UpdateCheck = UpdateCheck.Never)]
-        public System.Xml.Linq.XElement XMLObjects
-        {
-            get
-            {
-                return _XMLObjects;
-            }
-            set
-            {
-                if ((_XMLObjects != value))
-                {
-                    OnXMLObjectsChanging(value);
-                    SendPropertyChanging();
-                    _XMLObjects = value;
-                    SendPropertyChanged("XMLObjects");
-                    OnXMLObjectsChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "ScenarioTable_ScenarioUserTable", Storage = "_ScenarioUserTable", ThisKey = "Id", OtherKey = "Id", IsUnique = true, IsForeignKey = false)]
-        public ScenarioUserTable ScenarioUserTable
-        {
-            get
-            {
-                return _ScenarioUserTable.Entity;
-            }
-            set
-            {
-                ScenarioUserTable previousValue = _ScenarioUserTable.Entity;
-                if (((previousValue != value)
-                            || (_ScenarioUserTable.HasLoadedOrAssignedValue == false)))
-                {
-                    SendPropertyChanging();
-                    if ((previousValue != null))
-                    {
-                        _ScenarioUserTable.Entity = null;
-                        previousValue.ScenarioTable = null;
-                    }
-                    _ScenarioUserTable.Entity = value;
-                    if ((value != null))
-                    {
-                        value.ScenarioTable = this;
-                    }
-                    SendPropertyChanged("ScenarioUserTable");
-                }
-            }
-        }
-
+     
         public event PropertyChangingEventHandler PropertyChanging;
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -1042,11 +979,9 @@ namespace Periodicity.Core
 
         private string _Category;
 
-        private EntityRef<ScenarioTable> _ScenarioTable;
+        //private ScenarioTable _ScenarioTable;
 
         #region Определения метода расширяемости
-        partial void OnLoaded();
-        partial void OnValidate(System.Data.Linq.ChangeAction action);
         partial void OnCreated();
         partial void OnIdChanging(string value);
         partial void OnIdChanged();
@@ -1055,36 +990,10 @@ namespace Periodicity.Core
         #endregion
 
         public ScenarioUserTable()
-        {
-            _ScenarioTable = default(EntityRef<ScenarioTable>);
+        {      
             OnCreated();
         }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_Id", DbType = "NVarChar(50) NOT NULL", CanBeNull = false, IsPrimaryKey = true)]
-        public string Id
-        {
-            get
-            {
-                return _Id;
-            }
-            set
-            {
-                if ((_Id != value))
-                {
-                    if (_ScenarioTable.HasLoadedOrAssignedValue)
-                    {
-                        throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-                    }
-                    OnIdChanging(value);
-                    SendPropertyChanging();
-                    _Id = value;
-                    SendPropertyChanged("Id");
-                    OnIdChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_Category", DbType = "NVarChar(50) NOT NULL", CanBeNull = false)]
+  
         public string Category
         {
             get
@@ -1103,41 +1012,7 @@ namespace Periodicity.Core
                 }
             }
         }
-
-        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "ScenarioTable_ScenarioUserTable", Storage = "_ScenarioTable", ThisKey = "Id", OtherKey = "Id", IsForeignKey = true)]
-        public ScenarioTable ScenarioTable
-        {
-            get
-            {
-                return _ScenarioTable.Entity;
-            }
-            set
-            {
-                ScenarioTable previousValue = _ScenarioTable.Entity;
-                if (((previousValue != value)
-                            || (_ScenarioTable.HasLoadedOrAssignedValue == false)))
-                {
-                    SendPropertyChanging();
-                    if ((previousValue != null))
-                    {
-                        _ScenarioTable.Entity = null;
-                        previousValue.ScenarioUserTable = null;
-                    }
-                    _ScenarioTable.Entity = value;
-                    if ((value != null))
-                    {
-                        value.ScenarioUserTable = this;
-                        _Id = value.Id;
-                    }
-                    else
-                    {
-                        _Id = default(string);
-                    }
-                    SendPropertyChanged("ScenarioTable");
-                }
-            }
-        }
-
+   
         public event PropertyChangingEventHandler PropertyChanging;
 
         public event PropertyChangedEventHandler PropertyChanged;

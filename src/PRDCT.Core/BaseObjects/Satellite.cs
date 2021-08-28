@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Xml;
-using System.Xml.Schema;
-using System.Xml.Serialization;
 
 namespace Periodicity.Core
 {
@@ -43,44 +40,10 @@ namespace Periodicity.Core
 
             return newSat;
         }
-
-        #region Serializable
-
-        public override void ReadXml(XmlReader reader)     // читать
-        {
-            if (reader.MoveToContent() == XmlNodeType.Element && reader.LocalName == GetType().ToString())
-            {
-                Id = Guid.Parse(reader["Id"]);
-                Name = reader["Name"];
-                Description = reader["Description"];
-
-                reader.Read(); // Skip ahead to next node
-                if (reader.MoveToContent() == XmlNodeType.Element && reader.LocalName == "OrbitState")
-                {
-                    //reader.Read(); // Skip ahead to next node
-                    OrbitState.ReadXml(reader);
-                }
-                reader.Read();
-            }
-        }
-
-        public override void WriteXml(XmlWriter writer)    // записывать
-        {
-            writer.WriteStartElement(GetType().ToString());
-            writer.WriteAttributeString("Id", Id.ToString());
-            writer.WriteAttributeString("Name", Name);
-            writer.WriteAttributeString("Description", Description);
-            writer.WriteStartElement("OrbitState");
-            OrbitState.WriteXml(writer);
-            writer.WriteEndElement();
-            writer.WriteEndElement();
-        }
-
-        #endregion
     }
 
 
-    public class OrbitState : IXmlSerializable
+    public class OrbitState 
     {
         public OrbitState()
         {
@@ -119,46 +82,6 @@ namespace Periodicity.Core
             Julian jd = new Julian(OrbitEpoch);
             return jd.ToGmst();
         }
-
-        #region Serializable
-
-        public XmlSchema GetSchema() { return null; }
-
-        public void ReadXml(XmlReader reader)     // читать
-        {
-            if (reader.MoveToContent() == XmlNodeType.Element && reader.LocalName == "OrbitState")
-            {
-                OrbitEpoch = DateTime.Parse(reader["OrbitEpoch"]);
-                SizeShape.SemimajorAxis = Double.Parse(reader["SemimajorAxis"]);
-                SizeShape.Eccentricity = Double.Parse(reader["Eccentricity"]);
-                Orientation.Inclination = Double.Parse(reader["Inclination"]);
-                Orientation.RAAN = Double.Parse(reader["RAAN"]);
-                Orientation.ArgumentOfPerigee = Double.Parse(reader["ArgumentOfPerigee"]);
-                Location.TrueAnomaly = Double.Parse(reader["TrueAnomaly"]);
-
-                reader.Read();
-            }
-        }
-
-        public void WriteXml(XmlWriter writer)   // записывать
-        {
-            //  writer.WriteStartElement("OrbitState");
-
-            writer.WriteAttributeString("OrbitEpoch", OrbitEpoch.ToString());
-
-            writer.WriteAttributeString("SemimajorAxis", SizeShape.SemimajorAxis.ToString());
-            writer.WriteAttributeString("Eccentricity", SizeShape.Eccentricity.ToString());
-
-            writer.WriteAttributeString("Inclination", Orientation.Inclination.ToString());
-            writer.WriteAttributeString("RAAN", Orientation.RAAN.ToString());
-            writer.WriteAttributeString("ArgumentOfPerigee", Orientation.ArgumentOfPerigee.ToString());
-
-            writer.WriteAttributeString("TrueAnomaly", Location.TrueAnomaly.ToString());
-
-            //  writer.WriteEndElement();
-        }
-
-        #endregion
     }
 
     public class SizeShape
