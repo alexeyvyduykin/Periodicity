@@ -26,6 +26,9 @@ namespace Periodicity.Sample1
 
             Orbit orbit = new Orbit();
 
+            var sensor1 = new Sensor(5.0, -25.0);
+            var sensor2 = new Sensor(5.0, 25.0);
+
             var satellite = new Satellite()
             {
                 Orbit = orbit,
@@ -34,6 +37,8 @@ namespace Periodicity.Sample1
                 TrueAnomaly = orbit.TrueAnomaly
             };
 
+            satellite.Sensors.Add(sensor1);
+            satellite.Sensors.Add(sensor2);
         }
     }
 }

@@ -34,15 +34,12 @@ namespace Periodicity.Core
         public Dictionary<Guid, Satellite> Satellites { get; }
         public Dictionary<Guid, Region> Regions { get; }
 
-        public Dictionary<Guid, List<Sensor>> Sensors { get; }
-
         public Periodicity() 
         {
             PitchLatDEG = 0.5;
 
             Satellites = new Dictionary<Guid, Satellite>();
             Regions = new Dictionary<Guid, Region>();
-            Sensors = new Dictionary<Guid, List<Sensor>>();
 
             DataTimeIvals = new List<TimeIvals>();
             DataRegionCuts = new List<RegionCuts>();
@@ -55,7 +52,6 @@ namespace Periodicity.Core
         {
             Satellites = prdct.Satellites;
             Regions = prdct.Regions;
-            Sensors = prdct.Sensors;
 
             PitchLatDEG = prdct.PitchLatDEG;
 

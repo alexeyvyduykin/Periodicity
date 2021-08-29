@@ -66,15 +66,9 @@ namespace Periodicity.Core
 
                 vectBandIvals.Clear();
 
-                //foreach (var satellite in Satellites.Where(i => i.Key.ToString() == curIdSatellite))
-                //foreach (var band in Satellites.Where(i => i.Key.ToString() == curIdSatellite).SelectMany(b => b.Value.Bands))
-
                 foreach (var satellite in Satellites.Where(i => i.Key.ToString() == curIdSatellite).Select(s => s.Value))
                 {
-                    //var sensors = Sensors[Guid.Parse(curIdSatellite)];
-
-                    //foreach (var band in satellite.Bands)
-                    foreach (var sensor in Sensors[Guid.Parse(curIdSatellite)])
+                    foreach (var sensor in satellite.Sensors)
                     {
                         //PRDCTBandCutter cutter = new PRDCTBandCutter(band);
 
@@ -89,8 +83,6 @@ namespace Periodicity.Core
 
                         //double verivalHalfAngle = (gam2Deg - gam1Deg) / 2.0;
                         // double rollAngle = pls * (gam1Deg + verivalHalfAngle);
-
-                        //Sensor sensor = new SensorSAR(verivalHalfAngle, rollAngle);
 
                         //Band bnd = new Band(satellite.Orbit, sensor);
                         PRDCTBandCutterNew cutter = new PRDCTBandCutterNew(band);
