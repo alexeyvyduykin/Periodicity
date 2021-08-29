@@ -21,11 +21,11 @@ namespace Periodicity.Core
         Right = 3
     }
 
-    public class Periodicity
+    public partial class Periodicity
     {
         public double PitchLatDEG { get; protected set; }
 
-        public virtual List<Ivals> DataIvals { get; }
+       
         public List<TimeIvals> DataTimeIvals { get; }
         public List<RegionCuts> DataRegionCuts { get; }
 
@@ -73,8 +73,8 @@ namespace Periodicity.Core
             PRDCTEngineRegionCuts.Initialize(this);
             //var engineRegionCuts = new PRDCTEngineRegionCuts(this);
             //engineRegionCuts.Initialize();
-            var engineIvals = new PRDCTEngineIvals(this);
-            engineIvals.Create();
+
+            CreateDataIvals();
         }
 
         public void Func2()
@@ -112,8 +112,8 @@ namespace Periodicity.Core
 
             //var engineRegionCuts = new PRDCTEngineRegionCuts(this);
             //engineRegionCuts.Initialize();
-            var engineIvals = new PRDCTEngineIvals(this);
-            engineIvals.Create();
+         
+            CreateDataIvals();
 
             //           engineTimeIvals.Initialize();
             //engineRegionCuts.Initialize();
