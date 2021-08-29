@@ -66,7 +66,7 @@ namespace Periodicity.Core
 
                 vectBandIvals.Clear();
 
-                foreach (var satellite in Satellites.Where(i => i.Key.ToString() == curIdSatellite).Select(s => s.Value))
+                foreach (var satellite in Satellites.Where(i => i.Name == curIdSatellite))
                 {
                     foreach (var sensor in satellite.Sensors)
                     {

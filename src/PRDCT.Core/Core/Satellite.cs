@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Periodicity.Core
 {
-    public class Satellite
+    public class Satellite : BaseEntity
     {
         public double TrueAnomaly { get; set; }
 
@@ -15,8 +15,11 @@ namespace Periodicity.Core
 
         public IList<Sensor> Sensors { get; }
 
-        public Satellite()
+        private Satellite() { }
+
+        public Satellite(string name)
         {
+            Name = name;
             Sensors = new List<Sensor>();
         }
  

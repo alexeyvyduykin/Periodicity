@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Drawing;
 using System.Linq;
 using GlmSharp;
@@ -14,12 +15,18 @@ namespace Periodicity.Core
         Error = 3
     }
 
-    public class Region
+    public class Region : BaseEntity
     {
-        public static Region Default = new Region();
+        public static Region DefaultZone = new Region(0, 360, 0, 90);
+
         private Region() { }
 
-        public Region(List<dvec2> verts2D, RegionType type)
+        private Region(string name)
+        {
+            Name = name;
+        }
+
+        public Region(string name, List<dvec2> verts2D, RegionType type) : this(name)
         {
             Type = type;
             Verts = new List<dvec2>();
@@ -46,6 +53,19 @@ namespace Periodicity.Core
             float yMax = (float)verts2D.Max(s => s.y);
 
             BoundingRectangle = new RectangleF(xMin, yMin, xMax - xMin, yMax - yMin);
+        }
+
+        private Region(double left, double right, double bottom, double top) : this("DefaultZone")
+        {
+            Type = RegionType.Zone;
+
+            Verts = new List<dvec2>
+            {
+                new dvec2(left, bottom),
+                new dvec2(left, top),
+                new dvec2(right, top),
+                new dvec2(right, bottom)
+            };
         }
 
         private bool IsInside(dvec2 point)
@@ -93,23 +113,22 @@ namespace Periodicity.Core
             return false;
         }
 
-        public static Region From(BaseAreaTarget areaTarget)
-        {
-            List<dvec2> verts = new List<dvec2>(areaTarget.Data);
-            return new Region(verts, RegionType.Zone);
-        }
-
         public List<dvec2> Verts { get; private set; }    // вершина полигона
+
         public List<dvec2> Lines { get; private set; }    // ограничивающая прямая полигона
+
         public List<dvec2> Normals { get; private set; }  //
 
-        public double Left { get { return BoundingRectangle.Left; } }
-        public double Right { get { return BoundingRectangle.Right; } }
-        public double Bottom { get { return BoundingRectangle.Top; } }
-        public double Top { get { return BoundingRectangle.Bottom; } }
+        public double Left => BoundingRectangle.Left;
 
-        public RectangleF BoundingRectangle { get; private set; }
+        public double Right => BoundingRectangle.Right;
 
-        public RegionType Type { get; private set; }
+        public double Bottom => BoundingRectangle.Top;
+
+        public double Top => BoundingRectangle.Bottom;
+
+        public RectangleF BoundingRectangle { get; }
+
+        public RegionType Type { get; }
     }
 }

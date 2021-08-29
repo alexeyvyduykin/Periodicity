@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using GlmSharp;
 
 namespace Periodicity.Core
@@ -47,7 +48,7 @@ namespace Periodicity.Core
             {
                 if (curID != ival.SatelliteID)
                 {
-                    var sat = base.Satellites[Guid.Parse(ival.SatelliteID)];
+                    var sat = base.Satellites.Where(s => s.Name == ival.SatelliteID).FirstOrDefault();
                     tempJD0 = sat.StartTime.Date.ToOADate() + 2415018.5;
                     tempBeginSecs = sat.StartTime.TimeOfDay.TotalSeconds;
                     //tempS0 = MyFunction.uds1900(tempJD0);

@@ -6,14 +6,17 @@
         Cone
     }
 
-    public class Sensor
+    public class Sensor : BaseEntity
     {
-        public Sensor() 
+        private Sensor() { }
+
+        public Sensor(string name) 
         {
+            Name = name;
             Type = SensorType.Rectancle;
         }
 
-        public Sensor(double verticalHalfAngleDEG, double rollAngleDEG) : this()
+        public Sensor(string name, double verticalHalfAngleDEG, double rollAngleDEG) : this(name)
         {
             VerticalHalfAngleDEG = verticalHalfAngleDEG;
             RollAngleDEG = rollAngleDEG;

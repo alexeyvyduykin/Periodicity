@@ -51,7 +51,7 @@ namespace Periodicity.Core
 
             foreach (var satellite in core.Satellites)
             {
-                var nodes = satellite.Value.Nodes();
+                var nodes = satellite.Nodes();
 
                 //var directory = people.SelectMany(p => p.PhoneNumbers, (parent, child) => new { parent.Name, child.Number });
                 //var rd = nodes.SelectMany(n => n.Quarts, (parent, child) => new { parent.Value, child.Quart, child.TimeBegin, child.TimeEnd });
@@ -59,7 +59,7 @@ namespace Periodicity.Core
                 core.DataTimeIvals.AddRange(
                     nodes.SelectMany(n => n.Quarts.Select(m => new TimeIvals
                     {
-                        SatelliteID = satellite.Key.ToString(),
+                        SatelliteID = satellite.Name,
                         Node = n.Value,
                         TimeBegin = m.TimeBegin,
                         TimeEnd = m.TimeEnd,

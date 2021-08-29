@@ -9,11 +9,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{74BFDB51-69A
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "samples", "samples", "{8A3D4C4F-C6F8-4AA4-B4DE-3751D4D86F6E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Periodicity.Sample1", "samples\Periodicity.Sample1\Periodicity.Sample1.csproj", "{B5F8A19B-0D79-4D40-A29C-3CFCE516F34F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sample1", "samples\Periodicity.Sample1\Sample1.csproj", "{B5F8A19B-0D79-4D40-A29C-3CFCE516F34F}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{61ECFA9D-FB51-4F12-AFC2-00BE6D6DE7B2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Periodicity.Core.UnitTests", "tests\Periodicity.Core.UnitTests\Periodicity.Core.UnitTests.csproj", "{AD1CAE84-E4A6-4283-A043-6FE9A7B01D48}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Periodicity.Core.UnitTests", "tests\Periodicity.Core.UnitTests\Periodicity.Core.UnitTests.csproj", "{AD1CAE84-E4A6-4283-A043-6FE9A7B01D48}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

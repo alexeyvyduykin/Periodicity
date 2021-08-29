@@ -31,15 +31,16 @@ namespace Periodicity.Core
 
         public List<PRDCTDataPeriodicitiesRecord> DataPeriodicities { get; }
 
-        public Dictionary<Guid, Satellite> Satellites { get; }
-        public Dictionary<Guid, Region> Regions { get; }
+        public IList<Satellite> Satellites { get; }
+
+        public IList<Region> Regions { get; }
 
         public Periodicity() 
         {
             PitchLatDEG = 0.5;
 
-            Satellites = new Dictionary<Guid, Satellite>();
-            Regions = new Dictionary<Guid, Region>();
+            Satellites = new List<Satellite>();
+            Regions = new List<Region>();
 
             DataTimeIvals = new List<TimeIvals>();
             DataRegionCuts = new List<RegionCuts>();
