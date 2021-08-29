@@ -17,18 +17,18 @@ namespace Periodicity.Core
                 double latRADCutter = latDEGCutter * MyMath.DegreesToRadians;
 
                 foreach (var region in core.Regions)
-                {
-                    var cutter = new PRDCTRegionCutter(region);
+                {  
+                    var ivals = Utilities.RegionCutter.Cut(region, latRADCutter);
 
-                    foreach (var item in cutter.Calculation(latRADCutter))
+                    foreach (var (left, right) in ivals)
                     {
                         core.DataRegionCuts.Add(new RegionCuts
                         {
                             RegionID = region.Name,
                             LatDEG = latDEGCutter,
                             LatRAD = latRADCutter,
-                            LonLeft = item.Item1,
-                            LonRight = item.Item2
+                            LonLeft = left,
+                            LonRight = right
                         });
                     }
                 }

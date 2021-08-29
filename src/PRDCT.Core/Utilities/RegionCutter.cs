@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using GlmSharp;
 
-namespace Periodicity.Core
+namespace Periodicity.Core.Utilities
 {
-    public class PRDCTRegionCutter
+    public static class RegionCutter
     {
         private enum PolygonDirect
         {
@@ -23,30 +23,25 @@ namespace Periodicity.Core
             DeleteCurrentAndPrevious = 4
         }
 
-        public PRDCTRegionCutter(Region region)
-        {
-            this.region = region;
-        }
-
-        public List<Tuple<double, double>> Calculation(double latRADCutter)
+        public static List<(double left, double right)> Cut(Region region, double latRADCutter)
         {
             if (latRADCutter >= region.Bottom && latRADCutter <= region.Top)
             {
                 switch (region.Type)
                 {
                     case RegionType.Zone:
-                        return new List<Tuple<double, double>> { Tuple.Create(0.0, 2.0 * Math.PI) };
+                        return new List<(double, double)> { (0.0, 2.0 * Math.PI) };
                     case RegionType.Rectangle:
-                        return new List<Tuple<double, double>> { Tuple.Create(left(latRADCutter), right(latRADCutter)) };
+                        return new List<(double, double)> { (left(region, latRADCutter), right(region, latRADCutter)) };
                     case RegionType.Polygon:
-                        return PolygonCutter(latRADCutter);
+                        return PolygonCutter(region, latRADCutter);
                 }
             }
 
-            return new List<Tuple<double, double>>();
+            return new List<(double, double)>();
         }
 
-        private double left(double lat)
+        private static double left(Region region, double lat)
         {
             if (region.Type == RegionType.Zone || region.Type == RegionType.Rectangle)
             {
@@ -56,12 +51,12 @@ namespace Periodicity.Core
             {
                 dvec2 P1 = new dvec2(0.0, lat);
                 dvec2 P2 = new dvec2(2.0 * Math.PI, lat);
-                clipCyrusBeck2(ref P1, ref P2);
+                clipCyrusBeck2(region, ref P1, ref P2);
                 return P1.x;
             }
         }
 
-        private double right(double lat)
+        private static double right(Region region, double lat)
         {
             if (region.Type == RegionType.Zone || region.Type == RegionType.Rectangle)
             {
@@ -71,12 +66,12 @@ namespace Periodicity.Core
             {
                 dvec2 P1 = new dvec2(0.0, lat);
                 dvec2 P2 = new dvec2(2.0 * Math.PI, lat);
-                clipCyrusBeck2(ref P1, ref P2);
+                clipCyrusBeck2(region, ref P1, ref P2);
                 return P2.x;
             }
         }
 
-        private bool clipCyrusBeck2(ref dvec2 P1, ref dvec2 P2)
+        private static bool clipCyrusBeck2(Region region, ref dvec2 P1, ref dvec2 P2)
         {
             double tIn = 0.0, tOut = 1.0, tHit;
             dvec2 c = P2 - P1;
@@ -161,7 +156,7 @@ namespace Periodicity.Core
             return true;
         }
 
-        private bool clipCyrusBeck1(ref dvec2 P1, ref dvec2 P2)
+        private static bool clipCyrusBeck1(Region region, ref dvec2 P1, ref dvec2 P2)
         {
             int i;
             double tIn = 0.0;
@@ -217,7 +212,7 @@ namespace Periodicity.Core
             return true;
         }
 
-        private List<Tuple<double, double>> PolygonCutter(double latRADCutter)
+        private static List<(double, double)> PolygonCutter(Region region, double latRADCutter)
         {
             // все обозначения(b,d,c,...) взяты и с книги OpenGL
             dvec2 A = new dvec2(0.0, latRADCutter);
@@ -391,17 +386,17 @@ namespace Periodicity.Core
                 temp_lons.RemoveAt(temp_lons.Count - 1);// pop_back();
             }
 
-            var result = new List<Tuple<double, double>>();
+            var result = new List<(double, double)>();
 
             for (int i = 0; i < temp_lons.Count; i += 2)
             {
-                result.Add(Tuple.Create(temp_lons[i], temp_lons[i + 1]));
+                result.Add((temp_lons[i], temp_lons[i + 1]));
             }
 
             return result;
         }
 
-        private PolygonCutState comparison(PolygonDirect prev, PolygonDirect cur, PolygonDirect next, int length)
+        private static PolygonCutState comparison(PolygonDirect prev, PolygonDirect cur, PolygonDirect next, int length)
         {
             int sum;
             int sum2 = 10 * (int)prev + (int)cur;
@@ -475,7 +470,5 @@ namespace Periodicity.Core
                     return PolygonCutState.Error;
             }
         }
-
-        private readonly Region region;
     }
 }

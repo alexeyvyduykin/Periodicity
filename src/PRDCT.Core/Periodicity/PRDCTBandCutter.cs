@@ -49,8 +49,8 @@ namespace Periodicity.Core
           
             double temp;
 
-            var (left, tLeft, isLeft) = PeriodicityUtility.TrackCutter(band.NearLine, currectLatCutter, currentNode, currentTBegin, currentTEnd, currentTPastAN, currentQuart);
-            var (right, tRight, isRight) = PeriodicityUtility.TrackCutter(band.FarLine, currectLatCutter, currentNode, currentTBegin, currentTEnd, currentTPastAN, currentQuart);
+            var (left, tLeft, isLeft) = Utilities.TrackCutter.Cut(band.NearLine, currectLatCutter, currentNode, currentTBegin, currentTEnd, currentTPastAN, currentQuart);
+            var (right, tRight, isRight) = Utilities.TrackCutter.Cut(band.FarLine, currectLatCutter, currentNode, currentTBegin, currentTEnd, currentTPastAN, currentQuart);
 
             // пересечение одной трассы
             if (isLeft == false)
@@ -378,8 +378,8 @@ namespace Periodicity.Core
          
             double temp;
 
-            var (left, tLeft, isLeft) = PeriodicityUtility.TrackCutter(band.NearLine, currectLatCutter, currentNode, currentTBegin, currentTEnd, currentTPastAN, currentQuart);
-            var (right, tRight, isRight) = PeriodicityUtility.TrackCutter(band.FarLine, currectLatCutter, currentNode, currentTBegin, currentTEnd, currentTPastAN, currentQuart);
+            var (left, tLeft, isLeft) = Utilities.TrackCutter.Cut(band.NearLine, currectLatCutter, currentNode, currentTBegin, currentTEnd, currentTPastAN, currentQuart);
+            var (right, tRight, isRight) = Utilities.TrackCutter.Cut(band.FarLine, currectLatCutter, currentNode, currentTBegin, currentTEnd, currentTPastAN, currentQuart);
 
             // пересечение одной трассы
             if (isLeft == false)

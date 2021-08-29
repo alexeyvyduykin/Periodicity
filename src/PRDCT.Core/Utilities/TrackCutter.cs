@@ -1,12 +1,12 @@
 ﻿using System;
 
-namespace Periodicity.Core
+namespace Periodicity.Core.Utilities
 {
-    public static class PeriodicityUtility
+    public static class TrackCutter
     {
         private static double PRDCT_CLASS_EPS_METHOD_DICHOTOMY = 0.0003;
 
-        public static (double lon, double t, bool isCut) TrackCutter(Track track, double latCutter, int node, double tBegin, double tEnd, double tPastAN, int quart)
+        public static (double lon, double t, bool isCut) Cut(Track track, double latCutter, int node, double tBegin, double tEnd, double tPastAN, int quart)
         {
             double tTemp, latTemp;
             double tBeginTemp = tBegin,
