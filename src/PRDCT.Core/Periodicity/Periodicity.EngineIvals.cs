@@ -17,8 +17,6 @@ namespace Periodicity.Core
         private double _curLat;
         private double _curLatDEG;
 
-        public List<Ivals> DataIvals { get; }
-
         public void CreateDataIvals()
         {         
             DataIvals.Clear();

@@ -28,6 +28,7 @@ namespace Periodicity.Core
        
         public List<TimeIvals> DataTimeIvals { get; }
         public List<RegionCuts> DataRegionCuts { get; }
+        public List<Ivals> DataIvals { get; }
 
         public List<PRDCTDataPeriodicitiesRecord> DataPeriodicities { get; }
 
@@ -66,14 +67,8 @@ namespace Periodicity.Core
 
         public void Func1()
         {
-            //   var engineTimeIvals = new PRDCTEngineTimeIvals(this);
-            //    engineTimeIvals.Initialize();
-
-            PRDCTEngineTimeIvals.Initialize(this);
-            PRDCTEngineRegionCuts.Initialize(this);
-            //var engineRegionCuts = new PRDCTEngineRegionCuts(this);
-            //engineRegionCuts.Initialize();
-
+            CreateDataTimeIvals();
+            CreateDataRegionCuts();
             CreateDataIvals();
         }
 
@@ -103,16 +98,8 @@ namespace Periodicity.Core
 
         public void CreateIvals()
         {
-            //var engineTimeIvals = new PRDCTEngineTimeIvals(this);
-            //engineTimeIvals.Initialize();
-
-            PRDCTEngineTimeIvals.Initialize(this);
-
-            PRDCTEngineRegionCuts.Initialize(this);
-
-            //var engineRegionCuts = new PRDCTEngineRegionCuts(this);
-            //engineRegionCuts.Initialize();
-         
+            CreateDataTimeIvals();
+            CreateDataRegionCuts();
             CreateDataIvals();
 
             //           engineTimeIvals.Initialize();

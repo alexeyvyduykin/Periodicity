@@ -2,27 +2,23 @@
 
 namespace Periodicity.Core
 {
-    public class PRDCTEngineRegionCuts// : PRDCTPeriodicity
+    public partial class Periodicity
     {
-        public PRDCTEngineRegionCuts(Periodicity core) { }// : base(core) { }
-
-        public static void Initialize(Periodicity core)
+        public void CreateDataRegionCuts()
         {
-            core.DataRegionCuts.Clear();
+            DataRegionCuts.Clear();
 
-            List<double> vectCutIvals = new List<double>();
-
-            for (double latDEGCutter = -90.0; latDEGCutter <= 90.0; latDEGCutter += core.PitchLatDEG)
+            for (double latDEGCutter = -90.0; latDEGCutter <= 90.0; latDEGCutter += PitchLatDEG)
             {
                 double latRADCutter = latDEGCutter * MyMath.DegreesToRadians;
 
-                foreach (var region in core.Regions)
+                foreach (var region in Regions)
                 {  
                     var ivals = Utilities.RegionCutter.Cut(region, latRADCutter);
 
                     foreach (var (left, right) in ivals)
                     {
-                        core.DataRegionCuts.Add(new RegionCuts
+                        DataRegionCuts.Add(new RegionCuts
                         {
                             RegionID = region.Name,
                             LatDEG = latDEGCutter,
