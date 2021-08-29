@@ -69,28 +69,12 @@ namespace Periodicity.Core
                 foreach (var satellite in Satellites.Where(i => i.Name == curIdSatellite))
                 {
                     foreach (var sensor in satellite.Sensors)
-                    {
-                        //PRDCTBandCutter cutter = new PRDCTBandCutter(band);
-
+                    {                  
                         Band band = new Band(satellite.Orbit, sensor.VerticalHalfAngleDEG, sensor.RollAngleDEG);
 
-                        //double gam1Deg = band.NearLine.Alpha1 * MyMath.RadiansToDegrees;
-                        //double gam2Deg = band.FarLine.Alpha1 * MyMath.RadiansToDegrees;
-                        //var dir = band.FarLine.Direction;
-                        //int pls = 1;
-                        //if (dir == TrackPointDirection.Right)
-                        //    pls = -1;
-
-                        //double verivalHalfAngle = (gam2Deg - gam1Deg) / 2.0;
-                        // double rollAngle = pls * (gam1Deg + verivalHalfAngle);
-
-                        //Band bnd = new Band(satellite.Orbit, sensor);
-                        PRDCTBandCutterNew cutter = new PRDCTBandCutterNew(band);
-
-
-                        var result = cutter.Calculation(curLat, curNode, curTimeBegin, curTimeEnd, satellite.TrueTimePastAN, curQuart);
+                        var result = Utilities.BandCutterNew.Cut(band, curLat, curNode, curTimeBegin, curTimeEnd, satellite.TrueTimePastAN, curQuart);
                         vectBandIvals.AddRange(
-                            result.Select(r => new PRDCTInterval(r.Item1, r.Item2, r.Item3, r.Item4)));
+                            result.Select(s => new PRDCTInterval(s.left, s.right, s.tLeft, s.tRight)));
                     }
                 }
 
