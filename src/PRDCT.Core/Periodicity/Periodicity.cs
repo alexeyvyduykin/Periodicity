@@ -25,9 +25,8 @@ namespace Periodicity.Core
     {
         public double PitchLatDEG { get; protected set; }
 
-       
         public List<TimeIvals> DataTimeIvals { get; }
-        public List<RegionCuts> DataRegionCuts { get; }
+        public List<(string name, double latDeg, double latRad, double lonLeft, double lonRight)> DataRegionCuts { get; }
         public List<Ivals> DataIvals { get; }
 
         public List<PRDCTDataPeriodicitiesRecord> DataPeriodicities { get; }
@@ -44,7 +43,7 @@ namespace Periodicity.Core
             Regions = new List<Region>();
 
             DataTimeIvals = new List<TimeIvals>();
-            DataRegionCuts = new List<RegionCuts>();
+            DataRegionCuts = new List<(string, double, double, double, double)>();
             DataIvals = new List<Ivals>();
 
             DataPeriodicities = new List<PRDCTDataPeriodicitiesRecord>();
@@ -63,7 +62,7 @@ namespace Periodicity.Core
             DataTimeIvals = prdct.DataTimeIvals;
         }
 
-        public IEnumerable<double> UniqueLatitudesDEG => DataRegionCuts.Select(m => m.LatDEG).Distinct();
+        public IEnumerable<double> UniqueLatitudesDEG => DataRegionCuts.Select(m => m.latDeg).Distinct();
 
         public void Func1()
         {
@@ -220,8 +219,8 @@ namespace Periodicity.Core
             //ORDER BY 1, 2;";
 
             return (from m in DataRegionCuts
-                    where m.LatDEG == latDEG
-                    select new { Longitude = m.LonLeft, Type = 1 }).Concat(
+                    where m.latDeg == latDEG
+                    select new { Longitude = m.lonLeft, Type = 1 }).Concat(
                       from m in DataIvals
                       where m.LatDEG == latDEG
                       select new { Longitude = m.LonLeft, Type = 2 }).Concat(
@@ -229,8 +228,8 @@ namespace Periodicity.Core
                       where m.LatDEG == latDEG
                       select new { Longitude = m.LonRight, Type = 3 }).Concat(
                       from m in DataRegionCuts
-                      where m.LatDEG == latDEG
-                      select new { Longitude = m.LonRight, Type = 4 }).OrderBy(c => c.Longitude).ThenBy(n => n.Type);
+                      where m.latDeg == latDEG
+                      select new { Longitude = m.lonRight, Type = 4 }).OrderBy(c => c.Longitude).ThenBy(n => n.Type);
         }
 
         public void CreateData()
@@ -239,15 +238,15 @@ namespace Periodicity.Core
 
             foreach (var regionCut in DataRegionCuts)
             {
-                double width = regionCut.LonRight - regionCut.LonLeft;
+                double width = regionCut.lonRight - regionCut.lonLeft;
 
-                double lonPrev = regionCut.LonLeft;  // самое левое значение lon, которое должно быть PRDCT_LON_TYPE_LEFT
+                double lonPrev = regionCut.lonLeft;  // самое левое значение lon, которое должно быть PRDCT_LON_TYPE_LEFT
 
                 int prdct = 0;
 
                 List<double> widthIvals = new List<double>();
 
-                var queryVerts = ExecSQL(regionCut.LatDEG);
+                var queryVerts = ExecSQL(regionCut.latDeg);
                 foreach (var vertex in queryVerts)
                 {
                     if (prdct >= (int)widthIvals.Count)
@@ -274,9 +273,9 @@ namespace Periodicity.Core
                     lonPrev = vertex.Longitude;
                 }
 
-                widthIvals[prdct] += (regionCut.LonRight - lonPrev);
+                widthIvals[prdct] += (regionCut.lonRight - lonPrev);
                 double radToProc = 100.0 / width;
-                double r = Math.Cos(regionCut.LatRAD) * Globals.Re;
+                double r = Math.Cos(regionCut.latRad) * Globals.Re;
 
                 double correctSumma = 0.0;
                 int numWidthIvals = widthIvals.Count;
@@ -305,7 +304,7 @@ namespace Periodicity.Core
                         DataPeriodicities.Add(
                             new PRDCTDataPeriodicitiesRecord
                             {
-                                latDEG = regionCut.LatDEG,
+                                latDEG = regionCut.latDeg,
                                 periodicity = i,
                                 percent = widthIvals[i],
                                 widthRAD = widthIvals[i] / radToProc,

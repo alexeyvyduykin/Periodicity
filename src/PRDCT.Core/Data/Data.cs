@@ -3,26 +3,8 @@ using System.ComponentModel;
 
 namespace Periodicity.Core
 {
-    public class RegionCuts
-    {
-        public string PeriodicityID { get; set; }
-    
-        public string RegionID { get; set; }
-       
-        public double LatDEG { get; set; }
-     
-        public double LatRAD { get; set; }
-       
-        public double LonLeft { get; set; }
-   
-        public double LonRight { get; set; }
-    }
-
-
     public class Ivals
-    {       
-        public string PeriodicityID { get; set; }
-  
+    {         
         public string SatelliteID { get; set; }
         
         public double LatDEG { get; set; }
@@ -44,9 +26,7 @@ namespace Periodicity.Core
 
 
     public class TimeIvals
-    {       
-        public string PeriodicityID { get; set; }
-    
+    {           
         public string SatelliteID { get; set; }
         
         public int Node { get; set; }

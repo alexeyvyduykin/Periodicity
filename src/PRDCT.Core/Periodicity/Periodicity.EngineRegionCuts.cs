@@ -18,14 +18,7 @@ namespace Periodicity.Core
 
                     foreach (var (left, right) in ivals)
                     {
-                        DataRegionCuts.Add(new RegionCuts
-                        {
-                            RegionID = region.Name,
-                            LatDEG = latDEGCutter,
-                            LatRAD = latRADCutter,
-                            LonLeft = left,
-                            LonRight = right
-                        });
+                        DataRegionCuts.Add((region.Name, latDEGCutter, latRADCutter, left, right));
                     }
                 }
             }

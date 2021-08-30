@@ -25,17 +25,17 @@ namespace Periodicity.Core
 
             for (int i = 0; i < DataRegionCuts.Count; i++)
             {
-                if (DataRegionCuts[i].LatDEG == prevLatDEG)
+                if (DataRegionCuts[i].latDeg == prevLatDEG)
                 {
                     continue;
                 }
 
-                prevLatDEG = _curLatDEG = DataRegionCuts[i].LatDEG;
-                _curLat = DataRegionCuts[i].LatRAD;
+                prevLatDEG = _curLatDEG = DataRegionCuts[i].latDeg;
+                _curLat = DataRegionCuts[i].latRad;
 
-                foreach (var item in DataRegionCuts.Where(c => c.LatDEG.Equals(_curLatDEG)))
+                foreach (var item in DataRegionCuts.Where(c => c.latDeg.Equals(_curLatDEG)))
                 {
-                    _vectRegionCutters.Add((item.RegionID, item.LonLeft, item.LonRight));
+                    _vectRegionCutters.Add((item.name, item.lonLeft, item.lonRight));
                 }
 
                 searchIvals();
