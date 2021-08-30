@@ -3,6 +3,7 @@
         xmlns:vm="using:Sample2.ViewModels"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:oxy="clr-namespace:OxyPlot.Avalonia;assembly=OxyPlot.Avalonia" 
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="Sample2.Views.MainWindow"
         Icon="/Assets/avalonia-logo.ico"
@@ -12,6 +13,56 @@
         <vm:MainWindowViewModel/>
     </Design.DataContext>
 
-    <TextBlock Text="{Binding Greeting}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+<Grid>
+
+    <TabControl>
+        
+        <TabItem Header="Report">
+            <DataGrid Items="{Binding PeriodicityReport}"
+                      AutoGenerateColumns="False"
+                      GridLinesVisibility="Vertical"
+                      VerticalGridLinesBrush="Black">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Latitude, deg" Binding="{Binding Latitude}"/>
+
+                    <DataGridTextColumn Header="Periodicity">
+
+                        <DataGridTextColumn.Binding>
+                            <MultiBinding StringFormat="{}{0:#0}-{1:#0}">
+                                <Binding Path="MinPeriodicity" />
+                                <Binding Path="MaxPeriodicity" />
+                            </MultiBinding>
+                        </DataGridTextColumn.Binding>
+
+                    </DataGridTextColumn>
+
+                    <DataGridTextColumn Header="Latitude coverage, %" Binding="{Binding Coverage}" />
+
+                </DataGrid.Columns>
+            </DataGrid>
+        </TabItem>
+
+    <TabItem Header="Graph1">
+
+        <oxy:Plot PlotMargins="50"
+                  PlotAreaBorderColor="Black">
+            <oxy:Plot.Axes>
+                <oxy:LinearAxis Position="Left" Title="Latitude Coverage, %" />
+                <oxy:LinearAxis Position="Bottom" Title="Latitude, deg" />
+            </oxy:Plot.Axes>
+            <oxy:Plot.Series>
+                <oxy:AreaSeries
+                    DataFieldX="Latitude"
+                    DataFieldY="Coverage"
+                    Items="{Binding PeriodicityReport}"
+                    Color="LightGreen" />
+            </oxy:Plot.Series>
+        </oxy:Plot>
+    
+    </TabItem>
+    
+    </TabControl>
+
+</Grid>
 
 </Window>
