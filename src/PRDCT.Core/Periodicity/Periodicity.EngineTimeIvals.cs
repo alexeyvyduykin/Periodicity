@@ -4,7 +4,7 @@ namespace Periodicity.Core
 {
     public partial class Periodicity
     {
-        public void CreateDataTimeIvals()
+        private void CreateDataTimeIvals()
         {
             DataTimeIvals.Clear();
 

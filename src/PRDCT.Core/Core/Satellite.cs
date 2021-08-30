@@ -147,7 +147,6 @@ namespace Periodicity.Core
                 nodes.Add(node);
             }
 
-            Console.WriteLine("Nodes: TrueTimePastAN = {0}, Period = {1}, numNodes = {2}", TrueTimePastAN, Orbit.Period, numNodes);
             return nodes;
         }
 

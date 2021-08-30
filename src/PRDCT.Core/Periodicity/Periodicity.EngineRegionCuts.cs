@@ -4,7 +4,7 @@ namespace Periodicity.Core
 {
     public partial class Periodicity
     {
-        public void CreateDataRegionCuts(double pitchLatDEG)
+        private void CreateDataRegionCuts(double pitchLatDEG)
         {
             DataRegionCuts.Clear();
 

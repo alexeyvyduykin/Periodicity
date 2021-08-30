@@ -36,7 +36,7 @@ namespace Periodicity.Core
             return true;
         }
 
-        public void CreateSunIvals()
+        private void CreateSunIvals()
         {
             string curID = "";
 
