@@ -2,7 +2,6 @@
 
 namespace Periodicity.Core
 {
-    [Serializable]
     public class FactorShiftTrack
     {
         public FactorShiftTrack(Orbit orbit, double gam1DEG, double gam2DEG, BandMode direction)
@@ -179,7 +178,6 @@ namespace Periodicity.Core
         Right = 2
     }
 
-
     public class Track
     {
         public Track(Orbit orbit)
@@ -227,7 +225,7 @@ namespace Periodicity.Core
             return new Geo2D(lon, lat, GeoCoordTypes.Radians);
         }
 
-        public virtual Geo2D ContinuousTrack(double node, double t, double tPastAN, int quart)
+        public virtual Geo2D ContinuousTrack(double node, double t, double tPastAN, TrackNodeQuarter quart)
         {
             double v = Orbit.Anomalia(t, tPastAN);
             double u = v + Orbit.ArgumentOfPerigee;
@@ -242,14 +240,20 @@ namespace Periodicity.Core
 
             double lon = Math.Asin(asinlon);
 
-            //if( quart == 1 )lon = lon;
-            if (quart == 2 || quart == 3)
+            switch (quart)
             {
-                lon = (Math.PI - lon);// - factor.ch23 * 2.0 * Math.PI;
-            }
-            else if (quart == 4)
-            {
-                lon = 2.0 * Math.PI + lon;// - factor.ch4 * 2.0 * Math.PI;
+                case TrackNodeQuarter.First:
+                    //lon = lon;
+                    break;
+                case TrackNodeQuarter.Second:         
+                case TrackNodeQuarter.Third:
+                    lon = (Math.PI - lon);// - factor.ch23 * 2.0 * Math.PI;
+                    break;
+                case TrackNodeQuarter.Fourth:
+                    lon = 2.0 * Math.PI + lon;// - factor.ch4 * 2.0 * Math.PI;
+                    break;
+                default:
+                    break;
             }
 
             lon = Orbit.LonAscnNode + lon - Globals.Omega * (t + tPastAN) + node * 2.0 * Math.PI;// * factor.mdf;
@@ -284,9 +288,7 @@ namespace Periodicity.Core
 
         public Orbit Orbit { get; }
     }
-
-
-
+   
     public class CustomTrack : Track
     {
         public CustomTrack(Orbit orbit, double alpha1DEG, TrackPointDirection direction) : base(orbit)
@@ -344,7 +346,7 @@ namespace Periodicity.Core
             return Math.PI / 2.0 - (Math.Acos(semi_axis * Math.Sin(Alpha1) / Globals.Re)) - Alpha1;
         }
 
-        public override Geo2D ContinuousTrack(double node, double t, double tPastAN, int quart)
+        public override Geo2D ContinuousTrack(double node, double t, double tPastAN, TrackNodeQuarter quart)
         {
             double v = Orbit.Anomalia(t, tPastAN);
             double u = v + Orbit.ArgumentOfPerigee;
@@ -363,14 +365,20 @@ namespace Periodicity.Core
 
             double lon = Math.Asin(asinlon);
 
-            //if( quart == 1 )lon = lon;
-            if (quart == 2 || quart == 3)
+            switch (quart)
             {
-                lon = (Math.PI - lon);// - factor.ch23 * 2.0 * Math.PI;
-            }
-            else if (quart == 4)
-            {
-                lon = 2.0 * Math.PI + lon;// - factor.ch4 * 2.0 * Math.PI;
+                case TrackNodeQuarter.First:
+                    //lon = lon;
+                    break;
+                case TrackNodeQuarter.Second:           
+                case TrackNodeQuarter.Third:
+                    lon = (Math.PI - lon);// - factor.ch23 * 2.0 * Math.PI;
+                    break;
+                case TrackNodeQuarter.Fourth:
+                    lon = 2.0 * Math.PI + lon;// - factor.ch4 * 2.0 * Math.PI;
+                    break;
+                default:
+                    break;
             }
 
             lon = Orbit.LonAscnNode + lon - Globals.Omega * (t + tPastAN) + node * 2.0 * Math.PI;// * factor.mdf;
@@ -436,7 +444,6 @@ namespace Periodicity.Core
         protected int dir;
     }
 
-    [Serializable]
     public class FactorTrack : CustomTrack
     {
         public FactorTrack(CustomTrack track, FactorShiftTrack factor) : base(track.Orbit, track.Alpha1 * MyMath.RadiansToDegrees, track.Direction)
@@ -444,7 +451,7 @@ namespace Periodicity.Core
             this.factor = factor;
         }
 
-        public override Geo2D ContinuousTrack(double node, double t, double tPastAN, int quart)
+        public override Geo2D ContinuousTrack(double node, double t, double tPastAN, TrackNodeQuarter quart)
         {
             double v = Orbit.Anomalia(t, tPastAN);
             double u = v + Orbit.ArgumentOfPerigee;
@@ -463,14 +470,20 @@ namespace Periodicity.Core
 
             double lon = Math.Asin(asinlon);
 
-            //if( quart == 1 )lon = lon;
-            if (quart == 2 || quart == 3)
+            switch (quart)
             {
-                lon = (Math.PI - lon) - factor.Quart23 * 2.0 * Math.PI;
-            }
-            else if (quart == 4)
-            {
-                lon = 2.0 * Math.PI + lon - factor.Quart4 * 2.0 * Math.PI;
+                case TrackNodeQuarter.First:
+                    //lon = lon;
+                    break;
+                case TrackNodeQuarter.Second:                    
+                case TrackNodeQuarter.Third:
+                    lon = (Math.PI - lon) - factor.Quart23 * 2.0 * Math.PI;
+                    break;
+                case TrackNodeQuarter.Fourth:
+                    lon = 2.0 * Math.PI + lon - factor.Quart4 * 2.0 * Math.PI;
+                    break;
+                default:
+                    break;
             }
 
             lon = Orbit.LonAscnNode + lon - Globals.Omega * (t + tPastAN) + node * 2.0 * Math.PI * factor.Offset;

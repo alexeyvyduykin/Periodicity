@@ -56,20 +56,20 @@ namespace Periodicity.Core
             {
                 Node node = new Node();
 
-                List<Tuple<double, double, int>> tq = new List<Tuple<double, double, int>>();
-
-                for (int j = 1; j <= 4; j++)
+                List<(double, double, TrackNodeQuarter)> tq = new List<(double, double, TrackNodeQuarter)>();
+            
+                foreach (var item in Enum.GetValues(typeof(TrackNodeQuarter)))
                 {
-                    double q = Orbit.Quarts[j] + i * Orbit.Period;
+                    double q = Orbit.Quarts[(int)item] + i * Orbit.Period;
                     if (timePastAN < q)
                     {
                         if (TimeEnd < q)
                         {
-                            tq.Add(Tuple.Create(timePastAN, TimeEnd, j));
+                            tq.Add((timePastAN, TimeEnd, (TrackNodeQuarter)item));
                             break;
                         }
 
-                        tq.Add(Tuple.Create(timePastAN, q, j));
+                        tq.Add((timePastAN, q, (TrackNodeQuarter)item));
                         timePastAN = q;
                     }
                 }

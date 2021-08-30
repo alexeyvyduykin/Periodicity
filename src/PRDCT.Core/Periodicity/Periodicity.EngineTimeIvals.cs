@@ -19,7 +19,7 @@ namespace Periodicity.Core
                         Node = n.Value,
                         TimeBegin = m.TimeBegin,
                         TimeEnd = m.TimeEnd,
-                        Quart = MyData.FromQuart(m.Quart)
+                        Quart = m.Quart
                     })).ToList());
             }
         }

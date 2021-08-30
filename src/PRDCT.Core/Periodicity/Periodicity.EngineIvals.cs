@@ -6,13 +6,13 @@ namespace Periodicity.Core
 {
     public partial class Periodicity
     {
-        private readonly List<PRDCTInterval> _vectBandIvals = new List<PRDCTInterval>();
+        private readonly List<(double left, double right, double tBegin, double tEnd)> _vectBandIvals = new List<(double, double, double, double)>();
         private readonly List<(string name, double left, double right)> _vectRegionCutters = new List<(string, double, double)>();
 
         private double _curTimeBegin;
         private double _curTimeEnd;
         private int _curNode;
-        private int _curQuart;
+        private TrackNodeQuarter _curQuart;
         private string _curIdSatellite;
         private double _curLat;
         private double _curLatDEG;
@@ -47,24 +47,13 @@ namespace Periodicity.Core
 
         private void searchIvals()
         {
-            //if( funcPolis( vectBands[i], dataIvals ) == true)
-            //  continue;
-
-            //iteratorBand curBand;
-            //std::pair<iteratorBand, iteratorBand> curPair;
-            /*for(curBand = mapBands.begin(); curBand != mapBands.end(); curBand++)
-            {
-              (*curBand).second->isCoverPolis(curLat,);
-            }
-            */
-
             foreach (var item in DataTimeIvals)
             {
                 _curIdSatellite = item.SatelliteID;
                 _curNode = item.Node;
                 _curTimeBegin = item.TimeBegin;
                 _curTimeEnd = item.TimeEnd;
-                _curQuart = MyData.ToQuart(item.Quart);
+                _curQuart = item.Quart;
 
                 _vectBandIvals.Clear();
 
@@ -76,7 +65,7 @@ namespace Periodicity.Core
 
                         var result = Utilities.BandCutterNew.Cut(band, _curLat, _curNode, _curTimeBegin, _curTimeEnd, satellite.TrueTimePastAN, _curQuart);
                         _vectBandIvals.AddRange(
-                            result.Select(s => new PRDCTInterval(s.left, s.right, s.tLeft, s.tRight)));
+                            result.Select(s => (s.left, s.right, s.tLeft, s.tRight)));
                     }
                 }
 
@@ -93,26 +82,26 @@ namespace Periodicity.Core
 
                 for (int j = 0; j < _vectBandIvals.Count; j++)
                 {
-                    PRDCTInterval ival = _vectBandIvals[j];
+                    var (left, right, tBegin, tEnd) = _vectBandIvals[j];
 
-                    double leftTemp = ival.Left;
-                    double rightTemp = ival.Right;
+                    double leftTemp = left;
+                    double rightTemp = right;
 
                     if (MyFunction.CutSegments(leftCutter, rightCutter, ref leftTemp, ref rightTemp) == true)
                     {
-                        double lon1 = ival.Left,
-                               lon2 = ival.Right,
-                               t1 = ival.TimeBegin,
-                               t2 = ival.TimeEnd;
+                        double lon1 = left,
+                               lon2 = right,
+                               t1 = tBegin,
+                               t2 = tEnd;
 
-                        if (leftTemp != ival.Left)
+                        if (leftTemp != left)
                         {
-                            t1 = ((ival.Right - leftTemp) * ival.TimeBegin + (leftTemp - ival.Left) * ival.TimeEnd) / (ival.Right - ival.Left);
+                            t1 = ((right - leftTemp) * tBegin + (leftTemp - left) * tEnd) / (right - left);
                             lon1 = leftTemp;
                         }
-                        if (rightTemp != ival.Right)
+                        if (rightTemp != right)
                         {
-                            t2 = ((ival.Right - rightTemp) * ival.TimeBegin + (rightTemp - ival.Left) * ival.TimeEnd) / (ival.Right - ival.Left);
+                            t2 = ((right - rightTemp) * tBegin + (rightTemp - left) * tEnd) / (right - left);
                             lon2 = rightTemp;
                         }
 

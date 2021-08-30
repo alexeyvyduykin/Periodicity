@@ -9,10 +9,10 @@ namespace Periodicity.Core.Utilities
         private static int _currentNode;
         private static double _currentTBegin;
         private static double _currentTEnd;
-        private static int _currentQuart;
+        private static TrackNodeQuarter _currentQuart;
         private static double _currentTPastAN;
 
-        public static List<(double left, double right, double tLeft, double tRight)> Cut(Band band, double latCutter, int node, double tBegin, double tEnd, double tPastAN, int quart)
+        public static List<(double left, double right, double tLeft, double tRight)> Cut(Band band, double latCutter, int node, double tBegin, double tEnd, double tPastAN, TrackNodeQuarter quart)
         {
             var result = new List<(double, double, double, double)>();
 
