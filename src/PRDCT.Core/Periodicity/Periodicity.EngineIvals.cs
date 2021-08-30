@@ -47,13 +47,13 @@ namespace Periodicity.Core
 
         private void searchIvals()
         {
-            foreach (var item in DataTimeIvals)
+            foreach ((string name, int node, double tBegin, double tEnd, TrackNodeQuarter quart) in DataTimeIvals)
             {
-                _curIdSatellite = item.SatelliteID;
-                _curNode = item.Node;
-                _curTimeBegin = item.TimeBegin;
-                _curTimeEnd = item.TimeEnd;
-                _curQuart = item.Quart;
+                _curIdSatellite = name;
+                _curNode = node;
+                _curTimeBegin = tBegin;
+                _curTimeEnd = tEnd;
+                _curQuart = quart;
 
                 _vectBandIvals.Clear();
 

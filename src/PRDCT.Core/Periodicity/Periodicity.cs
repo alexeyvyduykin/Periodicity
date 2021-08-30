@@ -13,20 +13,14 @@ namespace Periodicity.Core
         public double widthKM { get; set; }
     }
 
-    public enum LonType
-    {
-        Begin = 0,
-        End = 1,
-        Left = 2,
-        Right = 3
-    }
-
     public partial class Periodicity
     {
         public double PitchLatDEG { get; protected set; }
 
-        public List<TimeIvals> DataTimeIvals { get; }
+        public List<(string name, int node, double tBegin, double tEnd, TrackNodeQuarter quart)> DataTimeIvals { get; }
+
         public List<(string name, double latDeg, double latRad, double lonLeft, double lonRight)> DataRegionCuts { get; }
+
         public List<Ivals> DataIvals { get; }
 
         public List<PRDCTDataPeriodicitiesRecord> DataPeriodicities { get; }
@@ -42,7 +36,7 @@ namespace Periodicity.Core
             Satellites = new List<Satellite>();
             Regions = new List<Region>();
 
-            DataTimeIvals = new List<TimeIvals>();
+            DataTimeIvals = new List<(string, int, double, double, TrackNodeQuarter)>();
             DataRegionCuts = new List<(string, double, double, double, double)>();
             DataIvals = new List<Ivals>();
 

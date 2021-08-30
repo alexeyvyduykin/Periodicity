@@ -23,18 +23,4 @@ namespace Periodicity.Core
       
         public string RegionID { get; set; }
     }
-
-
-    public class TimeIvals
-    {           
-        public string SatelliteID { get; set; }
-        
-        public int Node { get; set; }
-      
-        public double TimeBegin { get; set; }
-    
-        public double TimeEnd { get; set; }
-    
-        public TrackNodeQuarter Quart { get; set; }
-    }
 }

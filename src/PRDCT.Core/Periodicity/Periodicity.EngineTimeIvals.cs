@@ -13,14 +13,7 @@ namespace Periodicity.Core
                 var nodes = satellite.Nodes();
 
                 DataTimeIvals.AddRange(
-                    nodes.SelectMany(n => n.Quarts.Select(m => new TimeIvals
-                    {
-                        SatelliteID = satellite.Name,
-                        Node = n.Value,
-                        TimeBegin = m.TimeBegin,
-                        TimeEnd = m.TimeEnd,
-                        Quart = m.Quart
-                    })).ToList());
+                    nodes.SelectMany(n => n.Quarts.Select(m => (satellite.Name, n.Value, m.TimeBegin, m.TimeEnd, m.Quart))).ToList());
             }
         }
 
