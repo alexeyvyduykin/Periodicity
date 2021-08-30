@@ -121,13 +121,13 @@ namespace Periodicity.Core
 
         public List<dvec2> Normals { get; private set; }  //
 
-        public double Left => BoundingRectangle.Left;
+        public double Left => BoundingRectangle.Left * MyMath.DegreesToRadians;
 
-        public double Right => BoundingRectangle.Right;
+        public double Right => BoundingRectangle.Right * MyMath.DegreesToRadians;
 
-        public double Bottom => BoundingRectangle.Top;
+        public double Bottom => BoundingRectangle.Top * MyMath.DegreesToRadians;
 
-        public double Top => BoundingRectangle.Bottom;
+        public double Top => BoundingRectangle.Bottom * MyMath.DegreesToRadians;
 
         public RectangleF BoundingRectangle { get; }
 

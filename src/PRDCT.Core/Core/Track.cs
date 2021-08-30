@@ -6,6 +6,7 @@ namespace Periodicity.Core
     {
         public FactorShiftTrack(Orbit orbit, double gam1DEG, double gam2DEG, BandMode direction)
         {
+            double inclination = orbit.Inclination * MyMath.DegreesToRadians;
             int mdf = 0, ch23, ch4, pls1 = 0, pls2 = 0;
 
             double gam1 = gam1DEG * MyMath.DegreesToRadians;
@@ -30,19 +31,19 @@ namespace Periodicity.Core
             double fi1 = Math.PI / 2.0 - (Math.Acos(semi_axis * Math.Sin(gam1) / Globals.Re)) - gam1;
             double fi2 = Math.PI / 2.0 - (Math.Acos(semi_axis * Math.Sin(gam2) / Globals.Re)) - gam2;
 
-            double i1_90 = orbit.Inclination - fi1 * pls1;
-            double i2_90 = orbit.Inclination - fi2 * pls2;
+            double i1_90 = inclination - fi1 * pls1;
+            double i2_90 = inclination - fi2 * pls2;
             double di1_90 = Math.Abs(Math.PI / 2.0 - i1_90);
             double di2_90 = Math.Abs(Math.PI / 2.0 - i2_90);
 
-            double i1_270 = Math.PI + orbit.Inclination + fi1 * pls1;
-            double i2_270 = Math.PI + orbit.Inclination + fi2 * pls2;
+            double i1_270 = Math.PI + inclination + fi1 * pls1;
+            double i2_270 = Math.PI + inclination + fi2 * pls2;
             double di1_270 = Math.Abs(3.0 * Math.PI / 2.0 - i1_270);
             double di2_270 = Math.Abs(3.0 * Math.PI / 2.0 - i2_270);
 
             ////////////////////////////////////////////////////////////////////
             double uTr1 = Math.Acos(Math.Cos(fi1) * Math.Cos(Math.PI / 2.0));
-            double iTr1 = orbit.Inclination - Math.Atan2(Math.Tan(fi1), Math.Sin(Math.PI / 2.0)) * pls1;
+            double iTr1 = inclination - Math.Atan2(Math.Tan(fi1), Math.Sin(Math.PI / 2.0)) * pls1;
             double lat1 = Math.Asin(Math.Sin(uTr1) * Math.Sin(iTr1));
             double asinlon1 = Math.Tan(lat1) / Math.Tan(iTr1);
             if (Math.Abs(asinlon1) > 1.0)
@@ -53,7 +54,7 @@ namespace Periodicity.Core
             double lon1 = Math.Asin(asinlon1) - Globals.Omega * orbit.Quart1;// Period / 4.0;
 
             double uTr2 = Math.Acos(Math.Cos(fi2) * Math.Cos(Math.PI / 2.0));
-            double iTr2 = orbit.Inclination - Math.Atan2(Math.Tan(fi2), Math.Sin(Math.PI / 2.0)) * pls2;
+            double iTr2 = inclination - Math.Atan2(Math.Tan(fi2), Math.Sin(Math.PI / 2.0)) * pls2;
             double lat2 = Math.Asin(Math.Sin(uTr2) * Math.Sin(iTr2));
             double asinlon2 = Math.Tan(lat2) / Math.Tan(iTr2);
             if (Math.Abs(asinlon2) > 1.0)
@@ -87,7 +88,7 @@ namespace Periodicity.Core
             /////////////////////////////////////////////////////////////////////
 
             uTr1 = Math.Acos(Math.Cos(fi1) * Math.Cos(3.0 * Math.PI / 2.0));
-            iTr1 = orbit.Inclination - Math.Atan2(Math.Tan(fi1), Math.Sin(3.0 * Math.PI / 2.0)) * pls1;
+            iTr1 = inclination - Math.Atan2(Math.Tan(fi1), Math.Sin(3.0 * Math.PI / 2.0)) * pls1;
             lat1 = Math.Asin(Math.Sin(uTr1) * Math.Sin(iTr1));
             asinlon1 = Math.Tan(lat1) / Math.Tan(iTr1);
             if (Math.Abs(asinlon1) > 1.0)
@@ -98,7 +99,7 @@ namespace Periodicity.Core
             lon1 = 2.0 * Math.PI + Math.Asin(asinlon1) - Globals.Omega * orbit.Quart3;// 3.0 * Period / 4.0;
 
             uTr2 = Math.Acos(Math.Cos(fi2) * Math.Cos(3.0 * Math.PI / 2.0));
-            iTr2 = orbit.Inclination - Math.Atan2(Math.Tan(fi2), Math.Sin(3.0 * Math.PI / 2.0)) * pls2;
+            iTr2 = inclination - Math.Atan2(Math.Tan(fi2), Math.Sin(3.0 * Math.PI / 2.0)) * pls2;
             lat2 = Math.Asin(Math.Sin(uTr2) * Math.Sin(iTr2));
             asinlon2 = Math.Tan(lat2) / Math.Tan(iTr2);
             if (Math.Abs(asinlon2) > 1.0)
@@ -187,9 +188,10 @@ namespace Periodicity.Core
 
         public Geo2D Position(double tnorm)
         {
+            double inclination = Orbit.Inclination * MyMath.DegreesToRadians;
             double u = MyMath.WrapAngle(Orbit.Anomalia(tnorm) + Orbit.ArgumentOfPerigee);
-            double lat = Math.Asin(Math.Sin(u) * Math.Sin(Orbit.Inclination));
-            double asinlon = Math.Tan(lat) / Math.Tan(Orbit.Inclination);
+            double lat = Math.Asin(Math.Sin(u) * Math.Sin(inclination));
+            double asinlon = Math.Tan(lat) / Math.Tan(inclination);
             if (Math.Abs(asinlon) > 1.0)
             {
                 asinlon = MyMath.Sign(asinlon);
@@ -227,11 +229,12 @@ namespace Periodicity.Core
 
         public virtual Geo2D ContinuousTrack(double node, double t, double tPastAN, TrackNodeQuarter quart)
         {
+            double inclination = Orbit.Inclination * MyMath.DegreesToRadians;
             double v = Orbit.Anomalia(t, tPastAN);
             double u = v + Orbit.ArgumentOfPerigee;
 
-            double lat = Math.Asin(Math.Sin(u) * Math.Sin(Orbit.Inclination));
-            double asinlon = Math.Tan(lat) / Math.Tan(Orbit.Inclination);
+            double lat = Math.Asin(Math.Sin(u) * Math.Sin(inclination));
+            double asinlon = Math.Tan(lat) / Math.Tan(inclination);
 
             if (Math.Abs(asinlon) > 1.0)
             {
@@ -262,8 +265,9 @@ namespace Periodicity.Core
 
         public virtual Geo2D TrackPoint(double u)
         {
-            double lat = Math.Asin(Math.Sin(u) * Math.Sin(Orbit.Inclination));
-            double asinlon = Math.Tan(lat) / Math.Tan(Orbit.Inclination);
+            double inclination = Orbit.Inclination * MyMath.DegreesToRadians;
+            double lat = Math.Asin(Math.Sin(u) * Math.Sin(inclination));
+            double asinlon = Math.Tan(lat) / Math.Tan(inclination);
             if (Math.Abs(asinlon) > 1.0)
             {
                 asinlon = Math.Sign(asinlon);
@@ -314,6 +318,7 @@ namespace Periodicity.Core
 
         public bool polisMod(double lat, ref double polis_mod)
         {
+            double inclination = Orbit.Inclination * MyMath.DegreesToRadians;
             double t_polis;
             if (lat >= 0.0)
             {
@@ -325,7 +330,7 @@ namespace Periodicity.Core
             }
 
             double fi = centralAngle(t_polis + Orbit.ArgumentOfPerigee * Orbit.Period / (2.0 * Math.PI));
-            double i = Orbit.Inclination - fi * dir;
+            double i = inclination - fi * dir;
             if (i > Math.PI / 2.0)
             {
                 i = Math.PI - i;
@@ -348,13 +353,14 @@ namespace Periodicity.Core
 
         public override Geo2D ContinuousTrack(double node, double t, double tPastAN, TrackNodeQuarter quart)
         {
+            double inclination = Orbit.Inclination * MyMath.DegreesToRadians;
             double v = Orbit.Anomalia(t, tPastAN);
             double u = v + Orbit.ArgumentOfPerigee;
 
             double semi_axis = Orbit.Semiaxis(u);
             double angle = Math.PI / 2.0 - (Math.Acos(semi_axis * Math.Sin(Alpha1) / Globals.Re)) - Alpha1;
             double uTr = Math.Acos(Math.Cos(angle) * Math.Cos(u));
-            double iTr = Orbit.Inclination - Math.Atan2(Math.Tan(angle), Math.Sin(u)) * dir;
+            double iTr = inclination - Math.Atan2(Math.Tan(angle), Math.Sin(u)) * dir;
             double lat = Math.Asin(Math.Sin(uTr) * Math.Sin(iTr));
             double asinlon = Math.Tan(lat) / Math.Tan(iTr);
 
@@ -387,18 +393,19 @@ namespace Periodicity.Core
 
         public override Geo2D TrackPoint(double u)
         {
+            double inclination = Orbit.Inclination * MyMath.DegreesToRadians;
             double uTr, iTr, angle;
             if (Alpha1 == 0.0)
             {
                 angle = 0.0;
                 uTr = u;
-                iTr = Orbit.Inclination;
+                iTr = inclination;
             }
             else
             {
                 angle = CentralAngle(u);
                 uTr = Math.Acos(Math.Cos(angle) * Math.Cos(u));
-                iTr = Orbit.Inclination - Math.Atan2(Math.Tan(angle), Math.Sin(u)) * dir;
+                iTr = inclination - Math.Atan2(Math.Tan(angle), Math.Sin(u)) * dir;
             }
             double lat = Math.Asin(Math.Sin(uTr) * Math.Sin(iTr));
             double asinlon = Math.Tan(lat) / Math.Tan(iTr);
@@ -453,13 +460,14 @@ namespace Periodicity.Core
 
         public override Geo2D ContinuousTrack(double node, double t, double tPastAN, TrackNodeQuarter quart)
         {
+            double inclination = Orbit.Inclination * MyMath.DegreesToRadians;
             double v = Orbit.Anomalia(t, tPastAN);
             double u = v + Orbit.ArgumentOfPerigee;
 
             double semi_axis = Orbit.Semiaxis(u);
             double angle = Math.PI / 2.0 - (Math.Acos(semi_axis * Math.Sin(Alpha1) / Globals.Re)) - Alpha1;
             double uTr = Math.Acos(Math.Cos(angle) * Math.Cos(u));
-            double iTr = Orbit.Inclination - Math.Atan2(Math.Tan(angle), Math.Sin(u)) * dir;
+            double iTr = inclination - Math.Atan2(Math.Tan(angle), Math.Sin(u)) * dir;
             double lat = Math.Asin(Math.Sin(uTr) * Math.Sin(iTr));
             double asinlon = Math.Tan(lat) / Math.Tan(iTr);
 
