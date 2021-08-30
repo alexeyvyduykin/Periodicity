@@ -66,6 +66,8 @@ namespace Periodicity.Core
                 new dvec2(right, top),
                 new dvec2(right, bottom)
             };
+            
+            BoundingRectangle = new RectangleF((float)left, (float)bottom, (float)(right - left), (float)(top - bottom));
         }
 
         private bool IsInside(dvec2 point)

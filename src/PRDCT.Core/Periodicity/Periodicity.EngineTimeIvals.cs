@@ -12,10 +12,10 @@ namespace Periodicity.Core
             {
                 var nodes = satellite.Nodes();
 
-                DataTimeIvals.AddRange(
-                    nodes.SelectMany(n => n.Quarts.Select(m => (satellite.Name, n.Value, m.TimeBegin, m.TimeEnd, m.Quart))).ToList());
+                var res = nodes.SelectMany(n => n.Quarts.Select(m => (satellite.Name, n.Value, m.TimeBegin, m.TimeEnd, m.Quart)));
+
+                DataTimeIvals.AddRange(res);
             }
         }
-
     }
 }

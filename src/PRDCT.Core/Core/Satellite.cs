@@ -13,7 +13,7 @@ namespace Periodicity.Core
 
         public Orbit Orbit { get; set; }
 
-        public IList<Sensor> Sensors { get; }
+        public List<Sensor> Sensors { get; }
 
         private Satellite() { }
 

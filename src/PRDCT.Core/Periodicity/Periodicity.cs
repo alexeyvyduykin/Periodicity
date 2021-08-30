@@ -14,15 +14,11 @@ namespace Periodicity.Core
 
         public List<(double latDeg, int prdct, double percent, double widthRad, double widthKm)> DataPeriodicities { get; } = new();
 
-        public IList<Satellite> Satellites { get; }
+        public List<Satellite> Satellites { get; } = new();
 
-        public IList<Region> Regions { get; }
+        public List<Region> Regions { get; } = new();
 
-        public Periodicity() 
-        {         
-            Satellites = new List<Satellite>();
-            Regions = new List<Region>();
-        }
+        public Periodicity() { }
 
         public IEnumerable<double> UniqueLatitudesDEG => DataRegionCuts.Select(m => m.latDeg).Distinct();
 
