@@ -4,57 +4,32 @@ using System.Linq;
 
 namespace Periodicity.Core
 {
-    public class PRDCTDataPeriodicitiesRecord
-    {
-        public double latDEG { get; set; }
-        public int periodicity { get; set; }
-        public double percent { get; set; }
-        public double widthRAD { get; set; }
-        public double widthKM { get; set; }
-    }
-
     public partial class Periodicity
     {
-        public double PitchLatDEG { get; }
-
         public List<(string satName, int node, double tBegin, double tEnd, TrackNodeQuarter quart)> DataTimeIvals { get; } = new();
 
         public List<(string regName, double latDeg, double latRad, double lonLeft, double lonRight)> DataRegionCuts { get; } = new();
 
         public List<(string satName, double latDeg, double latRad, double lonLeft, double lonRight, int node, double tLeft, double tRight, string regName)> DataIvals { get; } = new();
 
-        public List<PRDCTDataPeriodicitiesRecord> DataPeriodicities { get; } = new();
+        public List<(double latDeg, int prdct, double percent, double widthRad, double widthKm)> DataPeriodicities { get; } = new();
 
         public IList<Satellite> Satellites { get; }
 
         public IList<Region> Regions { get; }
 
-        public Periodicity(double pitchLatDEG = 0.5) 
-        {
-            PitchLatDEG = pitchLatDEG;
-
+        public Periodicity() 
+        {         
             Satellites = new List<Satellite>();
             Regions = new List<Region>();
         }
 
         public IEnumerable<double> UniqueLatitudesDEG => DataRegionCuts.Select(m => m.latDeg).Distinct();
 
-        public void Func1()
+        public void Calculate(double pitchLatDEG = 0.5)
         {
             CreateDataTimeIvals();
-            CreateDataRegionCuts();
-            CreateDataIvals();
-        }
-
-        public void Func2()
-        {
-            CreateData();
-        }
-
-        public void CreateIvals()
-        {
-            CreateDataTimeIvals();
-            CreateDataRegionCuts();
+            CreateDataRegionCuts(pitchLatDEG);
             CreateDataIvals();
             CreateData();
         }
@@ -93,7 +68,7 @@ namespace Periodicity.Core
                       select new { Longitude = m.lonRight, Type = 4 }).OrderBy(c => c.Longitude).ThenBy(n => n.Type);
         }
 
-        public void CreateData()
+        private void CreateData()
         {
             DataPeriodicities.Clear();
 
@@ -144,7 +119,7 @@ namespace Periodicity.Core
                 {
                     widthIvals[i] *= radToProc;
                     //strProcent = strProcent.FormatFloat("0.##;0.##", widthIvals[i]);                   
-                    widthIvals[i] = Double.Parse(widthIvals[i].ToString("0.00"));
+                    widthIvals[i] = double.Parse(widthIvals[i].ToString("0.00"));
                     correctSumma += widthIvals[i];
                 }
                 //correctSumma += 0.01;    // для устранения ошибки округления
@@ -153,7 +128,7 @@ namespace Periodicity.Core
                 {
                     widthIvals[numWidthIvals - 1] -= (correctSumma - 100.0);
                     //strProcent = strProcent.FormatFloat("0.##;0.##", widthIvals[numWidthIvals - 1]);
-                    widthIvals[numWidthIvals - 1] = Double.Parse(widthIvals[numWidthIvals - 1].ToString("0.00"));
+                    widthIvals[numWidthIvals - 1] = double.Parse(widthIvals[numWidthIvals - 1].ToString("0.00"));
                 }
 
                 for (int i = 0; i < numWidthIvals; ++i)
@@ -162,15 +137,7 @@ namespace Periodicity.Core
                     //strProcent.sprintf("%,2f", procent);
                     if (widthIvals[i] != 0.0)
                     {
-                        DataPeriodicities.Add(
-                            new PRDCTDataPeriodicitiesRecord
-                            {
-                                latDEG = regionCut.latDeg,
-                                periodicity = i,
-                                percent = widthIvals[i],
-                                widthRAD = widthIvals[i] / radToProc,
-                                widthKM = lonKM
-                            });
+                        DataPeriodicities.Add((regionCut.latDeg, i, widthIvals[i], widthIvals[i] / radToProc, lonKM));
                     }
                 }
 

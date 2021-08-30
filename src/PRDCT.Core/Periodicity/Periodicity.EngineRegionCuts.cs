@@ -4,11 +4,11 @@ namespace Periodicity.Core
 {
     public partial class Periodicity
     {
-        public void CreateDataRegionCuts()
+        public void CreateDataRegionCuts(double pitchLatDEG)
         {
             DataRegionCuts.Clear();
 
-            for (double latDEGCutter = -90.0; latDEGCutter <= 90.0; latDEGCutter += PitchLatDEG)
+            for (double latDEGCutter = -90.0; latDEGCutter <= 90.0; latDEGCutter += pitchLatDEG)
             {
                 double latRADCutter = latDEGCutter * MyMath.DegreesToRadians;
 
