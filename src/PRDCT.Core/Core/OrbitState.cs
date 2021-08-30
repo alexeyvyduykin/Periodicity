@@ -438,6 +438,9 @@ namespace Periodicity.Core
             }
         }
 
+        /// <summary>
+        /// TrueAnomaly, deg
+        /// </summary>
         public double TrueAnomaly
         {
             get => _trueAnomaly;
@@ -524,18 +527,27 @@ namespace Periodicity.Core
             }
         }
 
+        /// <summary>
+        /// Inclination, deg
+        /// </summary>
         public double Inclination
         {
             get => _inclination;
             set => SynchronizeOrientationProperties(value, nameof(OrbitState.Inclination));
         }
 
+        /// <summary>
+        /// RAAN, deg
+        /// </summary>
         public double RAAN
         {
             get => _raan;
             set => SynchronizeOrientationProperties(value, nameof(OrbitState.RAAN));
         }
 
+        /// <summary>
+        /// LonAscnNode, deg
+        /// </summary>
         public double LonAscnNode
         {
             get => _lonAscnNode;

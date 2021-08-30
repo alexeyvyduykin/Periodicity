@@ -189,6 +189,8 @@ namespace Periodicity.Core
         public Geo2D Position(double tnorm)
         {
             double inclination = Orbit.Inclination * MyMath.DegreesToRadians;
+            double lonAscnNode = Orbit.LonAscnNode * MyMath.DegreesToRadians;
+
             double u = MyMath.WrapAngle(Orbit.Anomalia(tnorm) + Orbit.ArgumentOfPerigee);
             double lat = Math.Asin(Math.Sin(u) * Math.Sin(inclination));
             double asinlon = Math.Tan(lat) / Math.Tan(inclination);
@@ -213,7 +215,7 @@ namespace Periodicity.Core
                 lon = 2.0 * Math.PI + lon;
             }
 
-            lon = Orbit.LonAscnNode + lon - Globals.Omega * (tnorm);
+            lon = lonAscnNode + lon - Globals.Omega * (tnorm);
             while (lon > 2.0 * Math.PI)
             {
                 lon -= 2.0 * Math.PI;
@@ -230,6 +232,8 @@ namespace Periodicity.Core
         public virtual Geo2D ContinuousTrack(double node, double t, double tPastAN, TrackNodeQuarter quart)
         {
             double inclination = Orbit.Inclination * MyMath.DegreesToRadians;
+            double lonAscnNode = Orbit.LonAscnNode * MyMath.DegreesToRadians;
+
             double v = Orbit.Anomalia(t, tPastAN);
             double u = v + Orbit.ArgumentOfPerigee;
 
@@ -259,7 +263,7 @@ namespace Periodicity.Core
                     break;
             }
 
-            lon = Orbit.LonAscnNode + lon - Globals.Omega * (t + tPastAN) + node * 2.0 * Math.PI;// * factor.mdf;
+            lon = lonAscnNode + lon - Globals.Omega * (t + tPastAN) + node * 2.0 * Math.PI;// * factor.mdf;
             return new Geo2D(lon, lat);
         }
 
@@ -354,6 +358,8 @@ namespace Periodicity.Core
         public override Geo2D ContinuousTrack(double node, double t, double tPastAN, TrackNodeQuarter quart)
         {
             double inclination = Orbit.Inclination * MyMath.DegreesToRadians;
+            double lonAscnNode = Orbit.LonAscnNode * MyMath.DegreesToRadians;
+
             double v = Orbit.Anomalia(t, tPastAN);
             double u = v + Orbit.ArgumentOfPerigee;
 
@@ -387,7 +393,7 @@ namespace Periodicity.Core
                     break;
             }
 
-            lon = Orbit.LonAscnNode + lon - Globals.Omega * (t + tPastAN) + node * 2.0 * Math.PI;// * factor.mdf;
+            lon = lonAscnNode + lon - Globals.Omega * (t + tPastAN) + node * 2.0 * Math.PI;// * factor.mdf;
             return new Geo2D(lon, lat, GeoCoordTypes.Radians);
         }
 
@@ -461,6 +467,8 @@ namespace Periodicity.Core
         public override Geo2D ContinuousTrack(double node, double t, double tPastAN, TrackNodeQuarter quart)
         {
             double inclination = Orbit.Inclination * MyMath.DegreesToRadians;
+            double lonAscnNode = Orbit.LonAscnNode * MyMath.DegreesToRadians;
+
             double v = Orbit.Anomalia(t, tPastAN);
             double u = v + Orbit.ArgumentOfPerigee;
 
@@ -494,7 +502,7 @@ namespace Periodicity.Core
                     break;
             }
 
-            lon = Orbit.LonAscnNode + lon - Globals.Omega * (t + tPastAN) + node * 2.0 * Math.PI * factor.Offset;
+            lon = lonAscnNode + lon - Globals.Omega * (t + tPastAN) + node * 2.0 * Math.PI * factor.Offset;
             return new Geo2D(lon, lat, GeoCoordTypes.Radians);
         }
 

@@ -54,7 +54,7 @@
                 <oxy:AreaSeries
                     DataFieldX="Latitude"
                     DataFieldY="Coverage"
-                    Items="{Binding PeriodicityReport}"
+                    Items="{Binding PeriodicityGraph1}"
                     Color="LightGreen" />
             </oxy:Plot.Series>
         </oxy:Plot>

@@ -77,6 +77,7 @@ namespace Sample2.ViewModels
             int maxPrdct = int.MinValue;
 
             PeriodicityReport = new ObservableCollection<PeriodicityRecord>();
+            PeriodicityGraph1 = new ObservableCollection<PeriodicityGraph1>();
 
             foreach (var (latDeg, prdct, percent, _, _) in periodicity.DataPeriodicities)
             {
@@ -92,6 +93,12 @@ namespace Sample2.ViewModels
                             Coverage = summaryPercent
                         });
                     }
+
+                    PeriodicityGraph1.Add(new PeriodicityGraph1()
+                    {
+                        Latitude = tempLatDeg,
+                        Coverage = summaryPercent
+                    });
 
                     summaryPercent = 0.0;
                     minPrdct = int.MaxValue;
@@ -111,6 +118,8 @@ namespace Sample2.ViewModels
         }
 
         public ObservableCollection<PeriodicityRecord> PeriodicityReport { get; set; }
+
+        public ObservableCollection<PeriodicityGraph1> PeriodicityGraph1 { get; set; }
     }
 
     public class PeriodicityRecord
@@ -120,6 +129,13 @@ namespace Sample2.ViewModels
         public int MinPeriodicity { get; set; }
 
         public int MaxPeriodicity { get; set; }
+
+        public double Coverage { get; set; }
+    }
+
+    public class PeriodicityGraph1
+    {
+        public double Latitude { get; set; }
 
         public double Coverage { get; set; }
     }
