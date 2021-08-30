@@ -15,45 +15,26 @@ namespace Periodicity.Core
 
     public partial class Periodicity
     {
-        public double PitchLatDEG { get; protected set; }
+        public double PitchLatDEG { get; }
 
-        public List<(string name, int node, double tBegin, double tEnd, TrackNodeQuarter quart)> DataTimeIvals { get; }
+        public List<(string satName, int node, double tBegin, double tEnd, TrackNodeQuarter quart)> DataTimeIvals { get; } = new();
 
-        public List<(string name, double latDeg, double latRad, double lonLeft, double lonRight)> DataRegionCuts { get; }
+        public List<(string regName, double latDeg, double latRad, double lonLeft, double lonRight)> DataRegionCuts { get; } = new();
 
-        public List<Ivals> DataIvals { get; }
+        public List<(string satName, double latDeg, double latRad, double lonLeft, double lonRight, int node, double tLeft, double tRight, string regName)> DataIvals { get; } = new();
 
-        public List<PRDCTDataPeriodicitiesRecord> DataPeriodicities { get; }
+        public List<PRDCTDataPeriodicitiesRecord> DataPeriodicities { get; } = new();
 
         public IList<Satellite> Satellites { get; }
 
         public IList<Region> Regions { get; }
 
-        public Periodicity() 
+        public Periodicity(double pitchLatDEG = 0.5) 
         {
-            PitchLatDEG = 0.5;
+            PitchLatDEG = pitchLatDEG;
 
             Satellites = new List<Satellite>();
             Regions = new List<Region>();
-
-            DataTimeIvals = new List<(string, int, double, double, TrackNodeQuarter)>();
-            DataRegionCuts = new List<(string, double, double, double, double)>();
-            DataIvals = new List<Ivals>();
-
-            DataPeriodicities = new List<PRDCTDataPeriodicitiesRecord>();
-        }
-
-        public Periodicity(Periodicity prdct)
-        {
-            Satellites = prdct.Satellites;
-            Regions = prdct.Regions;
-
-            PitchLatDEG = prdct.PitchLatDEG;
-
-            DataIvals = prdct.DataIvals;
-            DataPeriodicities = prdct.DataPeriodicities;
-            DataRegionCuts = prdct.DataRegionCuts;
-            DataTimeIvals = prdct.DataTimeIvals;
         }
 
         public IEnumerable<double> UniqueLatitudesDEG => DataRegionCuts.Select(m => m.latDeg).Distinct();
@@ -70,127 +51,13 @@ namespace Periodicity.Core
             CreateData();
         }
 
-        //        public void CalculationTimeModeling(DateTime dateTimeBegin, DateTime dateTimeEnd)
-        //        {
-        //     //       TMyDate timeBeginDate = new TMyDate(dateTimeBegin);
-        //     //       TMyDate timeEndDate = new TMyDate(dateTimeEnd);
-
-        //     //       base.DateTimeBegin = dateTimeBegin;
-        //     //       base.DateTimeEnd = dateTimeEnd;
-
-        //    //        base.jd0h = timeBeginDate.JulianDate0h();
-        //    //        base.s0 = timeBeginDate.S0Mean_RAD();
-        //    //        base.timeBegin = timeBeginDate.SecondOf0h();
-        //    //        base.timeEnd = (timeEndDate.Julian() - timeBeginDate.Julian()) * 86400.0 + timeBegin;
-
-
-        ////            engineTimeIvals = new PRDCTEngineTimeIvals(this);
-        ////            engineRegionCuts = new PRDCTEngineRegionCuts(this);
-        // //           engineIvals = new PRDCTEngineIvals(this);
-        //        }
-
         public void CreateIvals()
         {
             CreateDataTimeIvals();
             CreateDataRegionCuts();
             CreateDataIvals();
-
-            //           engineTimeIvals.Initialize();
-            //engineRegionCuts.Initialize();
-            //engineIvals.Create();
             CreateData();
         }
-
-
-        //     private PRDCTEngineTimeIvals engineTimeIvals;
-        //     private PRDCTEngineRegionCuts engineRegionCuts;
-        //     private PRDCTEngineIvals engineIvals;
-
-        // public TimeIvalsMethod TimeIvalsMethod { get; set; } = TimeIvalsMethod.Default;
-        // public RegionCutsMethod RegionCutsMethod { get; set; } = RegionCutsMethod.Default;
-        // public CreateIvalsMethod CreateIvalsMethod { get; set; } = CreateIvalsMethod.Temp;
-
-        //public SunCondition SunCondition { get; set; } = SunCondition.Disable;
-
-
-        //public class PRDCT_DATA
-        //{
-        //    public class PRDCT_LAT_DATA
-        //    {
-        //        public double lat;
-        //        public List<PRDCT_LON_INFO> lons = new List<PRDCT_LON_INFO>();
-        //        public int num_lon;
-        //        public double width;
-        //    }
-
-        //    public PRDCT_DATA()
-        //    {
-        //        data = new List<PRDCT_LAT_DATA>();
-        //        num_lat = 0;
-        //    }
-
-        //    public void Clear()
-        //    {
-        //        data.Clear();
-        //        num_lat = 0;
-        //    }
-
-        //    public void Add_Lat(double lat_)
-        //    {
-        //        data.Add(new PRDCT_LAT_DATA());
-        //        data[num_lat++].lat = lat_;
-        //    }
-
-        //    public void Add_Lons(List<PRDCT_LON_INFO> lons_, double width_)
-        //    {
-        //        int size = lons_.Count,
-        //            j = num_lat - 1;
-        //        data[j].num_lon = size;
-        //        data[j].width = width_;
-
-        //        data[j].lons.Clear();
-        //        //   data[j].lons = lons_;           //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-        //        //for(i = 0; i < size; i++)
-        //        //  data[j].lons.push_back(lons_[i]);
-
-        //        for (int i = 0; i < lons_.Count; i++)
-        //            data[j].lons.Add(lons_[i]);
-        //    }
-
-        //    public List<PRDCT_LAT_DATA> data;
-        //    private int num_lat;
-        //}
-
-        //public PRDCT_DATA CreateData()
-        //{
-        //    PRDCT_DATA data = new PRDCT_DATA();
-
-        //    base.dataIvals[0]
-
-        //    data.Add_Lat();
-
-        //}
-
-        //dataIvals.Add(//new PRDCTDataRecord(
-        //                    new List<PRDCTDataCell>()
-        //                    {
-        //                        new PRDCTDataCell { Value = idSatellite, Name = "idSatellite" },
-        //                        new PRDCTDataCell { Value = latDEG, Name = "latDEG" },
-        //                        new PRDCTDataCell { Value = latRAD, Name = "latRAD" },
-        //                        new PRDCTDataCell { Value = lon1, Name = "left" },
-        //                        new PRDCTDataCell { Value = lon2, Name = "right" },
-        //                        new PRDCTDataCell { Value = node, Name = "node" },
-        //                        new PRDCTDataCell { Value = t1, Name = "tLeft" },
-        //                        new PRDCTDataCell { Value = t2, Name = "tRight" },
-        //                        new PRDCTDataCell { Value = idCutter, Name = "idRegion" }
-        //                    });
-
-        //[Table(Name = "Customers")]
-        //private class QueryRecord
-        //{
-        //    public double Longitude { get; set; }
-        //    public int Type { get; set; }
-        //}
 
         private IEnumerable<dynamic> ExecSQL(double latDEG)
         {
@@ -216,11 +83,11 @@ namespace Periodicity.Core
                     where m.latDeg == latDEG
                     select new { Longitude = m.lonLeft, Type = 1 }).Concat(
                       from m in DataIvals
-                      where m.LatDEG == latDEG
-                      select new { Longitude = m.LonLeft, Type = 2 }).Concat(
+                      where m.latDeg == latDEG
+                      select new { Longitude = m.lonLeft, Type = 2 }).Concat(
                       from m in DataIvals
-                      where m.LatDEG == latDEG
-                      select new { Longitude = m.LonRight, Type = 3 }).Concat(
+                      where m.latDeg == latDEG
+                      select new { Longitude = m.lonRight, Type = 3 }).Concat(
                       from m in DataRegionCuts
                       where m.latDeg == latDEG
                       select new { Longitude = m.lonRight, Type = 4 }).OrderBy(c => c.Longitude).ThenBy(n => n.Type);
@@ -310,8 +177,5 @@ namespace Periodicity.Core
             }
             return;
         }
-
-              
-
     }
 }

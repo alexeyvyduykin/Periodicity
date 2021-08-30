@@ -6,8 +6,8 @@ namespace Periodicity.Core
 {
     public partial class Periodicity
     {
-        private readonly List<(double left, double right, double tBegin, double tEnd)> _vectBandIvals = new List<(double, double, double, double)>();
-        private readonly List<(string name, double left, double right)> _vectRegionCutters = new List<(string, double, double)>();
+        private readonly List<(double left, double right, double tBegin, double tEnd)> _vectBandIvals = new();
+        private readonly List<(string regName, double left, double right)> _vectRegionCutters = new();
 
         private double _curTimeBegin;
         private double _curTimeEnd;
@@ -35,7 +35,7 @@ namespace Periodicity.Core
 
                 foreach (var item in DataRegionCuts.Where(c => c.latDeg.Equals(_curLatDEG)))
                 {
-                    _vectRegionCutters.Add((item.name, item.lonLeft, item.lonRight));
+                    _vectRegionCutters.Add((item.regName, item.lonLeft, item.lonRight));
                 }
 
                 searchIvals();
@@ -105,19 +105,7 @@ namespace Periodicity.Core
                             lon2 = rightTemp;
                         }
 
-                        DataIvals.Add(
-                            new Ivals
-                            {
-                                SatelliteID = _curIdSatellite,
-                                LatDEG = _curLatDEG,
-                                LatRAD = _curLat,
-                                LonLeft = lon1,
-                                LonRight = lon2,
-                                Node = _curNode,
-                                TimeLeft = t1,
-                                TimeRight = t2,
-                                RegionID = _vectRegionCutters[i].name
-                            });
+                        DataIvals.Add((_curIdSatellite, _curLatDEG, _curLat, lon1, lon2, _curNode, t1, t2, _vectRegionCutters[i].regName));
                     }
                 }
             }

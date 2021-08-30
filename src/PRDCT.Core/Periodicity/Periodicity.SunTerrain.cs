@@ -40,11 +40,11 @@ namespace Periodicity.Core
         {
             string curID = "";
 
-            foreach (var ival in DataIvals)
+            foreach ((string satName, double latDeg, double latRad, double lonLeft, double lonRight, int node, double tLeft, double tRight, string regName) in DataIvals)
             {
-                if (curID != ival.SatelliteID)
+                if (curID != satName)
                 {
-                    var sat = Satellites.Where(s => s.Name == ival.SatelliteID).FirstOrDefault();
+                    var sat = Satellites.Where(s => s.Name == satName).FirstOrDefault();
                     _tempJD0 = sat.StartTime.Date.ToOADate() + 2415018.5;
                     _tempBeginSecs = sat.StartTime.TimeOfDay.TotalSeconds;
                     //tempS0 = MyFunction.uds1900(tempJD0);
@@ -52,13 +52,13 @@ namespace Periodicity.Core
                     _tempS0 = jd.ToGmst();
                 }
 
-                bool isLeft = PRDCT_HSUN(ival.TimeLeft, ival.LonLeft, ival.LatRAD);
-                bool isRight = PRDCT_HSUN(ival.TimeRight, ival.LonRight, ival.LatRAD);
+                bool isLeft = PRDCT_HSUN(tLeft, lonLeft, latRad);
+                bool isRight = PRDCT_HSUN(tRight, lonRight, latRad);
 
                 // интервал полностью освещён
                 if (isLeft == true && isRight == true)
                 {
-                    DataIvals.Add(ival);
+                    DataIvals.Add((satName, latDeg, latRad, lonLeft, lonRight, node, tLeft, tRight, regName));
                 }
                 // концы интервала не освещены, необходима проверка внутренней части
                 else if (isLeft == false && isRight == false)
@@ -67,10 +67,10 @@ namespace Periodicity.Core
                     double step = 1.0 * MyMath.DegreesToRadians;
                     bool isCur = false;
                     double lonCur, tCur = 0.0;
-                    for (lonCur = ival.LonLeft; lonCur <= ival.LonRight; lonCur += step)
+                    for (lonCur = lonLeft; lonCur <= lonRight; lonCur += step)
                     {
-                        tCur = ((ival.LonRight - lonCur) * ival.TimeLeft + (lonCur - ival.LonLeft) * ival.TimeRight) / (ival.LonRight - ival.LonLeft);
-                        isCur = PRDCT_HSUN(tCur, lonCur, ival.LatRAD);
+                        tCur = ((lonRight - lonCur) * tLeft + (lonCur - lonLeft) * tRight) / (lonRight - lonLeft);
+                        isCur = PRDCT_HSUN(tCur, lonCur, latRad);
                         if (isCur == true)
                         {
                             break;
@@ -82,26 +82,26 @@ namespace Periodicity.Core
                         continue;
                     }
 
-                    DataIvals.Add(FuncSun2(ival, lonCur, tCur));
+                    DataIvals.Add(FuncSun2((satName, latDeg, latRad, lonLeft, lonRight, node, tLeft, tRight, regName), lonCur, tCur));
                 }
                 // интервал освещён частично
                 //if( isLighting1 == false || isLighting2 == false )
                 else
                 {
-                    DataIvals.Add(FuncSun1(ival, isLeft, isRight));
+                    DataIvals.Add(FuncSun1((satName, latDeg, latRad, lonLeft, lonRight, node, tLeft, tRight, regName), isLeft, isRight));
                 }
 
             }
 
         }
 
-        private Ivals FuncSun1(Ivals ival, bool is1, bool is2)
+        private (string satName, double latDeg, double latRad, double lonLeft, double lonRight, int node, double tLeft, double tRight, string regName) FuncSun1((string satName, double latDeg, double latRad, double lonLeft, double lonRight, int node, double tLeft, double tRight, string regName) ival, bool is1, bool is2)
         {
-            double lon1 = ival.LonLeft;
-            double lon2 = ival.LonRight;
+            double lon1 = ival.lonLeft;
+            double lon2 = ival.lonRight;
 
-            double t1 = ival.TimeLeft;
-            double t2 = ival.TimeRight;
+            double t1 = ival.tLeft;
+            double t2 = ival.tRight;
 
             double lon_cur = lon1;
             double lon_prev, t_cur;
@@ -112,7 +112,7 @@ namespace Periodicity.Core
                 lon_cur = 0.5 * (lon1 + lon2);
                 t_cur = 0.5 * (t1 + t2);
 
-                bool is_cur = PRDCT_HSUN(t_cur, lon_cur, ival.LatRAD);
+                bool is_cur = PRDCT_HSUN(t_cur, lon_cur, ival.latRad);
 
                 if (is_cur == is1)
                 {
@@ -135,39 +135,39 @@ namespace Periodicity.Core
                 lon2 = lon_cur;
                 t2 = t_cur;
 
-                result.LonRight = lon2;
-                result.TimeRight = t2;
+                result.lonRight = lon2;
+                result.tRight = t2;
             }
             else
             {
                 lon1 = lon_cur;
                 t1 = t_cur;
 
-                result.LonLeft = lon1;
-                result.TimeLeft = t1;
+                result.lonLeft = lon1;
+                result.tLeft = t1;
             }
 
 
             return result;
         }
 
-        private Ivals FuncSun2(Ivals ival, double lonCur, double tCur)
+        private (string satName, double latDeg, double latRad, double lonLeft, double lonRight, int node, double tLeft, double tRight, string regName) FuncSun2((string satName, double latDeg, double latRad, double lonLeft, double lonRight, int node, double tLeft, double tRight, string regName) ival, double lonCur, double tCur)
         {
-            Ivals ival1 = ival;
-            ival1.LonRight = lonCur;
-            ival1.TimeRight = tCur;
-            Ivals ival2 = ival;
-            ival2.LonLeft = lonCur;
-            ival2.TimeLeft = tCur;
+            (string satName, double latDeg, double latRad, double lonLeft, double lonRight, int node, double tLeft, double tRight, string regName) ival1 = ival;
+            ival1.lonRight = lonCur;
+            ival1.tRight = tCur;
+            (string satName, double latDeg, double latRad, double lonLeft, double lonRight, int node, double tLeft, double tRight, string regName) ival2 = ival;
+            ival2.lonLeft = lonCur;
+            ival2.tLeft = tCur;
 
             var left = FuncSun1(ival1, false, true);
             var right = FuncSun1(ival2, true, false);
 
             var result = ival;
-            result.LonLeft = left.LonLeft;
-            result.LonRight = right.LonRight;
-            result.TimeLeft = left.TimeLeft;
-            result.TimeRight = right.TimeRight;
+            result.lonLeft = left.lonLeft;
+            result.lonRight = right.lonRight;
+            result.tLeft = left.tLeft;
+            result.tRight = right.tRight;
             return result;
         }   
     }
