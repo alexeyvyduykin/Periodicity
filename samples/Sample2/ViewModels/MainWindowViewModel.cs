@@ -86,8 +86,11 @@ namespace Sample2.ViewModels
             PeriodicityGraph1 = new ObservableCollection<PeriodicityGraph1>();
             PeriodicityGraph2 = new ObservableCollection<BoxPlotItem>();
 
-            foreach (var (latDeg, prdct, percent, _, _) in periodicity.DataPeriodicities)
+            int count = periodicity.DataPeriodicities.Count;
+            for (int i = 0; i < count; i++)
             {
+                var(latDeg, prdct, percent, _, _) = periodicity.DataPeriodicities[i];
+
                 if (tempLatDeg != latDeg)
                 {
                     if (tempLatDeg % 5.0 == 0.0)
@@ -134,6 +137,28 @@ namespace Sample2.ViewModels
                 }
 
                 tempLatDeg = latDeg;
+
+                if(i == count - 1)
+                {
+                    if (tempLatDeg % 5.0 == 0.0)
+                    {
+                        PeriodicityReport.Add(new PeriodicityRecord()
+                        {
+                            Latitude = tempLatDeg,
+                            MinPeriodicity = minPrdct,
+                            MaxPeriodicity = maxPrdct,
+                            Coverage = summaryPercent
+                        });
+                    }
+
+                    PeriodicityGraph1.Add(new PeriodicityGraph1()
+                    {
+                        Latitude = tempLatDeg,
+                        Coverage = summaryPercent
+                    });
+
+                    PeriodicityGraph2.Add(new BoxPlotItem(tempLatDeg, minPrdct, minReservePrdct, averagePercent / 100.0, maxReservePrdct, maxPrdct));
+                }
             }
         }
 

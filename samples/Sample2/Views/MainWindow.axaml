@@ -47,15 +47,15 @@
         <oxy:Plot PlotMargins="50"
                   PlotAreaBorderColor="Black">
             <oxy:Plot.Axes>
-                <oxy:LinearAxis Position="Left" Title="Latitude Coverage, %" />
+                <oxy:LinearAxis Position="Left" MajorGridlineStyle="Solid" MinorGridlineStyle="Dot" Title="Latitude Coverage, %" />
                 <oxy:LinearAxis Position="Bottom" Title="Latitude, deg" />
             </oxy:Plot.Axes>
             <oxy:Plot.Series>
-                <oxy:AreaSeries
+                <oxy:LineSeries
                     DataFieldX="Latitude"
                     DataFieldY="Coverage"
                     Items="{Binding PeriodicityGraph1}"
-                    Color="LightGreen" />
+                    Color="LightBlue" />
             </oxy:Plot.Series>
         </oxy:Plot>
     
