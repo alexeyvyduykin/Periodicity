@@ -61,6 +61,29 @@
     
     </TabItem>
     
+        <TabItem Header="Graph2">
+
+        <oxy:Plot PlotMargins="50"
+                  PlotAreaBorderColor="Black">
+            <oxy:Plot.Axes>
+                <oxy:LinearAxis Position="Left" 
+                                Title="Periodicity, 1" 
+                                MajorGridlineStyle="Solid" 
+                                MinorGridlineStyle="Dot" MinorStep="1" />
+                <oxy:LinearAxis Position="Bottom" Title="Latitude, deg" />
+            </oxy:Plot.Axes>
+            <oxy:Plot.Series>
+                    <oxy:BoxPlotSeries ShowBox="True"
+                                       BoxWidth="0.01"        
+                                      
+                                       MedianThickness="0"
+                                       Fill="LightBlue"
+                                       Items="{Binding PeriodicityGraph2}" />                    
+            </oxy:Plot.Series>
+        </oxy:Plot>
+    
+    </TabItem>
+    
     </TabControl>
 
 </Grid>
